@@ -1,18 +1,17 @@
-package client;
+//package client;
 
 import java.net.*;
 import java.io.*;
 
-
-public class ConnexionClient { // gere la connexion au serveur , et l'envoi des requetes
-
-  public static final int PORT = 25567;
-  public static final String HOST = "multi-craft.fr";
-  private PrintWriter pw ;
-  private BufferedReader bf;
-  private Socket service; 
-  
-  public ConnexionClient() {
+// gere la connexion au serveur , et l'envoi des requetes
+public class ConnexionClient{ 
+    public static final int PORT = 25567;
+    public static final String HOST = "multi-craft.fr";
+    private PrintWriter pw ;
+    private BufferedReader bf;
+    private Socket service; 
+    
+    public ConnexionClient() {
     try {
 	
       service = new Socket("multi-craft.fr",PORT); // connexion au serveur mode tcp 
@@ -63,7 +62,7 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 			String[] typ = reponse.split("[|]");
 			for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
 			
-			for(int k=0; k<data.length;k++){ //recupere les donné de la requete
+			for(int k=0; k<data.length;k++){ //recupere les donne de la requete
 				reponse=bf.readLine();
 				String[] d = reponse.split("[|]");
 				for(int i=0; i<typCol.length; i++) data[k][i]=d[i];

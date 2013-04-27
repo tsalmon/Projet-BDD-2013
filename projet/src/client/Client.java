@@ -1,10 +1,10 @@
 //package client;
 import java.util.Scanner;
 import java.awt.Color;
-public class Client {
-    
+public class Client 
+{
     /* var affichage */
-
+    
     static  volatile Client  instance  = null;
     static           int     fenetre_x = 779;
     static           int     fenetre_y = 456;
@@ -14,8 +14,9 @@ public class Client {
     public static final int PORT = 25567;
     public static final String HOST = "multi-craft.fr";
     
-    public static void connect(String []arguments) {
-	ConnexionClient c = new ConnexionClient(); //se connecte au serveur
+    public static void connect() {
+	//se connecte au serveur
+	ConnexionClient c = new ConnexionClient(); 
 	if(c.auth("Stuart","408101")){System.out.println("auth reussi");}
 	else{System.out.println("connexion fail");}	// s'authentifie
 	Scanner scanner= new Scanner(System.in);
@@ -67,7 +68,10 @@ public class Client {
         
     public static void main(String[] args)
     {
+	connect();
+	/*
 	Client.getInstance().setFen(new Fenetre());
 	Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	*/
     }
 }

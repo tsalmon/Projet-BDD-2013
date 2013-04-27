@@ -1,4 +1,4 @@
-package client;
+//package client;
 
 
 class SqlData { //stock juste les donnes dune requete 

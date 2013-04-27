@@ -57,7 +57,18 @@ public class MenuConnexion extends JPanel
 	public void mouseClicked(MouseEvent e)
 	{
 	    if(e.getSource() == connexion) 
-		System.out.println("Tentative de connexion");
+		{
+		    System.out.println("Tentative de connexion");
+		    ConnexionClient c = new ConnexionClient();
+		    if(c.auth("Stuart", "408101"))
+			{
+			    System.out.println("authentification reussie");
+			}
+		    else
+			{
+			    System.out.println("Echec");
+			}
+		}
 	    if(e.getSource() == apropos)
 		System.out.println("Fenetre a propos");
 	}
