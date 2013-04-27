@@ -16,7 +16,7 @@ public class Accueil extends JPanel
 {
     int x = Client.fenetre_x;
     int y = Client.fenetre_y;
-    JPanel conteneur = new JPanel();
+    //JPanel conteneur = new JPanel();
     Accueil()
     {
 	setSize(x, y);
@@ -38,13 +38,13 @@ public class Accueil extends JPanel
 	*/
 	
 	
-	  conteneur.setLayout(new BorderLayout());
-	  conteneur.add("Center",new JButton("Centre"));
-	  conteneur.add("North",new JButton("Nord"));
-	  conteneur.add("South",new JButton("Sud"));
-	  conteneur.add("East",new JButton("est"));
-	  conteneur.add("West",new JButton("ouest"));
-	  add(conteneur);
+	  setLayout(new BorderLayout());
+	  add("Center",new JButton("Centre"));
+	  add("North",new JButton("Nord"));
+	  add("South",new JButton("Sud"));
+	  add("East",new JButton("est"));
+	  add("West",new JButton("ouest"));
+	  //ad(conteneur);
 	  setVisible(true);
 	
     }
