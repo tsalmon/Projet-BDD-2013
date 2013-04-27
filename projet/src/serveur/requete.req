@@ -54,41 +54,41 @@ get_info_client;les informations d'un client (mail);2;3;SELECT ID,nom,prenom,dev
 add_periph;ajoute un nouveau peripherique (nom, type, fabricant);2 1 1;3;INSERT INTO peripheriques('',?,?,?)
 #
 # add_periphFabricant : ajoute un nouveaux fabricant de peripherique
-add_periphFabricant;ajoute un nouveau peripherique (nom, type, fabricant);2;3;INSERT INTO peripheriques_fabricant('',?)
+add_periphFabricant;ajoute un nouveau fabricant de peripheriques (nom);2;3;INSERT INTO peripheriques_fabricant('',?)
 #
 # add_periphType: ajoute un nouveau type de peripherique
-add_periphType;ajoute un nouveau peripherique (nom, type, fabricant);2;3;INSERT INTO peripheriques_type('',?)
+add_periphType;ajoute un nouveau type de peripheriques (nom);2;3;INSERT INTO peripheriques_type('',?)
 # 
 #
 #
 ############# client ################
 #
 # get_infoMe: retourne les information personnelle d'un client
-get_infoMe;ajoute un nouveau peripherique (nom, type, fabricant);5;1;SELECT ID,nom,prenom,developpeur,mail,mela,date_inscription,date_lastconnect FROM client WHERE ID=?
+get_infoMe;retourne toutes vos informations personel;5;1;SELECT ID,nom,prenom,developpeur,mail,mela,date_inscription,date_lastconnect FROM client WHERE ID=?
 #
 # set_mailMe: change l'adresse mail d'un client
-set_mailMe;ajoute un nouveau peripherique (nom, type, fabricant);2 5;1;UPDATE client SET mail=? WHERE ID=?
+set_mailMe;change votre adresse mail (mail);2 5;1;UPDATE client SET mail=? WHERE ID=?
 #
 # set_mdpMe: change le mot de passe d'un client 
-set_mdpMe;ajoute un nouveau peripherique (nom, type, fabricant);2 5;1;UPDATE client SET mdp=? WHERE ID=?
+set_mdpMe;change votre mot de passe (mdp);2 5;1;UPDATE client SET mdp=? WHERE ID=?
 #
 # add_paiementMe: rajoute des information de paiement a un client
-set_me_paiementMe;ajoute un nouveau peripherique (nom, type, fabricant);5 3 1 4;1;INSERT INTO paiement(? ? ? ?)
+set_me_paiementMe;ajoute des informations de paiement a votre compte (cb=true,numero,expiration[cb-uniquement]);5 3 1 4;1;INSERT INTO paiement(? ? ? ?)
 #
 # get_paiementMe: retourne les informations de paiement d'un client
-get_paiementMe;ajoute un nouveau peripherique (nom, type, fabricant);5;1;SELECT * FROM paiement WHERE client=?
+get_paiementMe;retourne vos info de paiement;5;1;SELECT * FROM paiement WHERE client=?
 #
 # set_paiementMe: met a jour les information de paiement d'un client
-set_paiementMe;ajoute un nouveau peripherique (nom, type, fabricant);3 1 4 5;1;UPDATE paiement SET type=? numero=? expiration=? WHERE ?
+set_paiementMe;modifie vos donnees de paiementcd ou paypal (cb=true,numero,expiration[cb-uniquement]);3 1 4 5;1;UPDATE paiement SET type=? numero=? expiration=? WHERE ID=?
 #
 #
 #
 #
 # get_periphFabricant
-get_periphFabricant;retourne la liste des fabricant;1;SELECT * FROM paripheriques_fabricant
+get_periphFabricant;retourne la liste des fabricant;;1;SELECT * FROM paripheriques_fabricant
 #
 # get_periphType
-get_periphType;retourne la liste des fabricant;1;SELECT * FROM paripheriques_type
+get_periphType;retourne la liste des type de peripherique;;1;SELECT * FROM paripheriques_type
 #
 # get_peripheriques
 get_peripherique;retourne la liste de tout les peripheriques;;1;SELECT p.ID, p.nom, t.nom, f.nom FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant
@@ -106,55 +106,55 @@ del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripher
 #
 #
 # get_categorie: retourne la liste des categorie d'application
-get_categorie;ajoute un nouveau peripherique (nom, type, fabricant);;1;SELECT * FROM categorie
+get_categorie;retourne la liste des des categories d'application;;1;SELECT * FROM categorie
 #
 # get_Se
 get_Se;retourne les systemes d'exploitation disponible;;1;SELECT * FROM systeme_exploitation 
 #
 # get_app: retourne toute les applications
-get_app;ajoute un nouveau peripherique (nom, type, fabricant);;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application GROUP BY a.ID
+get_app;retourne la liste des applications;;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application GROUP BY a.ID
 #
 # get_appSe retourne toute les applications pour un SE donne
-get_appSe;ajoute un nouveau peripherique (nom, type, fabricant);1;1;SELECT a.ID,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=?
+get_appSe;retourne la liste des applications en fonction de (systeme_exploitation.id);1;1;SELECT a.ID,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=?
 #
 # get_appCategorie: retourne les application appartenant a une categorie
-get_appCategorie;ajoute un nouveau peripherique (nom, type, fabricant);1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE categorie=?
+get_appCategorie;retourne la liste des applications en fonction de (categorie.id);1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE categorie=?
 #
 # get_appTag: retourne les application contenant le tag  
-get_appTag;ajoute un nouveau peripherique (nom, type, fabricant);2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE tags LIKE '%?%' 
+get_appTag;retourne la liste des applications en fonction de (tag);2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE tags LIKE '%?%' 
 # 
 # get_appSeCategorie: retourne les application pour un SE donne et appartenent a une categorie 
-get_appSeCategorie;ajoute un nouveau peripherique (nom, type, fabricant);1 1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=? AND categorie=?  
+get_appSeCategorie;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id);1 1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=? AND categorie=?  
 #
 # get_appSeTag: retourne les application pour un SE donne et contenant le tag
-get_appSeTag;ajoute un nouveau peripherique (nom, type, fabricant);1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND tags LIKE '%?%' 
+get_appSeTag;retourne la liste des applications en fonction de (systeme_exploitation.id,tag);1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND tags LIKE '%?%' 
 #
 # get_appCategorieTag: retourne les application appartenent a une categorie et contenant le tag
-get_appCategorieTag;ajoute un nouveau peripherique (nom, type, fabricant);1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE categorie=? AND tags LIKE '%?%' 
+get_appCategorieTag;retourne la liste des applications en fonction de (categorie.id,tag);1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE categorie=? AND tags LIKE '%?%' 
 #
 # get_appSeCategorieTag: retourne les application pour un SE donne et appartenent a une categorie et contenant le tag
-get_appSeCategorieTag;ajoute un nouveau peripherique (nom, type, fabricant);1 1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND categorie=? AND tags LIKE '%?%' 
-#
-# get_droitApp: retourne les droit d'une application
-get_droitApp;ajoute un nouveau peripherique (nom, type, fabricant);1;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE application=?
+get_appSeCategorieTag;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id,tag);1 1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND categorie=? AND tags LIKE '%?%' 
 #
 # get_appRecomande: retourne les application recomandé par les autre utilisateur
-get_appRecomande;ajoute un nouveau peripherique (nom, type, fabricant);1;1;SELECT DISTINCT application FROM avis WHERE  elstar>4 AND client IN (SELECT client FROM avis WHERE elstar >4 AND application IN(SELECT application FROM avis WHERE client=? AND elstar>4))
+get_appRecomande;retourne une liste applications que les utilisateurs qui ont aimes les meme applications que vous, vous recomande;1;1;SELECT DISTINCT application FROM avis WHERE  elstar>4 AND client IN (SELECT client FROM avis WHERE elstar >4 AND application IN(SELECT application FROM avis WHERE client=? AND elstar>4))
+#
+# get_droitApp: retourne les droit d'une application
+get_droitApp;retourne les droit d'une application (application.id);1;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE application=?
 #
 # get_SeApp
-get_SeApp;retourne les systeme d'exploitation d'une application;1;1;SELECT * FROM systeme_exploitation AS e LEFT JOIN applicationsSE AS a ON e.ID = a.systeme_exploitation WHERE a.application=?
+get_SeApp;retourne les systeme d'exploitation d'une application (application.id);1;1;SELECT * FROM systeme_exploitation AS e LEFT JOIN applicationsSE AS a ON e.ID = a.systeme_exploitation WHERE a.application=?
 #
 # add_appPeriph
-add_appPeriph;ajoute une application a un peripherique_client (peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
+add_appPeriph;ajoute une application a voitre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
 #
 # get_avisMe
-get_avisApp;ajoute un nouveau peripherique (nom, type, fabricant);5;1;SELECT * FROM avis WHERE client=? 
+get_avisApp;retourne mes avis que vous avez deja poster;5;1;SELECT * FROM avis WHERE client=? 
 #
 # get_avisApp
-get_avisApp;ajoute un nouveau peripherique (nom, type, fabricant);1;1;SELECT * FROM avis WHERE application=? 
+get_avisApp;retourne les avis d'une application(application.id);1;1;SELECT * FROM avis WHERE application=? 
 #
 # add_avis
-add_avis;ajoute un nouveau peripherique (nom, type, fabricant);5 1 1 2 6;1;INSERT INTO avis VALUES(?,?,?,?,?)
+add_avis;ajoute un nouvel avis (application.id, elstar[0-5], commentaire);5 1 1 2 6;1;INSERT INTO avis VALUES(?,?,?,?,?)
 #
 #
 #
@@ -162,19 +162,19 @@ add_avis;ajoute un nouveau peripherique (nom, type, fabricant);5 1 1 2 6;1;INSER
 #
 ############# devellopeur ################
 # get_appMe
-get_appMe;ajoute un nouveau peripherique (nom, type, fabricant);5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE developpeur=?
+get_appMe;retourne vos applications ;5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE developpeur=?
 #
 # add_app
-add_app;ajoute un nouveau peripherique (nom, type, fabricant);2 2 1 5 2 3 6 1;2;INSERT INTO applications VALUES('',?,?,?,?,?,?,?,?)
+add_app;ajoute une nouvelle application (nom, version, categorie.id, tags, isPayante, mela) ;2 2 1 5 2 3 6 1;2;INSERT INTO applications VALUES('',?,?,?,?,?,?,?,?)
 #
 # set_app
-set_app;ajoute un nouveau peripherique (nom, type, fabricant);2 2 1 1 5;2;UPDATE applications SET version=? tags=?, mela=? WHERE ID=? AND developpeur=?;
+set_app;met a jour les donnees d'une applications (nom, version, tags, mela, application.id);2 2 2 1 1 5;2;UPDATE applications SET nom=? version=? tags=?, mela=? WHERE ID=? AND developpeur=?;
 # 
 # add_payanteApp
-add_payanteApp;ajoute un nouveau peripherique (nom, type, fabricant);1 5 1 1 1;2;UPDATE applications SET payante=1 WHERE ID=? AND developpeur=?;INSERT INTO payante VALUES(?,?,?)
+add_payanteApp;ajoute l'application comme payante (application.id, application.id, prix, renouvellement[mois]);1 5 1 5 1 1;2;UPDATE applications SET payante=1 WHERE ID=? AND developpeur=?;INSERT INTO payante VALUES((SELECT ID FROM applications WHERE ID=? AND developpeur=?),?,?)
 #
 # set_payante
-set_payante;ajoute un nouveau peripherique (nom, type, fabricant);1 1 5;2;UPDATE payante SET prix=?, renouvellement=? WHERE application=? AND application IN (SELECT ID FROM applications WHERE developpeur=?)
+set_payante;modifie les donnees des paiement de l'application(isPayante, application.id, prix, renouvement[mois], application.id);3 1 5 1 1 1 5;2;UPDATE applications SET payante=? WHERE ID=? AND developpeur=?;UPDATE payante SET prix=?, renouvellement=? WHERE application=? AND application IN (SELECT ID FROM applications WHERE developpeur=?)
 #
 #
 #
