@@ -1,17 +1,18 @@
-//package client;
+// package client;
 
 import java.net.*;
 import java.io.*;
 
-// gere la connexion au serveur , et l'envoi des requetes
-public class ConnexionClient{ 
-    public static final int PORT = 25567;
-    public static final String HOST = "multi-craft.fr";
-    private PrintWriter pw ;
-    private BufferedReader bf;
-    private Socket service; 
-    
-    public ConnexionClient() {
+
+public class ConnexionClient { // gere la connexion au serveur , et l'envoi des requetes
+
+  public static final int PORT = 25567;
+  public static final String HOST = "multi-craft.fr";
+  private PrintWriter pw ;
+  private BufferedReader bf;
+  private Socket service; 
+  
+  public ConnexionClient() {
     try {
 	
       service = new Socket("multi-craft.fr",PORT); // connexion au serveur mode tcp 
@@ -30,9 +31,8 @@ public class ConnexionClient{
   
   public boolean auth(String user, String passwd){
     try{
-		pw.println("AUTH "+user+" "+passwd);
-		pw.flush();
-		if(bf.readLine().equals("AUTH true")) return true;
+    	String reponse= this.dialog("AUTH|"+user+"|"+passwd);
+		if(reponse.equals("AUTH true\n")) return true;
 		return false;
 	} catch(Exception e) {
       e.printStackTrace();
@@ -42,12 +42,12 @@ public class ConnexionClient{
   
   public SqlData request(String nom,String... args){
 	try{
-		String chaine="REQUEST "+nom;
-		for(int i=0;i< args.length;i++) chaine+=" "+args[i];
+		String chaine="REQUEST|"+nom;
+		for(int i=0;i< args.length;i++) chaine+="|"+args[i];
 		pw.println(chaine);
 		pw.flush();
 		String reponse;
-		reponse=bf.readLine();
+		reponse=bf.readLine();System.out.println(reponse);
 		if(reponse.equals("SelectDone")){
 			reponse=bf.readLine();
 			String[] nb = reponse.split(" ");
@@ -62,7 +62,7 @@ public class ConnexionClient{
 			String[] typ = reponse.split("[|]");
 			for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
 			
-			for(int k=0; k<data.length;k++){ //recupere les donne de la requete
+			for(int k=0; k<data.length;k++){ //recupere les donné de la requete
 				reponse=bf.readLine();
 				String[] d = reponse.split("[|]");
 				for(int i=0; i<typCol.length; i++) data[k][i]=d[i];
@@ -80,7 +80,7 @@ public class ConnexionClient{
 	return null;
   }
   
-  public String dialog(String chaine){
+  public String dialog(String chaine,String... args){
 	  try{
 		  pw.println(chaine);
 		  pw.flush();
