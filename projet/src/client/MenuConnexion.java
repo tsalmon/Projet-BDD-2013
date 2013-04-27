@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
@@ -60,13 +61,16 @@ public class MenuConnexion extends JPanel
 		{
 		    System.out.println("Tentative de connexion");
 		    ConnexionClient c = new ConnexionClient();
-		    if(c.auth("Stuart", "408101"))
+		    // Stuart, 408101
+		    String pass = new String(mdp.getPassword());
+		    String log = pseudo.getText();
+		    if(pass.length() > 0 && log.length() > 0 && c.auth(pseudo.getText(), new String(mdp.getPassword())))
 			{
 			    System.out.println("authentification reussie");
 			}
 		    else
 			{
-			    System.out.println("Echec");
+			    JOptionPane.showMessageDialog(null, "Echec de connexion","Erreur", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	    if(e.getSource() == apropos)
