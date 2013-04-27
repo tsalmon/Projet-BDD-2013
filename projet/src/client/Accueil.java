@@ -16,36 +16,39 @@ public class Accueil extends JPanel
 {
     int x = Client.fenetre_x;
     int y = Client.fenetre_y;
-    //JPanel conteneur = new JPanel();
+    JPanel conteneur_nord = new JPanel();
+    JPanel conteneur_nord_nord = new JPanel();
+    JPanel conteneur_nord_sud = new JPanel();
+    
     Accueil()
     {
 	setSize(x, y);
-	/*
-	conteneur.setLayout(new GridLayout(3, 3));
-	conteneur.add(new JButton("a"));
-	conteneur.add(new JButton("b"));
-	conteneur.add(new JButton("c"));
 	
-	conteneur.add(new JButton("d"));
-	conteneur.add(new JButton("e"));
-	conteneur.add(new JButton("f"));
+	conteneur_nord.setLayout(new BorderLayout());
+	conteneur_nord_nord.setLayout(new BorderLayout());
+	conteneur_nord_sud.setLayout(new BorderLayout());
 	
-	conteneur.add(new JButton("g"));
-	conteneur.add(new JButton("h"));
-	conteneur.add(new JButton("i"));
+	// top 1ere barre 
+	conteneur_nord_nord.add("West",new JButton("Deconnexion"));
+	conteneur_nord_nord.add("Center", new JTextField(10));
+	conteneur_nord_nord.add("East", new JButton("Toutes les applications") );
 	
-	add(conteneur);
-	*/
+	// top 2e barre
+	conteneur_nord_sud.add("West",new JLabel("Bienvenue"));
+	conteneur_nord_sud.add("Center", new JLabel("Applications recommandées"));
+	conteneur_nord_sud.add("East", new JLabel("Top Applications") );
 	
+	conteneur_nord.add("North",conteneur_nord_nord);
+	conteneur_nord.add("South",conteneur_nord_sud);
+
 	
-	  setLayout(new BorderLayout());
-	  add("Center",new JButton("Centre"));
-	  add("North",new JButton("Nord"));
-	  add("South",new JButton("Sud"));
-	  add("East",new JButton("est"));
-	  add("West",new JButton("ouest"));
-	  //ad(conteneur);
-	  setVisible(true);
+
+	setLayout(new BorderLayout());
+	add("Center",new JButton("Centre"));
+	add("North", conteneur_nord);
+	add("East",new JButton("est"));
+	add("West",new JButton("ouest"));
+	setVisible(true);
 	
     }
 }
