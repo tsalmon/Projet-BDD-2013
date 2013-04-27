@@ -15,7 +15,6 @@ import java.awt.Color;
  **/
 public class MenuConnexion extends JPanel
 {
-    
     int x = Client.fenetre_x;
     int y = Client.fenetre_y;
     JPanel conteneur = new JPanel();
