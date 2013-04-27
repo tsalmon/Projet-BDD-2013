@@ -68,10 +68,10 @@ public class Client
         
     public static void main(String[] args)
     {
-	connect();
-	/*
+	//connect();
+	
 	Client.getInstance().setFen(new Fenetre());
 	Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
-	*/
+	
     }
 }
