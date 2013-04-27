@@ -27,7 +27,7 @@ public class MenuConnexion extends JPanel
     MenuConnexion(String titre)
     {
 	setSize(x, y);
-	conteneur.setLayout(new GridLayout(5, 5, 30, 15));
+	conteneur.setLayout(new GridLayout(3, 3, 10, 15));
 	conteneur.add(new JLabel("Pseudo:"));
 	conteneur.add(pseudo);
 	conteneur.add(new JLabel("Mot de passe:"));
@@ -61,17 +61,25 @@ public class MenuConnexion extends JPanel
 		{
 		    System.out.println("Tentative de connexion");
 		    ConnexionClient c = new ConnexionClient();
+		    if(c.auth("Stuart", "408101"))
+			{
+			    System.out.println("authentification reussie");
+			    Client.getInstance().getFen().setContentPane(new Accueil());
+			}
+		    /*
 		    // Stuart, 408101
 		    String pass = new String(mdp.getPassword());
 		    String log = pseudo.getText();
 		    if(pass.length() > 0 && log.length() > 0 && c.auth(pseudo.getText(), new String(mdp.getPassword())))
-			{
-			    System.out.println("authentification reussie");
-			}
+		    {
+		    System.out.println("authentification reussie");
+		    Client.getInstance().getFen().setContentPane(new Accueil());
+		    }
 		    else
-			{
-			    JOptionPane.showMessageDialog(null, "Echec de connexion","Erreur", JOptionPane.INFORMATION_MESSAGE);
-			}
+		    {
+		    JOptionPane.showMessageDialog(null, "Echec de connexion","Erreur", JOptionPane.INFORMATION_MESSAGE);
+		    }
+		    */
 		}
 	    if(e.getSource() == apropos)
 		System.out.println("Fenetre a propos");
