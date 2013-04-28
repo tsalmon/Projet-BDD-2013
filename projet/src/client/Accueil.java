@@ -135,9 +135,14 @@ public class Accueil extends JPanel implements MouseListener
     {
 	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
 	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
-	
-	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: </html>"));
+	SqlData r2 = Client.getInstance().getConnect().request("get_appInstalMe");
+	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: "+ r2.data.length +"</html>"));
 
+    }
+    
+    private void reco()
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
     }
     
     /*---CLICKS---*/
