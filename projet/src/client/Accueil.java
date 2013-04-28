@@ -135,8 +135,9 @@ public class Accueil extends JPanel implements MouseListener
     {
 	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
 	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
-	SqlData r2 = Client.getInstance().getConnect().request("get_appInstalMe");
-	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: "+ r2.data.length +"</html>"));
+	// a corriger
+	//SqlData r2 = Client.getInstance().getConnect().request("get_appInstalMe");
+	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: 0</html>"));
 
     }
     
@@ -151,6 +152,8 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == deconnexion)
 	    {
 		System.out.println("deco");
+		Client.getInstance().getConnect().dialog("DISCONNECT");
+		Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
 	    }
 	if(e.getSource() == view_all)
 	    {
