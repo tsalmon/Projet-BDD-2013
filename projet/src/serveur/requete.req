@@ -111,6 +111,12 @@ get_categorie;retourne la liste des des categories d'application;;1;SELECT * FRO
 # get_Se
 get_Se;retourne les systemes d'exploitation disponible;;1;SELECT * FROM systeme_exploitation 
 #
+# get_nbApp
+get_nbApp;retounr le nombre d'application sur le serveur;;1;SELECT MAX(ID) FROM applications
+#
+# get_appId
+get_appId;retourne les info d'une application;1;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application WHERE a.ID=? 
+#
 # get_app: retourne toute les applications
 get_app;retourne la liste des applications;;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application GROUP BY a.ID
 #
@@ -148,10 +154,10 @@ get_SeApp;retourne les systeme d'exploitation d'une application (application.id)
 add_appPeriph;ajoute une application a voitre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
 #
 # get_appInstalMe
-get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=?)
+get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT application FROM application_installe 
 #
 # get_appInstalPeriph
-get_appInstalPeriph;retourne toutes les application installer sur le peripherique;5 1;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=? AND ID=1)
+get_appInstalPeriph;retourne toutes les application installer sur le peripherique;5 1;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=? AND ID=?)
 #
 # get_avisMe
 get_avisApp;retourne mes avis que vous avez deja poster;5;1;SELECT * FROM avis WHERE client=? 
