@@ -50,9 +50,7 @@ public class Accueil extends JPanel implements MouseListener
     JButton view_more_reco = new JButton("Voir plus");
     JButton view_more_top = new JButton("Voir plus");
     JButton view_periph = new JButton("Voir périphériques");
-    JButton reco_app1 = new JButton("<html>Appli 1<br/>OS: type:<html>");
-    JButton reco_app2 = new JButton("<html>Appli 2<br/>OS: type:<html>");
-    JButton reco_app3 = new JButton("<html>Appli 3<br/>OS: type:<html>");
+    JButton reco_app1, reco_app2, reco_app3;
     JButton top_app1 = new JButton("<html>App1 etoiles<br/>nbcommentaires:</html>");
     JButton top_app2 = new JButton("<html>App2 etoiles<br/>nbcommentaires:</html>");
     JButton top_app3 = new JButton("<html>App3 etoiles<br/>nbcommentaires:</html>");
@@ -78,11 +76,12 @@ public class Accueil extends JPanel implements MouseListener
 	content_titre_top.add(new JLabel("Top Applications"));
 	//need req
 	infos();
+	reco();
 	content_periph.add(view_periph);
 	content_modifier.add(modifier_profil);  
-	content_reco_app1.add(reco_app1);
-	content_reco_app2.add(reco_app2); 
-	content_reco_app3.add(reco_app3);
+	//content_reco_app1.add(reco_app1);
+	//content_reco_app2.add(reco_app2); 
+	//content_reco_app3.add(reco_app3);
 	content_top_app1.add(top_app1);
 	content_top_app2.add(top_app2);
 	content_top_app3.add(top_app3);
@@ -135,15 +134,45 @@ public class Accueil extends JPanel implements MouseListener
     {
 	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
 	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
-	// a corriger
-	//SqlData r2 = Client.getInstance().getConnect().request("get_appInstalMe");
-	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: 0</html>"));
+      	r = Client.getInstance().getConnect().request("get_nbApp");
+	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][0] + "<br/>Nombre App: 0</html>"));
 
+    }
+    
+    private void read_sqldata(SqlData r)
+    {
+	for(int i = 0; i < r.getNbCol(); i++)
+	    {
+		System.out.print(r.nomCol[i]);
+	    }
+	System.out.println("");
+	for(int i = 0; i < r.getNbLigne(); i++)
+	    {
+		for(int j = 0; j < r.getNbCol(); j++)
+		    {
+			System.out.print(r.data[i][j] + " \t");
+		    }
+		System.out.println("");
+	    }
     }
     
     private void reco()
     {
-	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
+	SqlData r = Client.getInstance().getConnect().request("get_app");
+	
+       	reco_app1 = new JButton("<html>"+ r.data[0][1] +"<br/>OS: type: "+ r.data[0][11] +"<html>");
+	reco_app2 = new JButton("<html>"+ r.data[1][1] +"<br/>OS: type: "+ r.data[1][11] +"<html>");
+	reco_app3 = new JButton("<html>"+ r.data[2][1] +"<br/>OS: type: "+ r.data[2][11] +"<html>");
+	
+	/*
+       	reco_app1 = new JButton("<html><br/>OS: type: <html>");
+	reco_app2 = new JButton("<html><br/>OS: type: <html>");
+	reco_app3 = new JButton("<html><br/>OS: type: <html>");
+	*/
+	
+	content_reco_app1.add(reco_app1);
+	content_reco_app2.add(reco_app2);
+	content_reco_app3.add(reco_app3);
     }
     
     /*---CLICKS---*/
