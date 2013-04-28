@@ -53,11 +53,20 @@ class SqlData { //stock juste les donnes dune requete
 	}
 	
 	public void trie(final int col){
+		if(this.getTypCol(col).equals("INT")|this.getTypCol(col).equals("INT UNSIGNED")|this.getTypCol(col).equals("TINYINT")){
 		  java.util.Arrays.sort(data, new Comparator(){
 			  public int compare(Object o1, Object o2) {
-			      return ((String) ((Object[]) o1)[col]).compareTo((String) ((Object[]) o2)[col]);
+			      return (Integer.parseInt((String) ((Object[]) o1)[col])  > Integer.parseInt((String) ((Object[]) o2)[col]))?1:-1;
 			   }
 			}); 
+		}
+		else{
+			  java.util.Arrays.sort(data, new Comparator(){
+				  public int compare(Object o1, Object o2) {
+				      return ((String) ((Object[]) o1)[col]).compareTo((String) ((Object[]) o2)[col]);
+				   }
+				}); 
+			}
 	}
 
 }
