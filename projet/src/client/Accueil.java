@@ -22,6 +22,27 @@ public class Accueil extends JPanel
     JPanel conteneur_centre = new JPanel();
     JPanel conteneur_ouest = new JPanel();
 
+    // conteneur_forme
+    JPanel content_deco = new JPanel();
+    JPanel content_recherche = new JPanel();
+    JPanel content_tout = new JPanel();
+    JPanel content_titre_bienvenue = new JPanel();
+    JPanel content_titre_reco = new JPanel();
+    JPanel content_titre_top = new JPanel();
+    JPanel content_info = new JPanel();
+    JPanel content_nb = new JPanel();
+    JPanel content_periph = new JPanel();
+    JPanel content_modifier = new JPanel();
+    JPanel content_reco_app1 = new JPanel();
+    JPanel content_reco_app2 = new JPanel();
+    JPanel content_reco_app3 = new JPanel();
+    JPanel content_top_app1 = new JPanel();
+    JPanel content_top_app2 = new JPanel();
+    JPanel content_top_app3 = new JPanel();
+    JPanel content_top_view = new JPanel();
+    JPanel content_reco_view = new JPanel();
+
+
     //boutons
     JButton deconnexion = new JButton("Deconnexion");
     JButton view_all = new JButton("Toutes les applications");
@@ -32,7 +53,6 @@ public class Accueil extends JPanel
     
     //text
     JTextField recherche = new JTextField(10);
-   
     
     Accueil()
     {
@@ -43,27 +63,49 @@ public class Accueil extends JPanel
 	conteneur_est.setLayout(new GridLayout(6,1));
 	conteneur_centre.setLayout(new GridLayout(6,1));
 	conteneur_ouest.setLayout(new GridLayout(6,1));
+
+	content_deco.add(deconnexion) ;
+	content_recherche.add(recherche); 
+	content_tout.add(view_all);
+	content_titre_bienvenue.add(new JLabel("Bienvenue")); 
+	content_titre_reco.add(new JLabel("Applications recommandées"));
+	content_titre_top.add(new JLabel("Top Applications"));
+	//need req
+	content_info.add(new JLabel("Nom: "));
+	content_info.add(new JLabel("Prenom: "));
+	content_nb.add(new JLabel("Mela: "));
+	content_nb.add(new JLabel("Nombre App: "));
+	content_periph.add(view_periph);
+	content_modifier.add(modifier_profil);  
+	content_reco_app1.add(new JLabel("Appli 1"));
+	content_reco_app2.add(new JLabel("Appli 2")  ); 
+	content_reco_app3.add(new JLabel("Appli 3")   );
+	content_top_app1.add(new JLabel("Appli 1")  );
+	content_top_app2.add(new JLabel("Appli 2")  );
+	content_top_app3.add(new JLabel("Appli 3"))   ;
+	content_top_view.add(view_more_top)   ;
+	content_reco_view.add(view_more_reco);
 	
-	conteneur_est.add(deconnexion);
-	conteneur_est.add(new JLabel("Bienvenue"));
-	conteneur_est.add(new JLabel("Nom"));
-	conteneur_est.add(new JLabel("Nb_mela"));
-	conteneur_est.add(view_periph);
-	conteneur_est.add(modifier_profil);
+	conteneur_ouest.add(content_deco);
+	conteneur_ouest.add(content_titre_bienvenue);
+	conteneur_ouest.add(content_info);
+	conteneur_ouest.add(content_nb);
+	conteneur_ouest.add(content_periph);
+	conteneur_ouest.add(content_modifier);
 
-	conteneur_centre.add(recherche);
-	conteneur_centre.add(new JLabel("Applications recommandées"));
-	conteneur_centre.add(new JLabel("App1"));
-	conteneur_centre.add(new JLabel("App2"));
-	conteneur_centre.add(new JLabel("App3"));
-	conteneur_centre.add(view_more_reco);
+	conteneur_centre.add(content_recherche);
+	conteneur_centre.add(content_titre_reco);
+	conteneur_centre.add(content_reco_app1);
+	conteneur_centre.add(content_reco_app2);
+	conteneur_centre.add(content_reco_app3);
+	conteneur_centre.add(content_reco_view);
 
-	conteneur_ouest.add(recherche);
-	conteneur_ouest.add(new JLabel("Top Applications"));
-	conteneur_ouest.add(new JLabel("App1"));
-	conteneur_ouest.add(new JLabel("App2"));
-	conteneur_ouest.add(new JLabel("App3"));
-	conteneur_ouest.add(view_more_top);
+	conteneur_est.add(content_tout);
+	conteneur_est.add(content_titre_top);
+	conteneur_est.add(content_top_app1);
+	conteneur_est.add(content_top_app2);
+	conteneur_est.add(content_top_app3);
+	conteneur_est.add(content_top_view);
 
 	add("East", conteneur_est);
 	add("Center", conteneur_centre);	
