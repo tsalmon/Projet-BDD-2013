@@ -59,8 +59,7 @@ public class MenuConnexion extends JPanel
 	    if(e.getSource() == connexion) 
 		{
 		    System.out.println("Tentative de connexion");
-		    ConnexionClient c = new ConnexionClient();
-		    if(c.auth("Stuart", "408101"))
+		    if(Client.getInstance().getConnect().auth("Stuart", "408101"))
 			{
 			    System.out.println("authentification reussie");
 			    Client.getInstance().set_Id("Stuart");

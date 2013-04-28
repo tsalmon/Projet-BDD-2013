@@ -134,8 +134,7 @@ public class Accueil extends JPanel implements MouseListener
     /*---Requetes---*/
     private void nom_prenom()
     {
-	ConnexionClient c = new ConnexionClient();
-	c.request("get_infoClientID");
+	Client.getInstance().getConnect().request("get_info_client");
 	content_info.add(new JLabel("<html>Nom: <br/>Prenom:</html>"));
     }
     

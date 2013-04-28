@@ -15,18 +15,18 @@ public class Client
     /* var serveur */
     public static final int PORT = 25567;
     public static final String HOST = "multi-craft.fr";
+    private static ConnexionClient connexion = new ConnexionClient(); 
     
     public static void connect() {
 	//se connecte au serveur
-	ConnexionClient c = new ConnexionClient(); 
-	if(c.auth("Stuart","408101")){System.out.println("auth reussi");}
+	if(connexion.auth("Stuart","408101")){System.out.println("auth reussi");}
 	else{System.out.println("connexion fail");}	// s'authentifie
 	Scanner scanner= new Scanner(System.in);
 	while(true){
 	    String chaine=scanner.nextLine();
 	    if(chaine.charAt(0)=='R'){
 		//execute la requete list_client(=> "SELECT * FROM client") et recupere les donnes dans SqlData 
-		SqlData s =c.request(chaine.replace("REQUEST ", "")); 
+		SqlData s =connexion.request(chaine.replace("REQUEST ", "")); 
 		//on verifie que SqlData n'est pas null (e.q que le serveur a bien renvoyer des donnees)
 		if(s!=null) {
 		    System.out.println("les client sont"); //un ptit print du resultat
@@ -36,7 +36,7 @@ public class Client
 		}
 	    }
 	    else if(chaine.charAt(0)=='H'){
-		System.out.println(c.dialog(chaine));
+		System.out.println(connexion.dialog(chaine));
 	    }	    
 	}
     }
@@ -56,6 +56,11 @@ public class Client
     private Client()
     {
 	super();
+    }
+    
+    public ConnexionClient getConnect()
+    {
+	return (this.connexion);
     }
     
     public String get_Id()
