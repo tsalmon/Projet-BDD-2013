@@ -77,8 +77,7 @@ public class Accueil extends JPanel implements MouseListener
 	content_titre_reco.add(new JLabel("Applications recommandées"));
 	content_titre_top.add(new JLabel("Top Applications"));
 	//need req
-	nom_prenom();
-	content_nb.add(new JLabel("<html>Mela: <br/>Nombre App: </html>"));
+	infos();
 	content_periph.add(view_periph);
 	content_modifier.add(modifier_profil);  
 	content_reco_app1.add(reco_app1);
@@ -132,10 +131,13 @@ public class Accueil extends JPanel implements MouseListener
     }
 
     /*---Requetes---*/
-    private void nom_prenom()
+    private void infos()
     {
-	Client.getInstance().getConnect().request("get_info_client");
-	content_info.add(new JLabel("<html>Nom: <br/>Prenom:</html>"));
+	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
+	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
+	
+	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][5] + "<br/>Nombre App: </html>"));
+
     }
     
     /*---CLICKS---*/

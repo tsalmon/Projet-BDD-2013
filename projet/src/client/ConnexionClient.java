@@ -40,14 +40,14 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 	return false;
   }
   
-  public SqlData request(String nom,String... args){
+    public SqlData request(String nom,String... args){
 	try{
 	    String chaine="REQUEST|"+nom;
 	    for(int i=0;i< args.length;i++) chaine+="|"+args[i];
 	    pw.println(chaine);
 	    pw.flush();
 	    String reponse;
-	    reponse=bf.readLine();System.out.println(reponse);
+	    reponse=bf.readLine();System.out.println("reponse : " + reponse);
 	    if(reponse.equals("SelectDone")){
 		reponse=bf.readLine();
 		String[] nb = reponse.split(" ");
