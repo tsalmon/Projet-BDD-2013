@@ -42,41 +42,41 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
   
   public SqlData request(String nom,String... args){
 	try{
-		String chaine="REQUEST|"+nom;
-		for(int i=0;i< args.length;i++) chaine+="|"+args[i];
-		pw.println(chaine);
-		pw.flush();
-		String reponse;
-		reponse=bf.readLine();System.out.println(reponse);
-		if(reponse.equals("SelectDone")){
-			reponse=bf.readLine();
-			String[] nb = reponse.split(" ");
-			String[] nomCol = new String[Integer.parseInt(nb[0])];
-			String[] typCol = new String[Integer.parseInt(nb[0])];
-			String[][] data = new String[Integer.parseInt(nb[1])][Integer.parseInt(nb[0])];
-			
-			reponse=bf.readLine();
-			String[] col = reponse.split("[|]");
-			for(int i=0; i<nomCol.length; i++) nomCol[i]=col[i];
-			reponse=bf.readLine();
-			String[] typ = reponse.split("[|]");
-			for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
-			
+	    String chaine="REQUEST|"+nom;
+	    for(int i=0;i< args.length;i++) chaine+="|"+args[i];
+	    pw.println(chaine);
+	    pw.flush();
+	    String reponse;
+	    reponse=bf.readLine();System.out.println(reponse);
+	    if(reponse.equals("SelectDone")){
+		reponse=bf.readLine();
+		String[] nb = reponse.split(" ");
+		String[] nomCol = new String[Integer.parseInt(nb[0])];
+		String[] typCol = new String[Integer.parseInt(nb[0])];
+		String[][] data = new String[Integer.parseInt(nb[1])][Integer.parseInt(nb[0])];
+		
+		reponse=bf.readLine();
+		String[] col = reponse.split("[|]");
+		for(int i=0; i<nomCol.length; i++) nomCol[i]=col[i];
+		reponse=bf.readLine();
+		String[] typ = reponse.split("[|]");
+		for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
+		
 			for(int k=0; k<data.length;k++){ //recupere les donné de la requete
-				reponse=bf.readLine();
-				String[] d = reponse.split("[|]");
-				for(int i=0; i<typCol.length; i++) data[k][i]=d[i];
+			    reponse=bf.readLine();
+			    String[] d = reponse.split("[|]");
+			    for(int i=0; i<typCol.length; i++) data[k][i]=d[i];
 			}
 			return new SqlData(nomCol,typCol,data);
-		}
-		else if(reponse.equals("UpdateDone")){
-			return null;
-		}
-		System.out.println("Error: "+bf.readLine());
+	    }
+	    else if(reponse.equals("UpdateDone")){
 		return null;
+	    }
+	    System.out.println("Error: "+bf.readLine());
+	    return null;
 	} catch(Exception e) {
-      e.printStackTrace();
-    }
+	    e.printStackTrace();
+	}
 	return null;
   }
   

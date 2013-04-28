@@ -8,8 +8,10 @@ public class Client
     static  volatile Client  instance  = null;
     static           int     fenetre_x = 779;
     static           int     fenetre_y = 456;
+    private          String  identifiant;
+    private          String  mot_de_passe;
     private          Fenetre f;
-		
+    
     /* var serveur */
     public static final int PORT = 25567;
     public static final String HOST = "multi-craft.fr";
@@ -54,6 +56,26 @@ public class Client
     private Client()
     {
 	super();
+    }
+    
+    public String get_Id()
+    {
+	return (this.identifiant);
+    }
+    
+    public void set_Id(String new_id)
+    {
+	this.identifiant = new_id;
+    }
+    
+    public String get_mdp()
+    {
+	return(this.mot_de_passe);
+    }
+    
+    public void set_mdp(String new_mdp)
+    {
+	this.mot_de_passe = new_mdp;
     }
     
     public void setFen(Fenetre newf)

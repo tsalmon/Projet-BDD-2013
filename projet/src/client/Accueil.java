@@ -77,7 +77,7 @@ public class Accueil extends JPanel implements MouseListener
 	content_titre_reco.add(new JLabel("Applications recommandées"));
 	content_titre_top.add(new JLabel("Top Applications"));
 	//need req
-	content_info.add(new JLabel("<html>Nom: <br/>Prenom:</html>"));
+	nom_prenom();
 	content_nb.add(new JLabel("<html>Mela: <br/>Nombre App: </html>"));
 	content_periph.add(view_periph);
 	content_modifier.add(modifier_profil);  
@@ -131,6 +131,14 @@ public class Accueil extends JPanel implements MouseListener
 	setVisible(true);
     }
 
+    /*---Requetes---*/
+    private void nom_prenom()
+    {
+	ConnexionClient c = new ConnexionClient();
+	c.request("get_infoClientID");
+	content_info.add(new JLabel("<html>Nom: <br/>Prenom:</html>"));
+    }
+    
     /*---CLICKS---*/
     public void mouseClicked(MouseEvent e)
     {

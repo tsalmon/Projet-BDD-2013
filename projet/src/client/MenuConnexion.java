@@ -63,6 +63,8 @@ public class MenuConnexion extends JPanel
 		    if(c.auth("Stuart", "408101"))
 			{
 			    System.out.println("authentification reussie");
+			    Client.getInstance().set_Id("Stuart");
+			    Client.getInstance().set_mdp("408101");
 			    Client.getInstance().getFen().setContentPane(new Accueil());
 			}
 		    /*
