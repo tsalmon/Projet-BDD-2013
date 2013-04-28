@@ -136,7 +136,7 @@ get_appCategorieTag;retourne la liste des applications en fonction de (categorie
 get_appSeCategorieTag;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id,tag);1 1 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND categorie=? AND tags LIKE '%?%' 
 #
 # get_appRecomande: retourne les application recomandé par les autre utilisateur
-get_appRecomande;retourne une liste applications que les utilisateurs qui ont aimes les meme applications que vous, vous recomande;1;1;SELECT DISTINCT application FROM avis WHERE  elstar>4 AND client IN (SELECT client FROM avis WHERE elstar >4 AND application IN(SELECT application FROM avis WHERE client=? AND elstar>4))
+get_appRecomande;retourne une liste applications que les utilisateurs qui ont aimes les meme applications que vous, vous recomande;5;1;SELECT DISTINCT application FROM avis WHERE  elstar>4 AND client IN (SELECT client FROM avis WHERE elstar >4 AND application IN(SELECT application FROM avis WHERE client=? AND elstar>4))
 #
 # get_droitApp: retourne les droit d'une application
 get_droitApp;retourne les droit d'une application (application.id);1;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE application=?
@@ -146,6 +146,12 @@ get_SeApp;retourne les systeme d'exploitation d'une application (application.id)
 #
 # add_appPeriph
 add_appPeriph;ajoute une application a voitre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
+#
+# get_appInstalMe
+get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=?)
+#
+# get_appInstalPeriph
+get_appInstalPeriph;retourne toutes les application installer sur le peripherique;5 1;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=? AND ID=1)
 #
 # get_avisMe
 get_avisApp;retourne mes avis que vous avez deja poster;5;1;SELECT * FROM avis WHERE client=? 
