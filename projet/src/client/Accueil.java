@@ -23,24 +23,24 @@ public class Accueil extends JPanel implements MouseListener
     JPanel conteneur_ouest = new JPanel();
 
     // conteneur_forme
-    JPanel content_deco = new JPanel();
-    JPanel content_recherche = new JPanel();
-    JPanel content_tout = new JPanel();
+    JPanel content_deco            = new JPanel();
+    JPanel content_recherche       = new JPanel();
+    JPanel content_tout            = new JPanel();
     JPanel content_titre_bienvenue = new JPanel();
-    JPanel content_titre_reco = new JPanel();
-    JPanel content_titre_top = new JPanel();
-    JPanel content_info = new JPanel();
-    JPanel content_nb = new JPanel();
-    JPanel content_periph = new JPanel();
-    JPanel content_modifier = new JPanel();
-    JPanel content_reco_app1 = new JPanel();
-    JPanel content_reco_app2 = new JPanel();
-    JPanel content_reco_app3 = new JPanel();
-    JPanel content_top_app1 = new JPanel();
-    JPanel content_top_app2 = new JPanel();
-    JPanel content_top_app3 = new JPanel();
-    JPanel content_top_view = new JPanel();
-    JPanel content_reco_view = new JPanel();
+    JPanel content_titre_reco      = new JPanel();
+    JPanel content_titre_top       = new JPanel();
+    JPanel content_info            = new JPanel();
+    JPanel content_nb              = new JPanel();
+    JPanel content_periph          = new JPanel();
+    JPanel content_modifier        = new JPanel();
+    JPanel content_reco_app1       = new JPanel();
+    JPanel content_reco_app2       = new JPanel();
+    JPanel content_reco_app3       = new JPanel();
+    JPanel content_top_app1        = new JPanel();
+    JPanel content_top_app2        = new JPanel();
+    JPanel content_top_app3        = new JPanel();
+    JPanel content_top_view        = new JPanel();
+    JPanel content_reco_view       = new JPanel();
 
 
     //boutons
@@ -134,9 +134,9 @@ public class Accueil extends JPanel implements MouseListener
     {
 	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
 	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
+	String mela = r.data[0][5];
       	r = Client.getInstance().getConnect().request("get_nbApp");
-	content_nb.add(new JLabel("<html>Mela: "+ r.data[0][0] + "<br/>Nombre App: 0</html>"));
-
+	content_nb.add(new JLabel("<html>Mela: "+ mela +"<br/>Nombre App: "+ r.data[0][0] + "</html>"));
     }
     
     private void read_sqldata(SqlData r)
@@ -159,21 +159,25 @@ public class Accueil extends JPanel implements MouseListener
     private void reco()
     {
 	SqlData r = Client.getInstance().getConnect().request("get_app");
-	
-       	reco_app1 = new JButton("<html>"+ r.data[0][1] +"<br/>OS: type: "+ r.data[0][11] +"<html>");
-	reco_app2 = new JButton("<html>"+ r.data[1][1] +"<br/>OS: type: "+ r.data[1][11] +"<html>");
-	reco_app3 = new JButton("<html>"+ r.data[2][1] +"<br/>OS: type: "+ r.data[2][11] +"<html>");
-	
-	/*
-       	reco_app1 = new JButton("<html><br/>OS: type: <html>");
-	reco_app2 = new JButton("<html><br/>OS: type: <html>");
-	reco_app3 = new JButton("<html><br/>OS: type: <html>");
-	*/
-	
+	reco_app1 = new JButton("<html>"+ r.data[0][1] +"<br/>type: "+ r.data[0][11] +"<html>");
+	reco_app2 = new JButton("<html>"+ r.data[1][1] +"<br/>type: "+ r.data[1][11] +"<html>");
+	reco_app3 = new JButton("<html>"+ r.data[2][1] +"<br/>type: "+ r.data[2][11] +"<html>");
 	content_reco_app1.add(reco_app1);
 	content_reco_app2.add(reco_app2);
 	content_reco_app3.add(reco_app3);
     }
+
+    private void top()
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_app");
+	reco_app1 = new JButton("<html>"+ r.data[0][1] +"<br/>type: "+ r.data[0][11] +"<html>");
+	reco_app2 = new JButton("<html>"+ r.data[1][1] +"<br/>type: "+ r.data[1][11] +"<html>");
+	reco_app3 = new JButton("<html>"+ r.data[2][1] +"<br/>type: "+ r.data[2][11] +"<html>");
+	content_reco_app1.add(reco_app1);
+	content_reco_app2.add(reco_app2);
+	content_reco_app3.add(reco_app3);
+    }
+
     
     /*---CLICKS---*/
     public void mouseClicked(MouseEvent e)
@@ -207,6 +211,7 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == reco_app1)
 	    {
 		System.out.println("reco 1");
+		Client.getInstance().getFen().setContentPane(new Application());
 	    }
 	if(e.getSource() == reco_app2)
 	    {	
@@ -228,7 +233,6 @@ public class Accueil extends JPanel implements MouseListener
 	    {
 		System.out.println("top 3");
 	    }
-
     }
 
     public void mouseEntered(MouseEvent e){}

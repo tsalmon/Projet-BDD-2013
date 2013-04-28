@@ -15,12 +15,12 @@ import java.awt.Color;
  **/
 public class MenuConnexion extends JPanel
 {
-    int x = Client.fenetre_x;
-    int y = Client.fenetre_y;
-    JPanel conteneur = new JPanel();
-    Bouton connexion = new Bouton("connexion");
-    Bouton apropos = new Bouton("A propos");
-    JTextField pseudo = new JTextField(10);
+    int x              = Client.fenetre_x;
+    int y              = Client.fenetre_y;
+    JPanel conteneur   = new JPanel();
+    Bouton connexion   = new Bouton("connexion");
+    Bouton apropos     = new Bouton("A propos");
+    JTextField pseudo  = new JTextField(10);
     JPasswordField mdp = new JPasswordField(10);
     
     MenuConnexion(String titre)
