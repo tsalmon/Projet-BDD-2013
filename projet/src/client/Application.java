@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -23,11 +24,17 @@ public class Application extends JPanel implements MouseListener
     
     JPanel conteneur_ouest = new JPanel();
     JPanel conteneur_centre = new JPanel();
+    JPanel conteneur_deconnexion = new JPanel();
+    JPanel conteneur_accueil = new JPanel();
+
     JPanel commentaires = new JPanel();
     JPanel header = new JPanel();
     JPanel infos = new JPanel();
     JPanel nom = new JPanel();
     JPanel avis = new JPanel();
+
+    JButton deconnexion = new JButton("deconnexion");
+    JButton accueil = new JButton("Accueil");
 
     Application(String id, String nom_application)
     {
@@ -47,13 +54,14 @@ public class Application extends JPanel implements MouseListener
 	//avis.setPreferredSize(new Dimension(300, 400));
 
 	nom.add("Center", new JLabel(nom_application));
-	
-	header.add("West", new JButton("deco"));
-	header.add("Center", new JTextField(10));
-	header.add("East",new JButton("Accueil"));
+
+	conteneur_deconnexion.add(deconnexion);
+	conteneur_accueil.add(accueil);
+	header.add("West", new JPanel().add(conteneur_deconnexion));
+	header.add("Center", new JPanel().add(new JTextField(10)));
+	header.add("East",new JPanel().add(conteneur_accueil));
 	header.add("South", nom);
 	
-
 	sp = new JScrollPane(avis)
 	    {
 		public Dimension getPreferredSize()
@@ -62,6 +70,8 @@ public class Application extends JPanel implements MouseListener
 		}
 	    };
 
+	deconnexion.addMouseListener(this);
+	accueil.addMouseListener(this);
 	add("North", header);
 	add("West", infos);
 	add("Center", sp);
@@ -87,16 +97,21 @@ public class Application extends JPanel implements MouseListener
     public void req_infos(String id)
     {
 	SqlData r = Client.getInstance().getConnect().request("get_appId",id);
-	read_sqldata(r);
-	
 	nom.add("East", new JLabel("v" + r.data[0][2]+"\t"));
 	infos.add(new JLabel("Catégorie:" + r.data[0][11]));
 	infos.add(new JLabel("Os:"));
-	
-	infos.add(new JLabel())
+	SqlData os = Client.getInstance().getConnect().request("get_SeApp",id);
+	JPanel list_os = new JPanel();
+	list_os.setLayout(new GridLayout(os.getNbLigne(), 1));
+	for(int i = 0;i < os.getNbLigne(); i++)
+	    {
+		list_os.add(new JLabel(os.data[i][1]));
+	    }
+	infos.add(list_os);
 	if(r.data[0][6].equals("1"))
 	    {
 		infos.add(new JLabel("prix:" + r.data[0][6]));
+		
 	    }
 	else
 	    {
@@ -113,6 +128,7 @@ public class Application extends JPanel implements MouseListener
 	    {
 		SqlData nom = Client.getInstance().getConnect().request("get_infoId", r.data[i][0]);		
 		JPanel avis_aff = new JPanel();
+		avis_aff.setBorder(BorderFactory.createLineBorder(Color.black));
 		avis_aff.setLayout(new BorderLayout());		
 		avis_aff.add("North", new JLabel(nom.data[0][1]));
 		avis_aff.add("Center", new JLabel("<html>"+r.data[i][3]+"<html/>"));
@@ -123,7 +139,16 @@ public class Application extends JPanel implements MouseListener
 
     public void mouseClicked(MouseEvent e)
     {
-	
+	if(e.getSource() == accueil)
+	    {
+		System.out.println("acc");
+		Client.getInstance().getFen().setContentPane(new Accueil());
+	    }
+	if(e.getSource() == deconnexion)
+	    {
+		Client.getInstance().getConnect().dialog("DISCONNECT");
+                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion")\
+	    }
     }
     
     public void mouseEntered(MouseEvent e){}
