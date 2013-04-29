@@ -57,7 +57,7 @@ public class Accueil extends JPanel implements MouseListener
     
     //text
     JTextField recherche = new JTextField(30);
-    
+   
     Accueil()
     {
 	setSize(x, y);
@@ -211,7 +211,7 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == reco_app1)
 	    {
 		System.out.println("reco 1");
-		Client.getInstance().getFen().setContentPane(new Application());
+		Client.getInstance().getFen().setContentPane(new Application("e"));
 	    }
 	if(e.getSource() == reco_app2)
 	    {	
