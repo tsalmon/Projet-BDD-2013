@@ -66,6 +66,9 @@ add_periphType;ajoute un nouveau type de peripheriques (nom);2;3;INSERT INTO per
 # get_infoMe: retourne les information personnelle d'un client
 get_infoMe;retourne toutes vos informations personel;5;1;SELECT ID,nom,prenom,developpeur,mail,mela,date_inscription,date_lastconnect FROM client WHERE ID=?
 #
+# gest_infoId
+get_infoId; retourne les nom, prenom d'un utilisateur;1;1;SELECT ID,nom,prenom,developpeur FROM client WHERE ID=?
+#
 # set_mailMe: change l'adresse mail d'un client
 set_mailMe;change votre adresse mail (mail);2 5;1;UPDATE client SET mail=? WHERE ID=?
 #
