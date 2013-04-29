@@ -59,6 +59,10 @@ public class Accueil extends JPanel implements MouseListener
     String nom_reco_app1;
     String nom_reco_app2;
     String nom_reco_app3;
+    String id_reco_app1;
+    String id_reco_app2;
+    String id_reco_app3;
+
     Accueil()
     {
 	setSize(x, y);
@@ -166,6 +170,9 @@ public class Accueil extends JPanel implements MouseListener
 	nom_reco_app1 = r.data[0][1];
 	nom_reco_app2 = r.data[1][1];
 	nom_reco_app3 = r.data[2][1];
+	id_reco_app1 = r.data[0][0];
+	id_reco_app2 = r.data[1][0];
+	id_reco_app3 = r.data[2][0];
     }
 
     private void top()
@@ -211,16 +218,18 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == reco_app1)
 	    {
-		System.out.println(nom_reco_app1);
-		Client.getInstance().getFen().setContentPane(new Application(nom_reco_app1));
+		System.out.println(id_reco_app1 + " " + nom_reco_app1);
+		Client.getInstance().getFen().setContentPane(new Application(id_reco_app1, nom_reco_app1));
 	    }
 	if(e.getSource() == reco_app2)
 	    {	
-		System.out.println("reco 2");
+		System.out.println(id_reco_app2 + " " + nom_reco_app2);
+		Client.getInstance().getFen().setContentPane(new Application(id_reco_app2, nom_reco_app2));		
 	    } 
 	if(e.getSource() == reco_app3)
 	    {
-		System.out.println("reco 3");
+		System.out.println(id_reco_app3 + " " + nom_reco_app3);
+		Client.getInstance().getFen().setContentPane(new Application(id_reco_app3, nom_reco_app3));		
 	    }
 	if(e.getSource() == top_app1)
 	    {
