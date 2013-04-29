@@ -47,9 +47,10 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 	    pw.println(chaine);
 	    pw.flush();
 	    String reponse;
-	    reponse=bf.readLine();System.out.println("reponse : " + reponse);
+	    reponse=bf.readLine();System.out.println(reponse);
 	    if(reponse.equals("SelectDone")){
 		reponse=bf.readLine();
+		System.out.println("reponse : " + reponse);
 		String[] nb = reponse.split(" ");
 		String[] nomCol = new String[Integer.parseInt(nb[0])];
 		String[] typCol = new String[Integer.parseInt(nb[0])];
