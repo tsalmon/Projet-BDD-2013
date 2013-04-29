@@ -154,13 +154,17 @@ get_SeApp;retourne les systeme d'exploitation d'une application (application.id)
 add_appPeriph;ajoute une application a voitre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
 #
 # get_appInstalMe
-get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT application FROM application_installe 
+get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT i.application FROM application_installe AS i LEFT JOIN peripheriques_client AS p ON p.ID=i.peripherique_client WHERE p.client=?
+#
+# get_appIsInstalMe
+get_appIsInstalMe;retourne la ligne corespondante si vous possedez l'application rein sinon;5 1;1;SELECT i.application FROM application_installe AS i LEFT JOIN peripheriques_client AS p ON p.ID=i.peripherique_client WHERE p.client=? AND i.application=?
+#
 #
 # get_appInstalPeriph
 get_appInstalPeriph;retourne toutes les application installer sur le peripherique;5 1;1;SELECT a.application FROM application_installe AS a WHERE a.peripherique_client=(SELECT ID FROM peripheriques_client WHERE client=? AND ID=?)
 #
 # get_avisMe
-get_avisApp;retourne mes avis que vous avez deja poster;5;1;SELECT * FROM avis WHERE client=? 
+get_avisMe;retourne mes avis que vous avez deja poster;5;1;SELECT * FROM avis WHERE client=? 
 #
 # get_avisApp
 get_avisApp;retourne les avis d'une application(application.id);1;1;SELECT * FROM avis WHERE application=? 
