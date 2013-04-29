@@ -44,6 +44,7 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 	try{
 	    String chaine="REQUEST|"+nom;
 	    for(int i=0;i< args.length;i++) chaine+="|"+args[i];
+	    chaine =chaine.replace("\n", "\\n");
 	    pw.println(chaine);
 	    pw.flush();
 	    String reponse;
@@ -64,6 +65,7 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 		
 		for(int k=0; k<data.length;k++){ //recupere les donné de la requete
 		    reponse=bf.readLine();
+		    reponse =reponse.replace("\\n", "\n");
 		    String[] d = reponse.split("[|]");
 		    for(int i=0; i<typCol.length; i++) data[k][i]=d[i];
 		}
