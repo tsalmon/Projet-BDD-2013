@@ -42,7 +42,6 @@ public class Accueil extends JPanel implements MouseListener
     JPanel content_top_view        = new JPanel();
     JPanel content_reco_view       = new JPanel();
 
-
     //boutons
     JButton deconnexion = new JButton("Deconnexion");
     JButton view_all = new JButton("Toutes les applications");
@@ -57,7 +56,9 @@ public class Accueil extends JPanel implements MouseListener
     
     //text
     JTextField recherche = new JTextField(30);
-    
+    String nom_reco_app1;
+    String nom_reco_app2;
+    String nom_reco_app3;
     Accueil()
     {
 	setSize(x, y);
@@ -162,6 +163,9 @@ public class Accueil extends JPanel implements MouseListener
 	content_reco_app1.add(reco_app1);
 	content_reco_app2.add(reco_app2);
 	content_reco_app3.add(reco_app3);
+	nom_reco_app1 = r.data[0][1];
+	nom_reco_app2 = r.data[1][1];
+	nom_reco_app3 = r.data[2][1];
     }
 
     private void top()
@@ -207,8 +211,8 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == reco_app1)
 	    {
-		System.out.println("reco 1");
-		Client.getInstance().getFen().setContentPane(new Application("Azerty Azerty Azerty Azerty "));
+		System.out.println(nom_reco_app1);
+		Client.getInstance().getFen().setContentPane(new Application(nom_reco_app1));
 	    }
 	if(e.getSource() == reco_app2)
 	    {	

@@ -18,7 +18,7 @@ public class Application extends JPanel implements MouseListener
     int x = Client.fenetre_x;
     int y = Client.fenetre_y;
 
-    JScrollPane sp = new JScrollPane();
+    JScrollPane sp;
     
     JPanel conteneur_ouest = new JPanel();
     JPanel conteneur_centre = new JPanel();
@@ -27,7 +27,6 @@ public class Application extends JPanel implements MouseListener
     JPanel infos = new JPanel();
     JPanel nom = new JPanel();
     JPanel avis = new JPanel();
-    JPanel avis_canvas = new JPanel();
     Application(String nom_application)
     {
 	
@@ -40,7 +39,7 @@ public class Application extends JPanel implements MouseListener
 	header.setLayout(new BorderLayout());
 	infos.setLayout(new GridLayout(5,1));
 	nom.setLayout(new BorderLayout());
-
+	avis.setLayout(new GridLayout(100, 1));
 	
 	//avis.setPreferredSize(new Dimension(300, 400));
 
@@ -58,17 +57,21 @@ public class Application extends JPanel implements MouseListener
 	infos.add(new JLabel("prix:"));
 	infos.add(new JLabel("mensuel:"));
 
-	
-	for(int i=0; i < 1000; i++)
+	for(int i=0; i < 100; i++)
 	    {
 		avis.add(new JLabel("avis" + i));
 	    }
-	sp.setViewportView(avis);
-	avis_canvas.add(sp);
+	sp = new JScrollPane(avis)
+	    {
+		public Dimension getPreferredSize()
+		{
+		    return new Dimension(200, 200);
+		}
+	    };
 
 	add("North", header);
 	add("West", infos);
-	add("Center", avis_canvas);
+	add("Center", sp);
     }
 
     public void mouseClicked(MouseEvent e)
