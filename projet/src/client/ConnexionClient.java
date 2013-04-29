@@ -48,10 +48,9 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 	    pw.println(chaine);
 	    pw.flush();
 	    String reponse;
-	    reponse=bf.readLine();System.out.println(reponse);
+	    reponse=bf.readLine();
 	    if(reponse.equals("SelectDone")){
 		reponse=bf.readLine();
-		System.out.println("reponse : " + reponse);
 		String[] nb = reponse.split(" ");
 		String[] nomCol = new String[Integer.parseInt(nb[0])];
 		String[] typCol = new String[Integer.parseInt(nb[0])];
@@ -65,8 +64,8 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 		for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
 		
 		for(int k=0; k<data.length;k++){ //recupere les données de la requete
-		    reponse=bf.readLine();
-		    reponse =reponse.replace("\\n", "\n");
+		    reponse=bf.readLine(); 
+		    reponse =reponse.replace("\\n", "<br>");
 		    String[] d = reponse.split("[|]");
 		    for(int i=0; i<typCol.length; i++) data[k][i]=d[i];
 		}

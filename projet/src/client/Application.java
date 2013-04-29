@@ -31,7 +31,6 @@ public class Application extends JPanel implements MouseListener
 
     Application(String id, String nom_application)
     {
-	req_avis(id);
 	Client.getInstance().getFen().setTitle(nom_application);
 	setSize(x, y);
 	
@@ -39,24 +38,21 @@ public class Application extends JPanel implements MouseListener
 	conteneur_ouest.setLayout(new BorderLayout());
 	conteneur_centre.setLayout(new BorderLayout());
 	header.setLayout(new BorderLayout());
-	infos.setLayout(new GridLayout(5,1));
+	infos.setLayout(new GridLayout(4,1));
 	nom.setLayout(new BorderLayout());
+
+	req_infos(id);
+	req_avis(id);
 	
 	//avis.setPreferredSize(new Dimension(300, 400));
 
 	nom.add("Center", new JLabel(nom_application));
-	nom.add("East", new JLabel("v47545"));
 	
 	header.add("West", new JButton("deco"));
 	header.add("Center", new JTextField(10));
 	header.add("East",new JButton("Accueil"));
 	header.add("South", nom);
 	
-	infos.add(new JLabel("Catégorie:"));
-	infos.add(new JLabel("Os:"));
-	
-	infos.add(new JLabel("prix:"));
-	infos.add(new JLabel("mensuel:"));
 
 	sp = new JScrollPane(avis)
 	    {
@@ -87,23 +83,39 @@ public class Application extends JPanel implements MouseListener
                 System.out.println("");
             }
     }
-    
+
+    public void req_infos(String id)
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_appId",id);
+	read_sqldata(r);
+	
+	nom.add("East", new JLabel("v" + r.data[0][2]+"\t"));
+	infos.add(new JLabel("Catégorie:" + r.data[0][11]));
+	infos.add(new JLabel("Os:"));
+	
+	infos.add(new JLabel())
+	if(r.data[0][6].equals("1"))
+	    {
+		infos.add(new JLabel("prix:" + r.data[0][6]));
+	    }
+	else
+	    {
+		infos.add(new JLabel("Gratuit"));
+	    }
+    }
+
     public void req_avis(String id)
     {
 	SqlData r = Client.getInstance().getConnect().request("get_avisApp",id);
-	read_sqldata(r);
-	System.out.println(r.getNbLigne() +  " " + r.getNbCol());
-	avis.setLayout(new GridLayout(r.getNbLigne(), 1));
+	//read_sqldata(r);
+	avis.setLayout(new GridLayout(r.getNbLigne(), 1, 10, 10));
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
-		System.out.println("nom: "+r.data[i][0]);
-		SqlData nom = Client.getInstance().getConnect().request("get_infoId", r.data[i][0]);
-		
+		SqlData nom = Client.getInstance().getConnect().request("get_infoId", r.data[i][0]);		
 		JPanel avis_aff = new JPanel();
-		avis_aff.setLayout(new BorderLayout());
-		
+		avis_aff.setLayout(new BorderLayout());		
 		avis_aff.add("North", new JLabel(nom.data[0][1]));
-		avis_aff.add("Center", new JLabel(r.data[i][3]));
+		avis_aff.add("Center", new JLabel("<html>"+r.data[i][3]+"<html/>"));
 		avis_aff.add("South", new JLabel(r.data[i][4]));		    
 		avis.add(avis_aff);
 	    }
