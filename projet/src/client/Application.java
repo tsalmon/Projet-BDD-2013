@@ -97,7 +97,7 @@ public class Application extends JPanel implements MouseListener
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
 		System.out.println("nom: "+r.data[i][0]);
-		SqlData nom = Client.getInstance().getConnect().request("get_infoMe", r.data[i][0]);
+		SqlData nom = Client.getInstance().getConnect().request("get_infoId", r.data[i][0]);
 		
 		JPanel avis_aff = new JPanel();
 		avis_aff.setLayout(new BorderLayout());
