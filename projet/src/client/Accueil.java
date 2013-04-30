@@ -102,15 +102,15 @@ public class Accueil extends JPanel implements MouseListener
 	// EST
 	conteneur_est.add(content_tout);
 	conteneur_est.add(content_titre_top);
-	/*
+	
 	for(int i=0; i < cont_top_app.length ; i++)
 	    {
 		if(cont_top_app[i] == null)
 		    break;
-		conteneur_centre.add(cont_top_app[i]);
+		conteneur_est.add(cont_top_app[i]);
 		b_top_app[i].addMouseListener(this);
 	    }
-	*/
+	
 	// CONTROLE
 	deconnexion.addMouseListener(this);
 	view_all.addMouseListener(this);
@@ -204,11 +204,11 @@ public class Accueil extends JPanel implements MouseListener
     {
 	for(int i = 0;i < 3; i++)
 	    {
-		if(cont_reco_app.length < i && e.getSource() == b_reco_app[i])
+		if(cont_reco_app.length > i && e.getSource() == b_reco_app[i])
 		    {
 			Client.getInstance().getFen().setContentPane(new Application(id_reco_app[i], n_reco_app[i]));
 		    }
-		if(cont_top_app.length < i && e.getSource() == b_top_app[i])
+		if(cont_top_app.length > i && e.getSource() == b_top_app[i])
 		    {
 			Client.getInstance().getFen().setContentPane(new Application(id_top_app[i], n_top_app[i]));
 		    }
