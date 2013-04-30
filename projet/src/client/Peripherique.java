@@ -1,3 +1,5 @@
+import javax.swing.JFrame;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -19,6 +21,8 @@ public class Peripherique extends JPanel implements MouseListener
 {
 
     JPanel header = new JPanel();
+    JPanel center = new JPanel();
+
     JPanel conteneur_search = new JPanel();
     JPanel conteneur_deco = new JPanel();
     JPanel conteneur_acc = new JPanel();
@@ -28,23 +32,26 @@ public class Peripherique extends JPanel implements MouseListener
 
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
-    JTextField cherche = new JTextField(10);
+    JTextField cherche = new JTextField(20);
     
     Peripherique()
     {
 	setLayout(new BorderLayout());
-	header.setLayout(new GridLayout(3, 1));
-	
+	header.setLayout(new GridLayout(1, 3));
+	center.setLayout(new GridLayout(1, 2));
+
 	conteneur_deco.add(deconnexion);
 	conteneur_acc.add(accueil);
 	conteneur_search.add(cherche);
 	header.add(conteneur_deco);
 	header.add(conteneur_search);
 	header.add(conteneur_acc);
+
+	center.add(new JButton("gauche"));
+	center.add(new JButton("droite"));
 	
 	add("North", header);
-	add("West", new JButton("gauche"));
-	add("East", new JButton("droite"));
+	add("Center", center);
     }
     
     public void mouseClicked(MouseEvent e)
@@ -65,4 +72,14 @@ public class Peripherique extends JPanel implements MouseListener
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
+
+    /* test hors-connexion
+      public static void main(String[] args)
+      {
+      JFrame f = new JFrame();
+      f.setSize(779, 456);
+      f.setContentPane(new Peripherique());
+      f.setVisible(true);
+      }
+    */
 }
