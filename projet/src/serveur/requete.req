@@ -105,7 +105,8 @@ add_periphMe;ajoute un nouveau peripherique a un client(peripherique.id, systeme
 # del_periphMe: enleve un peripherique d'un client
 del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripheriques_client WHERE client=? AND ID=?
 #
-# 
+# get_periphMe
+get_periphMe; retourne la liste de vos peripherique;5;1;SELECT * FROM peripheriques_client WHERE client=?
 #
 #
 # get_categorie: retourne la liste des categorie d'application
