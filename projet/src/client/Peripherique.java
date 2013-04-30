@@ -34,16 +34,17 @@ public class Peripherique extends JPanel implements MouseListener
     
     JPanel gauche = new JPanel();
     JPanel droite = new JPanel();
-    JScrollPane scroll_gauche = new JScrollPane(new JLabel("Liste peripheriques"));
-    JScrollPane scroll_droite = new JScrollPane(new JLabel("Liste applications"));
     
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
     JTextField cherche = new JTextField(20);
-    
+
+    JScrollPane scroll_gauche = new JScrollPane(new JLabel("Liste peripheriques"));
+    JScrollPane scroll_droite = new JScrollPane(new JLabel("Liste applications"));
+
     Peripherique()
     {
-	
+    	
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));
@@ -66,8 +67,9 @@ public class Peripherique extends JPanel implements MouseListener
 	add("Center", center);
     }
 
-    Peripherique(JPanel[] liste_appli)
+    Peripherique(JButton[] liste_appli)
     {
+	System.out.println(liste_appli.length);
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));
@@ -79,19 +81,29 @@ public class Peripherique extends JPanel implements MouseListener
 	header.add(conteneur_deco);
 	header.add(conteneur_search);
 	header.add(conteneur_acc);
-
+      
 	applications = liste_appli;
 	liste_peripherique();
-	
-	conteneur_appl = new JPanel(liste_appl.length);
-	for(int i=0; i < liste_appli.length; i++)
+
+	if(liste_appli.length > 0)
 	    {
-		conteneur_appl[i] = new JPanel();
-		conteneur_appl[i].add(applications[i]);
-		applications[i].addMouseListener(this);
+		droite.setLayout(new GridLayout(liste_appli.length , 1, 20, 20));	
+		conteneur_appl = new JPanel[liste_appli.length];
+		for(int i=0; i < liste_appli.length; i++)
+		    {
+			conteneur_appl[i] = new JPanel();
+			conteneur_appl[i].add(applications[i]);
+			droite.add(conteneur_appl[i]);
+			applications[i].addMouseListener(this);
+		    }
+		
+		scroll_droite = new JScrollPane(droite);
 	    }
-	
-	scroll_droite.add(conteneur_appl);
+	else
+	    {
+		scroll_droite = new JScrollPane(new JLabel("Aucune applications installées sur ce périphérique."));
+	    }
+
 	center.add(scroll_gauche);
 	center.add(scroll_droite);
 	accueil.addMouseListener(this);
