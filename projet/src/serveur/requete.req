@@ -76,7 +76,7 @@ set_mailMe;change votre adresse mail (mail);2 5;1;UPDATE client SET mail=? WHERE
 set_mdpMe;change votre mot de passe (mdp);2 5;1;UPDATE client SET mdp=? WHERE ID=?
 #
 # add_paiementMe: rajoute des information de paiement a un client
-set_me_paiementMe;ajoute des informations de paiement a votre compte (cb=true,numero,expiration[cb-uniquement]);5 3 1 4;1;INSERT INTO paiement(? ? ? ?)
+add_paiementMe;ajoute des informations de paiement a votre compte (cb=true,numero,expiration[cb-uniquement]);5 3 1 4;1;INSERT INTO paiement(? ? ? ?)
 #
 # get_paiementMe: retourne les informations de paiement d'un client
 get_paiementMe;retourne vos info de paiement;5;1;SELECT * FROM paiement WHERE client=?
@@ -88,13 +88,13 @@ set_paiementMe;modifie vos donnees de paiementcd ou paypal (cb=true,numero,expir
 #
 #
 # get_periphFabricant
-get_periphFabricant;retourne la liste des fabricant;;1;SELECT * FROM paripheriques_fabricant
+get_periphFabricant;retourne la liste des fabricant;;1;SELECT * FROM peripheriques_fabricant
 #
 # get_periphType
-get_periphType;retourne la liste des type de peripherique;;1;SELECT * FROM paripheriques_type
+get_periphType;retourne la liste des type de peripherique;;1;SELECT * FROM peripheriques_type
 #
-# get_peripheriques
-get_peripherique;retourne la liste de tout les peripheriques;;1;SELECT p.ID, p.nom, t.nom, f.nom FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant
+# get_periph
+get_periph;retourne la liste de tout les peripheriques;;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant
 #
 #get_peripheriqueFabricantType
 get_peripheriqueFabricantType;retourne la liste de tout les peripheriques en fontion du fabricant et du type(fabricant.id,type.id);1 1;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE f.ID=? AND t.ID=?
