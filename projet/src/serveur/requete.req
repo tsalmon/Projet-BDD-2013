@@ -106,7 +106,7 @@ add_periphMe;ajoute un nouveau peripherique a un client(peripherique.id, systeme
 del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripheriques_client WHERE client=? AND ID=?
 #
 # get_periphMe
-get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.date,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
+get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
 #
 # get_periphId
 get_periphId; retourne les information d'un peripherique;1;1;SELECT p.nom,t.type,f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE p.ID=?
