@@ -147,7 +147,7 @@ public class Application extends JPanel implements MouseListener
 	if(e.getSource() == deconnexion)
 	    {
 		Client.getInstance().getConnect().dialog("DISCONNECT");
-                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion")\
+                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
 	    }
     }
     

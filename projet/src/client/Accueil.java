@@ -215,6 +215,7 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == view_periph)
 	    {
 		System.out.println("view periph");
+		Client.getInstance().getFen().setContentPane(new Peripherique());
 	    }
 	if(e.getSource() == reco_app1)
 	    {
