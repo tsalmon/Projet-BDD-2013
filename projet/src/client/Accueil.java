@@ -102,13 +102,15 @@ public class Accueil extends JPanel implements MouseListener
 	// EST
 	conteneur_est.add(content_tout);
 	conteneur_est.add(content_titre_top);
+	/*
 	for(int i=0; i < cont_top_app.length ; i++)
 	    {
 		if(cont_top_app[i] == null)
 		    break;
 		conteneur_centre.add(cont_top_app[i]);
 		b_top_app[i].addMouseListener(this);
-	    }	
+	    }
+	*/
 	// CONTROLE
 	deconnexion.addMouseListener(this);
 	view_all.addMouseListener(this);
