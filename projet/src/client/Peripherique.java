@@ -1,5 +1,4 @@
-import javax.swing.JFrame;
-
+//import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -20,22 +19,28 @@ import java.awt.Dimension;
 public class Peripherique extends JPanel implements MouseListener
 {
 
+    JButton[] peripheriques;
+    
     JPanel header = new JPanel();
     JPanel center = new JPanel();
-
+    
     JPanel conteneur_search = new JPanel();
     JPanel conteneur_deco = new JPanel();
     JPanel conteneur_acc = new JPanel();
-
+    
+    JPanel gauche = new JPanel();
+    JPanel droite = new JPanel();
     JScrollPane scroll_gauche;
     JScrollPane scroll_droite;
-
+    
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
     JTextField cherche = new JTextField(20);
     
     Peripherique()
     {
+	
+	setSize(779, 456);
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));
 	center.setLayout(new GridLayout(1, 2));
@@ -47,13 +52,61 @@ public class Peripherique extends JPanel implements MouseListener
 	header.add(conteneur_search);
 	header.add(conteneur_acc);
 
+	liste_peripherique();
+
 	center.add(new JButton("gauche"));
 	center.add(new JButton("droite"));
 	
 	add("North", header);
 	add("Center", center);
     }
-    
+
+    private void read_sqldata(SqlData r)
+    {
+	for(int i = 0; i < r.getNbCol(); i++)
+            {
+                System.out.print(r.nomCol[i]);
+            }
+        System.out.println("");
+        for(int i = 0; i < r.getNbLigne(); i++)
+            {
+                for(int j = 0; j < r.getNbCol(); j++)
+                    {
+                        System.out.print(r.data[i][j] + " \t");
+                    }
+                System.out.println("");
+            }
+    }
+
+    public void liste_peripherique()
+    {
+        SqlData r = Client.getInstance().getConnect().request("get_periphMe");
+	read_sqldata(r);
+	/*
+	gauche.setLayout(r.getNbLigne(), 1);
+	for(int i= 0; i < r.getNbLigne(); i++)
+	    {
+		gauche.add(r.data[])
+	    }
+	scroll_gauche new JScrollPane(gauche);
+	*/
+    }
+
+    public void liste_application(String peripherique)
+    {
+	/*
+        SqlData r = Client.getInstance().getConnect().request("get_application", );
+	read_sqldata(r);
+	gauche.setLayout(r.getNbLigne(), 1);
+	for(int i= 0; i < r.getNbLigne(); i++)
+	    {
+		gauche.add(r.data[])
+		    }
+	scroll_gauche new JScrollPane(gauche);
+	*/
+	}
+
+
     public void mouseClicked(MouseEvent e)
     {
         if(e.getSource() == accueil)
