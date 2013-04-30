@@ -62,7 +62,6 @@ public class ConnexionClient { // gere la connexion au serveur , et l'envoi des 
 		reponse=bf.readLine();
 		String[] typ = reponse.split("[|]");
 		for(int i=0; i<typCol.length; i++) typCol[i]=typ[i];
-		
 		for(int k=0; k<data.length;k++){ //recupere les données de la requete
 		    reponse=bf.readLine(); 
 		    reponse =reponse.replace("\\n", "<br>");
