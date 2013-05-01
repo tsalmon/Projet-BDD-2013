@@ -141,7 +141,8 @@ class ButtonEditor extends DefaultCellEditor {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
-        label = (value == null) ? "" : value.toString();
+	
+	label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
         return button;
@@ -169,6 +170,11 @@ class ButtonEditor extends DefaultCellEditor {
     
     protected void fireEditingStopped() {
         super.fireEditingStopped();
+    }
+
+    public boolean isCellEditable()
+    {
+	return false;
     }
     
 }

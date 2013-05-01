@@ -38,7 +38,6 @@ public class Application extends JPanel implements MouseListener
 
     Application(String id, String nom_application)
     {
-	Client.getInstance().getFen().setTitle(nom_application);
 	setSize(x, y);
 	
 	setLayout(new BorderLayout());
@@ -141,7 +140,6 @@ public class Application extends JPanel implements MouseListener
     {
 	if(e.getSource() == accueil)
 	    {
-		System.out.println("acc");
 		Client.getInstance().getFen().setContentPane(new Accueil());
 	    }
 	if(e.getSource() == deconnexion)
