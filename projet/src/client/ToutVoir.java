@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 public class ToutVoir extends JPanel implements MouseListener
 {    
+    
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
     JTextField recherche = new JTextField(20);
@@ -17,7 +18,7 @@ public class ToutVoir extends JPanel implements MouseListener
     ToutVoir()
     {
 	barre();
-	add("Center", new JButton("c"));
+	add("Center", new JButton("c"));	
 	setVisible(true);
     }
     
@@ -32,8 +33,9 @@ public class ToutVoir extends JPanel implements MouseListener
 
     private void barre()
     {
+	setSize(779, 456);
 	setLayout(new BorderLayout());
-	header.setLayout(new GridLayout(3, 1));
+	header.setLayout(new GridLayout(1, 3));
 	
 	conteneur_deco.add(deconnexion);
 	conteneur_acc.add(accueil);
@@ -45,15 +47,22 @@ public class ToutVoir extends JPanel implements MouseListener
 	
 	add("North", header);
     }
-
+    
     public void mouseClicked(MouseEvent e){}
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
+    
+    /*
+    public static void main(String [] args)
+    {
+	JFrame f = new JFrame();
+	f.setContentPane(new ToutVoir());
+	f.setVisible(true);
+    }
+    */
 
-
-}
 class ButtonRenderer extends JButton implements TableCellRenderer {
     
     public ButtonRenderer() {
@@ -130,3 +139,4 @@ class ButtonEditor extends DefaultCellEditor {
     
 }
 
+}
