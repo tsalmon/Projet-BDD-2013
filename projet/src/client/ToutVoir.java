@@ -14,11 +14,13 @@ public class ToutVoir extends JPanel implements MouseListener
     JPanel conteneur_deco = new JPanel();
     JPanel conteneur_recherche = new JPanel();
     JPanel conteneur_acc = new JPanel();
+
+    SqlData r = Client.getInstance().getConnect().request("get_app");
     
     ToutVoir()
     {
 	barre();
-	add("Center", new JButton("c"));	
+	centre();
 	setVisible(true);
     }
     
@@ -26,9 +28,31 @@ public class ToutVoir extends JPanel implements MouseListener
     ToutVoir(int col)
     {
 	barre();
-	add("Center", new JButton("c"));
+	r.trie(col);
+	centre();
 	setVisible(true);
 
+    }
+
+    private void centre()
+    {
+	DefaultTableModel dm = new DefaultTableModel();
+	Object [][] donnees = new Object[r.getNbLigne()][6];
+	for(int i = 0; i < r.getNbLigne(); i++)
+	    {
+		donnees[i][0] = r.data[i][1]; // nom
+		donnees[i][1] = r.data[i][11]; // categorie
+		donnees[i][2] = r.data[i][9]; // prix
+		donnees[i][3] = r.data[i][8]; // mela
+		donnees[i][4] = r.data[i][5]; // tag
+		donnees[i][5] = r.data[i][12]; // average(elstar)
+	    }
+        dm.setDataVector(donnees, new Object[] { "Noms", "Categories", "Prix", "Mela", "Tags", "Elstar" });
+	JTable table = new JTable(dm);
+        table.getColumn("Noms").setCellRenderer(new ButtonRenderer());
+        table.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
+        JScrollPane scroll = new JScrollPane(table);
+        add("Center",scroll);
     }
 
     private void barre()
