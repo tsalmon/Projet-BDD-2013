@@ -220,7 +220,6 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == deconnexion)
 	    {
-		System.out.println("deco");
 		Client.getInstance().getConnect().dialog("DISCONNECT");
 		Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
 	    }

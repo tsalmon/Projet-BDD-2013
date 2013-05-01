@@ -62,6 +62,8 @@ public class ToutVoir extends JPanel implements MouseListener
         table.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
         JScrollPane scroll = new JScrollPane(table);
         add("Center",scroll);
+	deconnexion.addMouseListener(this);
+	accueil.addMouseListener(this);
     }
 
     private void barre()
@@ -81,7 +83,18 @@ public class ToutVoir extends JPanel implements MouseListener
 	add("North", header);
     }
     
-    public void mouseClicked(MouseEvent e){}
+    public void mouseClicked(MouseEvent e)
+    {
+	if(e.getSource() == deconnexion)
+	    {
+		Client.getInstance().getConnect().dialog("DISCONNECT");
+                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	    }
+	if(e.getSource() == accueil)
+	    {
+		Client.getInstance().getFen().setContentPane(new Accueil());
+	    }
+    }
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
