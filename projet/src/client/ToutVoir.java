@@ -40,7 +40,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	Object [][] donnees = new Object[r.getNbLigne()][6];
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
-		donnees[i][0] = r.data[i][1]; // nom
+		donnees[i][0] = r.data[i][0]+"."+r.data[i][1]; // nom
 		donnees[i][1] = r.data[i][11]; // categorie
 		donnees[i][2] = r.data[i][9]; // prix
 		donnees[i][3] = r.data[i][8]; // mela
@@ -103,7 +103,12 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
             setForeground(table.getForeground());
             setBackground(UIManager.getColor("Button.background"));
         }
-        setText((value == null) ? "" : value.toString());
+	String s = value.toString();
+	String retour_str = "";
+	int k = 0;
+	while(s.charAt(k++) != '.'){}
+	while(k < s.length()){ retour_str += s.charAt(k++);}
+	setText((value == null) ? "" : retour_str);
         return this;
     }
 }
@@ -143,10 +148,14 @@ class ButtonEditor extends DefaultCellEditor {
     
     public Object getCellEditorValue() {
         if (isPushed) {
-            //                                                                                                
-            //                                                                                                
-            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-            // System.out.println(label + ": Ouch!");                                                         
+	    String s = label;
+	    String retour_str = "";
+	    String retour_id = "";
+	    int k = 0;
+	    while(s.charAt(k) != '.'){retour_id += s.charAt(k++);}
+	    k++;
+	    while(k < s.length()){retour_str += s.charAt(k++);}
+	    Client.getInstance().getFen().setContentPane(new Application(retour_id, retour_str));
         }
         isPushed = false;
         return new String(label);
