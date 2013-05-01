@@ -99,15 +99,6 @@ public class ToutVoir extends JPanel implements MouseListener
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
-    
-    /*
-    public static void main(String [] args)
-    {
-	JFrame f = new JFrame();
-	f.setContentPane(new ToutVoir());
-	f.setVisible(true);
-    }
-    */
 
 class ButtonRenderer extends JButton implements TableCellRenderer {
     
