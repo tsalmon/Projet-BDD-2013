@@ -3,6 +3,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class ToutVoir extends JPanel implements MouseListener
 {    
     
@@ -36,7 +37,14 @@ public class ToutVoir extends JPanel implements MouseListener
 
     private void centre()
     {
-	DefaultTableModel dm = new DefaultTableModel();
+	DefaultTableModel dm = new DefaultTableModel()
+	    {
+		@Override
+		    public boolean isCellEditable(int row, int column)
+		{
+		    return false;
+		}
+	    };
 	Object [][] donnees = new Object[r.getNbLigne()][6];
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
