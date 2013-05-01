@@ -190,7 +190,7 @@ public class Peripherique extends JPanel implements MouseListener
 			Client.getInstance().getFen().setContentPane(new Application(id_appli[i] ,nom_appli[i]));
 		    }
 	    }
- 
+	
         if(e.getSource() == accueil)
             {
                 Client.getInstance().getFen().setContentPane(new Accueil());
@@ -206,14 +206,14 @@ public class Peripherique extends JPanel implements MouseListener
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
-
+    
     /* test hors-connexion
-      public static void main(String[] args)
-      {
-      JFrame f = new JFrame();
-      f.setSize(779, 456);
-      f.setContentPane(new Peripherique());
-      f.setVisible(true);
-      }
+       public static void main(String[] args)
+       {
+       JFrame f = new JFrame();
+       f.setSize(779, 456);
+       f.setContentPane(new Peripherique());
+       f.setVisible(true);
+       }
     */
 }

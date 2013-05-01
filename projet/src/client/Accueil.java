@@ -226,7 +226,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == view_all)
 	    {
-		System.out.println("view all");
+		Client.getInstance().getFen().setContentPane(new ToutVoir());
 	    }
 	if(e.getSource() == modifier_profil)
 	    {
@@ -235,7 +235,7 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == view_more_reco)
 	    {
 		System.out.println("view more reco");
-		Client.getInstance().getFen().setContentPane(new ToutVoir());
+		Client.getInstance().getFen().setContentPane(new ToutVoir(1));
 	    }
 	if(e.getSource() == view_periph)
 	    {
@@ -244,9 +244,9 @@ public class Accueil extends JPanel implements MouseListener
 	    }
     }
 
-public void mouseEntered(MouseEvent e){}
-public void mouseExited(MouseEvent e){}
+    public void mouseEntered(MouseEvent e){}
+    public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
-      
+    
 }
