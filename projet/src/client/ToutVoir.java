@@ -42,10 +42,11 @@ public class ToutVoir extends JPanel implements MouseListener
 	    {
 		donnees[i][0] = r.data[i][0]+"."+r.data[i][1]; // nom
 		donnees[i][1] = r.data[i][11]; // categorie
-		donnees[i][2] = r.data[i][9]; // prix
+		donnees[i][2] = (r.data[i][9].equals("Null")) ? "Gratuit" : r.data[i][9]; // prix
 		donnees[i][3] = r.data[i][8]; // mela
 		donnees[i][4] = r.data[i][5]; // tag
-		donnees[i][5] = r.data[i][12]; // average(elstar)
+		donnees[i][5] = 
+		    (r.data[i][12].equals("Null")) ? "Aucune notes" : r.data[i][12].charAt(0)+ "." + r.data[i][12].charAt(2); //average(elstar)
 	    }
         dm.setDataVector(donnees, new Object[] { "Noms", "Categories", "Prix", "Mela", "Tags", "Elstar" });
 	JTable table = new JTable(dm);
