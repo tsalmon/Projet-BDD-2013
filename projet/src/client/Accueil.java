@@ -62,6 +62,7 @@ public class Accueil extends JPanel implements MouseListener
     {
 	setSize(x, y);
 	// on met une grille de 6 lignes dans chacune des trois colonnes
+
 	setLayout(new BorderLayout());
 	conteneur_est.setLayout(new GridLayout(6,1));
 	conteneur_centre.setLayout(new GridLayout(6,1));
@@ -165,13 +166,17 @@ public class Accueil extends JPanel implements MouseListener
 		SqlData ap = Client.getInstance().getConnect().request("get_appId", r.data[i][0]);
 		if(ap.getNbLigne() > 0)
 		    {
-			b_reco_app[i] = new JButton("<html>" + ap.data[0][1] + "<br>"+ap.data[0][11]+"<html>");
 			n_reco_app[i] = ap.data[0][1];
 			id_reco_app[i] = ap.data[0][0];
 		    }
 	    }
 	for(int i = 0; i < ((r.getNbLigne() < 3) ? r.getNbLigne() : 3); i++)
 	    {
+		SqlData ap = Client.getInstance().getConnect().request("get_appId", r.data[i][0]);
+		if(ap.getNbLigne() > 0)
+		    {
+			b_reco_app[i] = new JButton("<html>" + ap.data[0][1] + "<br>"+ap.data[0][11]+"<html>");
+		    }
 		cont_reco_app[i] = new JPanel();
 		cont_reco_app[i].add(b_reco_app[i]);
 	    }
@@ -230,6 +235,7 @@ public class Accueil extends JPanel implements MouseListener
 	if(e.getSource() == view_more_reco)
 	    {
 		System.out.println("view more reco");
+		Client.getInstance().getFen().setContentPane(new ToutVoir());
 	    }
 	if(e.getSource() == view_periph)
 	    {
