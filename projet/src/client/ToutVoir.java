@@ -22,6 +22,7 @@ public class ToutVoir extends JPanel implements MouseListener
     JPanel conteneur_recherche = new JPanel();
     JPanel conteneur_acc = new JPanel();
 
+    DefaultTableModel boutons = new DefaultTableModel();
     DefaultTableModel dm = new DefaultTableModel()
 	{
 	    
@@ -30,8 +31,11 @@ public class ToutVoir extends JPanel implements MouseListener
 	    {
 		return false;
 	    }
+	    
 	};
     
+    
+
     ToutVoir(char a_voir)
     {
 	barre();
@@ -131,13 +135,12 @@ public class ToutVoir extends JPanel implements MouseListener
     
     private void centre(int i)
     {
+	
 	JTable table = new JTable(recuperer_info(i));
         table.getColumn("Noms").setCellRenderer(new ButtonRenderer());
         table.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
         JScrollPane scroll = new JScrollPane(table);
         add("Center",scroll);
-	deconnexion.addMouseListener(this);
-	accueil.addMouseListener(this);
     }
     
     private void barre()
@@ -177,7 +180,8 @@ public class ToutVoir extends JPanel implements MouseListener
 	all_OS.addMouseListener(this);
 	all_periph.addMouseListener(this);
 	all_applis.addMouseListener(this);
-	
+	deconnexion.addMouseListener(this);
+	accueil.addMouseListener(this);
     }
     
     public void mouseClicked(MouseEvent e)
@@ -222,12 +226,15 @@ public class ToutVoir extends JPanel implements MouseListener
 		setForeground(table.getForeground());
 		setBackground(UIManager.getColor("Button.background"));
 	    }
+	    /*
 	    String s = value.toString();
 	    String retour_str = "";
 	    int k = 0;
 	    while(s.charAt(k++) != '.'){}
 	    while(k < s.length()){ retour_str += s.charAt(k++);}
 	    setText((value == null) ? "" : retour_str);
+	    */
+	    setText(( value == null) ? "" : value.toString());
 	    return this;
 	}
     }
@@ -268,6 +275,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	
 	public Object getCellEditorValue() {
 	    if (isPushed) {
+		/*
 		String s = label;
 		String retour_str = "";
 		String retour_id = "";
@@ -276,9 +284,11 @@ public class ToutVoir extends JPanel implements MouseListener
 		k++;
 		while(k < s.length()){retour_str += s.charAt(k++);}
 		Client.getInstance().getFen().setContentPane(new Application(retour_id, retour_str));
+		*/
+		JOptionPane.showMessageDialog(button, label + ": Ouch !");
 	    }
 	    isPushed = false;
-	    return new String(label);
+	    return label;
 	}
 	
 	public boolean stopCellEditing() {
@@ -288,11 +298,6 @@ public class ToutVoir extends JPanel implements MouseListener
 	
 	protected void fireEditingStopped() {
 	    super.fireEditingStopped();
-	}
-	
-	public boolean isCellEditable()
-	{
-	    return false;
-	}
+	}	
     }   
 }
