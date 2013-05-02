@@ -1,34 +1,46 @@
 import javax.swing.*;
 import javax.swing.table.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
 
-public class VoirPeripherique extends JPanel implements MouseListener
+public class VoirPeripherique extends JPanel implements MouseListener, ListSelectionListener
 {
     JButton accueil = new JButton("accueil");
     JButton deconnexion = new JButton("deconnexion");
     
     String id = "";
     
-    JButton achete = new JButton("Acheter");
+    JButton acheter = new JButton("Acheter");
     JButton retirer = new JButton("Retirer");
     
     VoirPeripherique(String id)
     {
+	
 	JPanel header = new JPanel();
 	JPanel centre = new JPanel();
-
+	
 	JPanel content_acc = new JPanel();
 	JPanel content_deco = new JPanel();
 	JPanel content_text = new JPanel();
 	JPanel content_bouton = new JPanel();
 	SqlData r = Client.getInstance().getConnect().request("get_periphId",id);
+
+	SqlData os_req = Client.getInstance().getConnect().request("get_Se");
+	String[] os_noms = new String[os_req.getNbLigne()]; 
+	for(int i = 0; i < os_req.getNbLigne(); i++)
+	    {
+		os_noms[i] = os_req.data[i][1] + "(" + os_req.data[i][2] + ")";
+	    }
+	JList os_list = new JList(os_noms);
+	JScrollPane scroll_os = new JScrollPane(os_list);
+		
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));
 	centre.setLayout(new GridLayout(3, 1));
-
+	
 	this.id = id;
 
 	content_acc.add(accueil);
@@ -52,13 +64,13 @@ public class VoirPeripherique extends JPanel implements MouseListener
 			break;
 		    }
 	    }
-	content_bouton.add(((exist) ? retirer : achete));
-	centre.add(content_bouton);
+	content_bouton.add(((exist) ? retirer : acheter));
 	add("North", header);
 	add("Center", centre);
-	
+	add("South", content_bouton);
+	add("East", scroll_os);
 	retirer.addMouseListener(this);
-	achete.addMouseListener(this);
+	acheter.addMouseListener(this);
 	accueil.addMouseListener(this);
 	deconnexion.addMouseListener(this);
 	
@@ -78,7 +90,7 @@ public class VoirPeripherique extends JPanel implements MouseListener
 	    
 	}
 	if(e.getSource() == acheter){
-	    
+	    SqlData r = Client.getInstance().getConnect().request("add_periphMe");
 	}
     }
 
@@ -86,5 +98,10 @@ public class VoirPeripherique extends JPanel implements MouseListener
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
-   
+    
+    
+    public void valueChanged(ListSelectionEvent evt)
+    {
+	
+    }
 }
