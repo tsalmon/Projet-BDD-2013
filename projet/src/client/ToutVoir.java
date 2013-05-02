@@ -6,7 +6,11 @@ import java.awt.event.*;
 
 public class ToutVoir extends JPanel implements MouseListener
 {    
-    
+
+    JButton all_applis = new JButton("Applications");
+    JButton all_periph = new JButton("Peripheriques");
+    JButton all_OS = new JButton("OS");
+
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
     JTextField recherche = new JTextField(20);
@@ -40,7 +44,7 @@ public class ToutVoir extends JPanel implements MouseListener
     {
 	barre();
 	r.trie(col);
-	centre();
+	centre_applis();
 	setVisible(true);
 
     }
@@ -78,18 +82,28 @@ public class ToutVoir extends JPanel implements MouseListener
 
     private void barre()
     {
+	JPanel barre_sup = new JPanel();
+	JPanel barre_inf = new JPanel();
+
 	setSize(779, 456);
 	setLayout(new BorderLayout());
-	header.setLayout(new GridLayout(1, 3));
-	
+	barre_sup.setLayout(new GridLayout(1, 3));
+	barre_inf.setLayout(new GridLayout(1, 3));
+	header.setLayout(new GridLayout(2,1));
 	conteneur_deco.add(deconnexion);
 	conteneur_acc.add(accueil);
 	conteneur_recherche.add(recherche);
 	
-	header.add(conteneur_deco);
-	header.add(conteneur_recherche);
-	header.add(conteneur_acc);
+	barre_sup.add(conteneur_deco);
+	barre_sup.add(conteneur_recherche);
+	barre_sup.add(conteneur_acc);
 	
+	barre_inf.add(all_applis);
+	barre_inf.add(all_periph);
+	barre_inf.add(all_OS);
+	
+	header.add(barre_sup);
+	header.add(barre_inf);
 	add("North", header);
     }
     
