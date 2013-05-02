@@ -1,3 +1,4 @@
+import java.lang.Math;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -225,7 +226,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == view_all)
 	    {
-		Client.getInstance().getFen().setContentPane(new ToutVoir());
+		Client.getInstance().getFen().setContentPane(new ToutVoir('a'));
 	    }
 	if(e.getSource() == modifier_profil)
 	    {
@@ -233,8 +234,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == view_more_reco)
 	    {
-		System.out.println("view more reco");
-		Client.getInstance().getFen().setContentPane(new ToutVoir(1));
+		Client.getInstance().getFen().setContentPane(new ToutVoir('r'));
 	    }
 	if(e.getSource() == view_periph)
 	    {

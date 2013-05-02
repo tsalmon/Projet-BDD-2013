@@ -18,11 +18,21 @@ public class ToutVoir extends JPanel implements MouseListener
 
     SqlData r = Client.getInstance().getConnect().request("get_app");
     
-    ToutVoir()
+    ToutVoir(char a_voir)
     {
-	barre();
-	centre();
-	setVisible(true);
+	//applications
+	if(a_voir == 'a')
+	    {
+		barre();
+		centre_applis();
+		setVisible(true);
+	    }
+	// recommandées
+	else if(a_voir == 'r')
+	    {
+		barre();
+		
+	    }
     }
     
     // trier en fonction d'un champs
@@ -35,7 +45,7 @@ public class ToutVoir extends JPanel implements MouseListener
 
     }
 
-    private void centre()
+    private void centre_applis()
     {
 	DefaultTableModel dm = new DefaultTableModel()
 	    {
