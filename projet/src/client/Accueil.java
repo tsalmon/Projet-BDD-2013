@@ -105,10 +105,8 @@ public class Accueil extends JPanel implements MouseListener
 	conteneur_est.add(content_tout);
 	conteneur_est.add(content_titre_top);
 	
-	for(int i=0; i < cont_top_app.length ; i++)
+	for(int i = 0; i < cont_top_app.length; i++)
 	    {
-		if(cont_top_app[i] == null)
-		    break;
 		conteneur_est.add(cont_top_app[i]);
 		b_top_app[i].addMouseListener(this);
 	    }
@@ -187,21 +185,28 @@ public class Accueil extends JPanel implements MouseListener
     {
 	SqlData r = Client.getInstance().getConnect().request("get_app");
 	r.trie(r.getNbCol()-2);
-	b_top_app = new JButton[r.getNbLigne()];
-	n_top_app = new String[r.getNbLigne()];
-	id_top_app = new String[r.getNbLigne()];
-	cont_top_app = new JPanel[r.getNbLigne()];
-	for(int i = 0; i < r.getNbLigne(); i++)
+	
+	b_top_app = new JButton[Math.min(r.getNbLigne(),3)];
+	n_top_app = new String[Math.min(r.getNbLigne(),3)];
+	id_top_app = new String[Math.min(r.getNbLigne(),3)];
+	cont_top_app = new JPanel[Math.min(r.getNbLigne(),3)];
+	
+	
+    
+	int k = 0;
+	while(r.data[r.getNbLigne()-1-k][r.getNbCol()-2].equals("Null"))
 	    {
-		b_top_app[i] = new JButton("<html>" + r.data[i][1] + "<br>"+r.data[i][r.getNbCol()-2]+"<html>");
-		n_top_app[i] = r.data[0][1];
-		id_top_app[i] = r.data[0][0];
+		k++;
 	    }
-	for(int i = 0; i < ((r.getNbLigne() < 3) ? r.getNbLigne() : 3); i++)
+	for(int i = k ; i < k+3 && i < r.getNbLigne(); i++)
 	    {
-		cont_top_app[i] = new JPanel();
-		cont_top_app[i].add(b_top_app[i]);
-	    }	
+		b_top_app[i-k] =
+		    new JButton("<html>" + r.data[r.getNbLigne()-1-i][1] + "<br>"+r.data[r.getNbLigne()-1-i][r.getNbCol()-2]+"<html>");
+		n_top_app[i-k] = r.data[r.getNbLigne()-1-i][1];
+		id_top_app[i-k] = r.data[r.getNbLigne()-1-i][0];
+		cont_top_app[i-k] = new JPanel();
+		cont_top_app[i-k].add(b_top_app[i-k]);
+	    }
     }
     
     

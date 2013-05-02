@@ -9,6 +9,8 @@ public class VoirPeripherique extends JPanel implements MouseListener
     JButton accueil = new JButton("accueil");
     JButton deconnexion = new JButton("deconnexion");
     
+    String id = "";
+    
     JButton achete = new JButton("Acheter");
     JButton retirer = new JButton("Retirer");
     
@@ -26,6 +28,8 @@ public class VoirPeripherique extends JPanel implements MouseListener
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));
 	centre.setLayout(new GridLayout(3, 1));
+
+	this.id = id;
 
 	content_acc.add(accueil);
 	content_deco.add(deconnexion);	
@@ -70,6 +74,12 @@ public class VoirPeripherique extends JPanel implements MouseListener
         if(e.getSource() == accueil){
             Client.getInstance().getFen().setContentPane(new Accueil());
         }
+	if(e.getSource() == retirer){
+	    
+	}
+	if(e.getSource() == acheter){
+	    
+	}
     }
 
     public void mouseEntered(MouseEvent e){}
