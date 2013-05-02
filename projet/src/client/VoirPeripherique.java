@@ -11,9 +11,12 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
     JButton deconnexion = new JButton("deconnexion");
     
     String id = "";
-    
+    String os = "";
+
     JButton acheter = new JButton("Acheter");
     JButton retirer = new JButton("Retirer");
+    
+    JList os_list = new JList();
     
     VoirPeripherique(String id)
     {
@@ -33,7 +36,8 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
 	    {
 		os_noms[i] = os_req.data[i][1] + "(" + os_req.data[i][2] + ")";
 	    }
-	JList os_list = new JList(os_noms);
+	os_list = new JList(os_noms);
+	os_list.addListSelectionListener(this);
 	JScrollPane scroll_os = new JScrollPane(os_list);
 		
 	setSize(779, 456);
@@ -58,7 +62,7 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
 	boolean exist = false;
 	for(int i = 0; i < bouton.getNbLigne(); i++)
 	    {
-		if(bouton.data[i][0].equals(id))
+		if(bouton.data[i][3].equals(id))
 		    {
 			exist = true;
 			break;
@@ -87,21 +91,22 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
             Client.getInstance().getFen().setContentPane(new Accueil());
         }
 	if(e.getSource() == retirer){
-	    
+	    SqlData r = Client.getInstance().getConnect().request("del_periphMe",id);
+	    Client.getInstance().getFen().setContentPane(new VoirPeripherique(id));
 	}
 	if(e.getSource() == acheter){
-	    SqlData r = Client.getInstance().getConnect().request("add_periphMe");
+	    SqlData r = Client.getInstance().getConnect().request("add_periphMe", id, os );
+	    Client.getInstance().getFen().setContentPane(new VoirPeripherique(id));
 	}
     }
 
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
-    public void mouseReleased(MouseEvent e){}
-    
+    public void mouseReleased(MouseEvent e){}    
     
     public void valueChanged(ListSelectionEvent evt)
     {
-	
+	os = (1+os_list.getSelectedIndex())+"";
     }
 }
