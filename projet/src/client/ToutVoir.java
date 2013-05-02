@@ -51,7 +51,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	else if(a_voir == 'o')
 	    {
 		select = 2;
-		centre(3);
+		centre(2);
 	    }
 	setVisible(true);
     }
@@ -84,12 +84,24 @@ public class ToutVoir extends JPanel implements MouseListener
     private Object[][] recuperer_periph()
     {
 	SqlData r = Client.getInstance().getConnect().request("get_periph");
-	Object [][] donnees = new Object[r.getNbLigne()][r.getNbCol()];
+	Object [][] donnees = new Object[r.getNbLigne()][3];
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
 		donnees[i][0] = r.data[i][0] + "." + r.data[i][1];//id.nom
 		donnees[i][1] = r.data[i][2]; // type
 		donnees[i][2] = r.data[i][3]; //fabricant
+	    }
+	return donnees;
+    }
+
+    private Object[][] recuperer_os()
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_Se");
+	Object [][] donnees = new Object[r.getNbLigne()][2];
+	for(int i = 0; i < r.getNbLigne(); i++)
+	    {
+		donnees[i][0] = r.data[i][0] + "." + r.data[i][1];//id.nom
+		donnees[i][1] = r.data[i][2]; //fabricant
 	    }
 	return donnees;
     }
@@ -99,14 +111,21 @@ public class ToutVoir extends JPanel implements MouseListener
 	
 	if(i == 0)
 	    {
-		
 		dm.setDataVector(recuperer_applis(), new Object[] { "Noms", "Categories", "Prix", "Mela", "Tags", "Elstar" }); 
 	    }
 	else if(i == 1)
 	    {
-		dm.setDataVector(recuperer_periph(), new Object[] { "Noms", "type", "fabricant"});
+		dm.setDataVector(recuperer_periph(), new Object[] { "Noms", "Type", "Fabricant"});
 	    }
-	
+	else if(i == 2)
+	    {
+		dm.setDataVector(recuperer_os(), new Object[] { "Noms", "Versions"});
+	    }
+	else // error
+	    {
+		System.out.println("Error");
+		System.exit(1);
+	    }
 	return dm;
     }
     
