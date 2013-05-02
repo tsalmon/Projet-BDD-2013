@@ -7,6 +7,8 @@ import java.awt.event.*;
 public class ToutVoir extends JPanel implements MouseListener
 {    
 
+    int select = -1;
+
     JButton all_applis = new JButton("Applications");
     JButton all_periph = new JButton("Peripheriques");
     JButton all_OS = new JButton("OS");
@@ -20,49 +22,55 @@ public class ToutVoir extends JPanel implements MouseListener
     JPanel conteneur_recherche = new JPanel();
     JPanel conteneur_acc = new JPanel();
 
-    SqlData r = Client.getInstance().getConnect().request("get_app");
+    DefaultTableModel dm = new DefaultTableModel()
+	{
+	    
+	    @Override
+		public boolean isCellEditable(int row, int column)
+	    {
+		return false;
+	    }
+	};
     
     ToutVoir(char a_voir)
     {
+	barre();
 	//applications
 	if(a_voir == 'a')
 	    {
-		barre();
-		centre_applis();
-		setVisible(true);
+		select = 0;
+		centre(0);
 	    }
-	// recommandées
-	else if(a_voir == 'r')
+	// peripheriques
+	else if(a_voir == 'p')
 	    {
-		barre();
-		
+		select = 1;
+		centre(1);
 	    }
+	// OS
+	else if(a_voir == 'o')
+	    {
+		select = 2;
+		centre(3);
+	    }
+	setVisible(true);
     }
     
-    // trier en fonction d'un champs
-    ToutVoir(int col)
+    // rechercher recommandées
+    ToutVoir(String[] id)
     {
 	barre();
-	r.trie(col);
-	centre_applis();
 	setVisible(true);
-
+	
     }
 
-    private void centre_applis()
+    private Object[][] recuperer_applis()
     {
-	DefaultTableModel dm = new DefaultTableModel()
-	    {
-		@Override
-		    public boolean isCellEditable(int row, int column)
-		{
-		    return false;
-		}
-	    };
+	SqlData r = Client.getInstance().getConnect().request("get_app");
 	Object [][] donnees = new Object[r.getNbLigne()][6];
 	for(int i = 0; i < r.getNbLigne(); i++)
 	    {
-		donnees[i][0] = r.data[i][0]+"."+r.data[i][1]; // nom
+		donnees[i][0] = r.data[i][0]+"."+r.data[i][1]; // id.nom
 		donnees[i][1] = r.data[i][11]; // categorie
 		donnees[i][2] = (r.data[i][9].equals("Null")) ? "Gratuit" : r.data[i][9]; // prix
 		donnees[i][3] = r.data[i][8]; // mela
@@ -70,8 +78,41 @@ public class ToutVoir extends JPanel implements MouseListener
 		donnees[i][5] = 
 		    (r.data[i][12].equals("Null")) ? "Aucune notes" : r.data[i][12].charAt(0)+ "." + r.data[i][12].charAt(2); //average(elstar)
 	    }
-        dm.setDataVector(donnees, new Object[] { "Noms", "Categories", "Prix", "Mela", "Tags", "Elstar" });
-	JTable table = new JTable(dm);
+	return donnees;
+    }
+    
+    private Object[][] recuperer_periph()
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_periph");
+	Object [][] donnees = new Object[r.getNbLigne()][r.getNbCol()];
+	for(int i = 0; i < r.getNbLigne(); i++)
+	    {
+		donnees[i][0] = r.data[i][0] + "." + r.data[i][1];//id.nom
+		donnees[i][1] = r.data[i][2]; // type
+		donnees[i][2] = r.data[i][3]; //fabricant
+	    }
+	return donnees;
+    }
+    
+    private DefaultTableModel recuperer_info(int i)
+    {
+	
+	if(i == 0)
+	    {
+		
+		dm.setDataVector(recuperer_applis(), new Object[] { "Noms", "Categories", "Prix", "Mela", "Tags", "Elstar" }); 
+	    }
+	else if(i == 1)
+	    {
+		dm.setDataVector(recuperer_periph(), new Object[] { "Noms", "type", "fabricant"});
+	    }
+	
+	return dm;
+    }
+    
+    private void centre(int i)
+    {
+	JTable table = new JTable(recuperer_info(i));
         table.getColumn("Noms").setCellRenderer(new ButtonRenderer());
         table.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
         JScrollPane scroll = new JScrollPane(table);
@@ -79,11 +120,15 @@ public class ToutVoir extends JPanel implements MouseListener
 	deconnexion.addMouseListener(this);
 	accueil.addMouseListener(this);
     }
-
+    
     private void barre()
     {
 	JPanel barre_sup = new JPanel();
 	JPanel barre_inf = new JPanel();
+
+	JPanel content_os = new JPanel();
+	JPanel content_periph = new JPanel();
+	JPanel content_applis = new JPanel();
 
 	setSize(779, 456);
 	setLayout(new BorderLayout());
@@ -98,66 +143,84 @@ public class ToutVoir extends JPanel implements MouseListener
 	barre_sup.add(conteneur_recherche);
 	barre_sup.add(conteneur_acc);
 	
-	barre_inf.add(all_applis);
-	barre_inf.add(all_periph);
-	barre_inf.add(all_OS);
+	content_os.add(all_OS);
+	content_periph.add(all_periph);
+	content_applis.add(all_applis);
+	
+	barre_inf.add(content_applis);
+	barre_inf.add(content_periph);
+	barre_inf.add(content_os);
 	
 	header.add(barre_sup);
 	header.add(barre_inf);
 	add("North", header);
+	
+	all_OS.addMouseListener(this);
+	all_periph.addMouseListener(this);
+	all_applis.addMouseListener(this);
+	
     }
     
     public void mouseClicked(MouseEvent e)
     {
+	
 	if(e.getSource() == deconnexion)
 	    {
 		Client.getInstance().getConnect().dialog("DISCONNECT");
                 Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
 	    }
-	if(e.getSource() == accueil)
-	    {
-		Client.getInstance().getFen().setContentPane(new Accueil());
-	    }
-    }
+	if(e.getSource() == accueil){
+	    Client.getInstance().getFen().setContentPane(new Accueil());
+	}
+	if(e.getSource() == all_applis && select != 0){
+	    Client.getInstance().getFen().setContentPane(new ToutVoir('a'));
+	}
+	if(e.getSource() == all_periph && select != 1){
+	    Client.getInstance().getFen().setContentPane(new ToutVoir('p'));
+	}
+	if(e.getSource() == all_OS && select != 2){
+	    Client.getInstance().getFen().setContentPane(new ToutVoir('o'));
+	}
+    }	
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
     public void mouseReleased(MouseEvent e){}
-
-class ButtonRenderer extends JButton implements TableCellRenderer {
     
-    public ButtonRenderer() {
-        setOpaque(true);
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+	
+	public ButtonRenderer() {
+	    setOpaque(true);
+	}
+	
+	public Component getTableCellRendererComponent(JTable table, Object value,
+						       boolean isSelected, boolean hasFocus, int row, int column) 
+	{
+	    if (isSelected) {
+		setForeground(table.getSelectionForeground());
+		setBackground(table.getSelectionBackground());
+	    } else {
+		setForeground(table.getForeground());
+		setBackground(UIManager.getColor("Button.background"));
+	    }
+	    String s = value.toString();
+	    String retour_str = "";
+	    int k = 0;
+	    while(s.charAt(k++) != '.'){}
+	    while(k < s.length()){ retour_str += s.charAt(k++);}
+	    setText((value == null) ? "" : retour_str);
+	    return this;
+	}
     }
     
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected, boolean hasFocus, int row, int column) 
-    {
-        if (isSelected) {
-            setForeground(table.getSelectionForeground());
-            setBackground(table.getSelectionBackground());
-        } else {
-            setForeground(table.getForeground());
-            setBackground(UIManager.getColor("Button.background"));
-        }
-	String s = value.toString();
-	String retour_str = "";
-	int k = 0;
-	while(s.charAt(k++) != '.'){}
-	while(k < s.length()){ retour_str += s.charAt(k++);}
-	setText((value == null) ? "" : retour_str);
-        return this;
-    }
-}
-
-class ButtonEditor extends DefaultCellEditor {
-    protected JButton button;
-    
-    private String label;
-    
-    private boolean isPushed;
-    
-    public ButtonEditor(JCheckBox checkBox) {
+    class ButtonEditor extends DefaultCellEditor {
+	protected JButton button;
+	
+	private String label;
+	
+	private boolean isPushed;
+	
+	public ButtonEditor(JCheckBox checkBox) {
 	super(checkBox);
         button = new JButton();
         button.setOpaque(true);
@@ -166,53 +229,51 @@ class ButtonEditor extends DefaultCellEditor {
                     fireEditingStopped();
                 }
             });
-    }
-    
-    public Component getTableCellEditorComponent(JTable table, Object value,
-                                                 boolean isSelected, int row, int column) {
-        if (isSelected) {
-            button.setForeground(table.getSelectionForeground());
-            button.setBackground(table.getSelectionBackground());
-        } else {
-            button.setForeground(table.getForeground());
-            button.setBackground(table.getBackground());
-        }
+	}
 	
-	label = (value == null) ? "" : value.toString();
-        button.setText(label);
-        isPushed = true;
-        return button;
-    }
-    
-    public Object getCellEditorValue() {
-        if (isPushed) {
-	    String s = label;
-	    String retour_str = "";
-	    String retour_id = "";
-	    int k = 0;
-	    while(s.charAt(k) != '.'){retour_id += s.charAt(k++);}
-	    k++;
-	    while(k < s.length()){retour_str += s.charAt(k++);}
-	    Client.getInstance().getFen().setContentPane(new Application(retour_id, retour_str));
-        }
-        isPushed = false;
-        return new String(label);
-    }
-    
-    public boolean stopCellEditing() {
-        isPushed = false;
-        return super.stopCellEditing();
-    }
-    
-    protected void fireEditingStopped() {
-        super.fireEditingStopped();
-    }
-
-    public boolean isCellEditable()
-    {
-	return false;
-    }
-    
-}
-
+	public Component getTableCellEditorComponent(JTable table, Object value,
+						     boolean isSelected, int row, int column) {
+	    if (isSelected) {
+		button.setForeground(table.getSelectionForeground());
+		button.setBackground(table.getSelectionBackground());
+	    } else {
+		button.setForeground(table.getForeground());
+		button.setBackground(table.getBackground());
+	    }
+	    
+	    label = (value == null) ? "" : value.toString();
+	    button.setText(label);
+	    isPushed = true;
+	    return button;
+	}
+	
+	public Object getCellEditorValue() {
+	    if (isPushed) {
+		String s = label;
+		String retour_str = "";
+		String retour_id = "";
+		int k = 0;
+		while(s.charAt(k) != '.'){retour_id += s.charAt(k++);}
+		k++;
+		while(k < s.length()){retour_str += s.charAt(k++);}
+		Client.getInstance().getFen().setContentPane(new Application(retour_id, retour_str));
+	    }
+	    isPushed = false;
+	    return new String(label);
+	}
+	
+	public boolean stopCellEditing() {
+	    isPushed = false;
+	    return super.stopCellEditing();
+	}
+	
+	protected void fireEditingStopped() {
+	    super.fireEditingStopped();
+	}
+	
+	public boolean isCellEditable()
+	{
+	    return false;
+	}
+    }   
 }
