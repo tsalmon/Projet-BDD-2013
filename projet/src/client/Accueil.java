@@ -234,8 +234,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == view_more_reco)
 	    {
-		System.out.println("VIEW_MORE_RECO: a modifier");
-		Client.getInstance().getFen().setContentPane(new ToutVoir('a'));
+		Client.getInstance().getFen().setContentPane(new ToutVoir('r'));
 	    }
 	if(e.getSource() == view_periph)
 	    {

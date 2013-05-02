@@ -198,12 +198,10 @@ public class ToutVoir extends JPanel implements MouseListener
     
     public void mouseClicked(MouseEvent e)
     {
-	
-	if(e.getSource() == deconnexion)
-	    {
-		Client.getInstance().getConnect().dialog("DISCONNECT");
-                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
-	    }
+	if(e.getSource() == deconnexion){
+	    Client.getInstance().getConnect().dialog("DISCONNECT");
+	    Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	}
 	if(e.getSource() == accueil){
 	    Client.getInstance().getFen().setContentPane(new Accueil());
 	}
@@ -216,7 +214,8 @@ public class ToutVoir extends JPanel implements MouseListener
 	if(e.getSource() == all_OS && select != 2){
 	    Client.getInstance().getFen().setContentPane(new ToutVoir('o'));
 	}
-    }	
+    }
+    
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
@@ -299,9 +298,9 @@ public class ToutVoir extends JPanel implements MouseListener
 		    {
 			Client.getInstance().getFen().setContentPane(new Application(retour_id, retour_str));
 		    }
-		else
+		else if(s.charAt(0) == '1')
 		    {
-			JOptionPane.showMessageDialog(button, label + ": Ouch !");
+			Client.getInstance().getFen().setContentPane(new VoirPeripherique(retour_id));
 		    }
 	    }
 	    isPushed = false;
