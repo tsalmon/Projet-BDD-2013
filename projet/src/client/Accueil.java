@@ -237,7 +237,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == modifier_profil)
 	    {
-		System.out.println("modifier");
+		Client.getInstance().getFen().setContentPane(new ModifierCompte());
 	    }
 	if(e.getSource() == view_more_reco)
 	    {
