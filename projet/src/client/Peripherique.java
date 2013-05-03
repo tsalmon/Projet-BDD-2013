@@ -19,11 +19,11 @@ import java.awt.Dimension;
 public class Peripherique extends JPanel implements MouseListener
 {
 
-    JButton[] desinst_periph;
-    JButton[] peripheriques;
+    JButton[] desinst_periph = new JButton[1];
+    JButton[] peripheriques = new JButton[1];
     JButton[] applications = new JButton[1];
-    JButton[] desinst_appli;
-    JButton[] droits;
+    JButton[] desinst_appli =  new JButton[1];
+    JButton[] droits = new JButton[1];
     JPanel[] conteneur_periph;
     JPanel[] conteneur_appl;
     String[] id_periph;
@@ -63,7 +63,7 @@ public class Peripherique extends JPanel implements MouseListener
 	header.add(conteneur_deco);
 	header.add(conteneur_search);
 	header.add(conteneur_acc);
-
+	
 	liste_peripherique();
 	
 	center.add(scroll_gauche);
@@ -110,10 +110,12 @@ public class Peripherique extends JPanel implements MouseListener
 			desinst_appli[i] = new JButton("DEL");
 			droits[i] = new JButton("Droits");
 			conteneur_appl[i] = new JPanel();
+			conteneur_appl[i].add(desinst_appli[i]);
 			conteneur_appl[i].add(applications[i]);
-			droite.add(desinst_appli[i]);
+			conteneur_appl[i].add(droits[i]);
 			droite.add(conteneur_appl[i]);
-			droite.add(droits[i]);
+			droits[i].addMouseListener(this);
+			desinst_appli[i].addMouseListener(this);
 			applications[i].addMouseListener(this);
 		    }
 		
@@ -194,6 +196,7 @@ public class Peripherique extends JPanel implements MouseListener
 	    {
 		if(e.getSource() == droits[i])
 		    {
+			System.out.println("toto");
 			Client.getInstance().getFen().setContentPane(new Droits(id_appli[i]));
 		    }
 	    } 
@@ -203,7 +206,7 @@ public class Peripherique extends JPanel implements MouseListener
     {
 	for(int i = 0; i < desinst_appli.length; i++)
 	    {
-		if(e.getSource() == desinst_periph[i])
+		if(e.getSource() == desinst_appli[i])
 		    {
 			int reponse = 
 			    JOptionPane.showConfirmDialog(this, 

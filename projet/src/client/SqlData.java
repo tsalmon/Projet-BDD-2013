@@ -67,4 +67,24 @@ class SqlData { //stock juste les donnes dune requete
 		});
 	}
     }
+
+    public void read_sqldata()
+    {
+        for(int i = 0; i < getNbCol(); i++)
+            {
+                System.out.print(nomCol[i]);
+            }
+        System.out.println("");
+	for(int i = 0; i < getNbLigne(); i++)
+            {
+                for(int j = 0; j < getNbCol(); j++)
+                    {
+                        System.out.print(data[i][j] + " \t");
+                    }
+		System.out.println("");
+	    }
+    }
+
+
+
 }
