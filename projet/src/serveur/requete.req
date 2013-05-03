@@ -100,13 +100,13 @@ get_periph;retourne la liste de tout les peripheriques;;1;SELECT p.ID, p.nom, t.
 get_periphFabricantType;retourne la liste de tout les peripheriques en fontion du fabricant et du type(fabricant.id,type.id);1 1;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE f.ID=? AND t.ID=?
 #
 # add_periphMe: ajoute un nouveau peripherique a un client
-add_periphMe;ajoute un nouveau peripherique a un client(peripherique.id, systeme_exploitation.id);5 1 1 6;1;INSERT INTO peripheriques_client('',?,?,?,?)
+add_periphMe;ajoute un nouveau peripherique a un client(peripherique.id, systeme_exploitation.id);5 1 1 6;1;INSERT INTO peripheriques_client (client,peripherique,systeme_exploitation,date) VALUES(?,?,?,?)
 #
 # del_periphMe: enleve un peripherique d'un client
 del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripheriques_client WHERE client=? AND ID=?
 #
 # get_periphMe
-get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
+get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.peripheriques,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
 #
 # get_periphId
 get_periphId; retourne les information d'un peripherique;1;1;SELECT p.nom,t.type,f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE p.ID=?
@@ -118,7 +118,7 @@ get_categorie;retourne la liste des des categories d'application;;1;SELECT * FRO
 get_Se;retourne les systemes d'exploitation disponible;;1;SELECT * FROM systeme_exploitation 
 #
 # get_SeNom
-get_SeNom;retourne les systemes d'exploitation disponible;2;1;SELECT * FROM systeme_exploitation WHERE nom LIKE '%?%' 
+get_SeNom;retourne les systemes d'exploitation disponible;2;1;SELECT * FROM systeme_exploitation WHERE nom LIKE ? 
 #
 #
 # get_nbApp
@@ -131,25 +131,25 @@ get_appId;retourne les info d'une application;1;1;SELECT a.ID,a.nom,a.version,a.
 get_app;retourne la liste des applications;;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application GROUP BY a.ID
 #
 # get_appSe retourne toute les applications pour un SE donne
-get_appSe;retourne la liste des applications en fonction de (systeme_exploitation.id);1;1;SELECT a.ID,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=?
+get_appSe;retourne la liste des applications en fonction de (systeme_exploitation.id);1;1;SELECT a.ID,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE s.systeme_exploitation=? GROUP BY a.ID
 #
 # get_appCategorie: retourne les application appartenant a une categorie
-get_appCategorie;retourne la liste des applications en fonction de (categorie.id);1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE categorie=?
+get_appCategorie;retourne la liste des applications en fonction de (categorie.id);1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE categorie=? GROUP BY a.ID
 #
 # get_appTag: retourne les application contenant le tag  
-get_appTag;retourne la liste des applications en fonction de (tag);2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE tags LIKE '%?%' OR nom LIKE '%?%'
+get_appTag;retourne la liste des applications en fonction de (tag);2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE tags LIKE ? OR nom LIKE ? GROUP BY a.ID
 # 
 # get_appSeCategorie: retourne les application pour un SE donne et appartenent a une categorie 
-get_appSeCategorie;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id);1 1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID WHERE s.systeme_exploitation=? AND categorie=?  
+get_appSeCategorie;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id);1 1;1;SELECT a.ID,a.version,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE s.systeme_exploitation=? AND a.categorie=? GROUP BY a.ID  
 #
 # get_appSeTag: retourne les application pour un SE donne et contenant le tag
-get_appSeTag;retourne la liste des applications en fonction de (systeme_exploitation.id,tag);1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND tags LIKE '%?%' OR nom LIKE '%?%' 
+get_appSeTag;retourne la liste des applications en fonction de (systeme_exploitation.id,tag);1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE s.systeme_exploitation=? AND (a.tags LIKE ? OR a.nom LIKE ?) GROUP BY a.ID 
 #
 # get_appCategorieTag: retourne les application appartenent a une categorie et contenant le tag
-get_appCategorieTag;retourne la liste des applications en fonction de (categorie.id,tag);1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE categorie=? AND tags LIKE '%?%' OR nom LIKE '%?%' 
+get_appCategorieTag;retourne la liste des applications en fonction de (categorie.id,tag);1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE a.categorie=? AND (a.tags LIKE ? OR a.nom LIKE ?) GROUP BY a.ID 
 #
 # get_appSeCategorieTag: retourne les application pour un SE donne et appartenent a une categorie et contenant le tag
-get_appSeCategorieTag;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id,tag);1 1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  WHERE s.systeme_exploitation=? AND categorie=? AND tags LIKE '%?%' OR nom LIKE '%?%' 
+get_appSeCategorieTag;retourne la liste des applications en fonction de (systeme_exploitation.id,categorie.id,tag);1 1 2 2;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application a.ID WHERE s.systeme_exploitation=? AND a.categorie=? AND (a.tags LIKE ? OR a.nom LIKE ?) GROUP BY a.ID
 #
 # get_appRecomande: retourne les application recomandé par les autre utilisateur
 get_appRecomande;retourne une liste applications que les utilisateurs qui ont aimes les meme applications que vous, vous recomande;5;1;SELECT DISTINCT application FROM avis WHERE  elstar>4 AND client IN (SELECT client FROM avis WHERE elstar >4 AND application IN(SELECT application FROM avis WHERE client=? AND elstar>4))
