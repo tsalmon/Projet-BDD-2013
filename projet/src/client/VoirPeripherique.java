@@ -49,7 +49,9 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
 
 	content_acc.add(accueil);
 	content_deco.add(deconnexion);	
-	content_text.add(new JTextField(20));
+	JTextField recherche = new JTextField(20);
+	recherche.addKeyListener(new ClavierListener());
+	content_text.add(recherche);
 	
 	header.add(content_deco);
 	header.add(content_text);

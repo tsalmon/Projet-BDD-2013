@@ -57,7 +57,9 @@ public class Application extends JPanel implements MouseListener
 	conteneur_deconnexion.add(deconnexion);
 	conteneur_accueil.add(accueil);
 	header.add("West", new JPanel().add(conteneur_deconnexion));
-	header.add("Center", new JPanel().add(new JTextField(10)));
+	JTextField recherche = new JTextField(20);
+	recherche.addKeyListener(new ClavierListener());
+	header.add("Center", new JPanel().add(recherche));
 	header.add("East",new JPanel().add(conteneur_accueil));
 	header.add("South", nom);
 	

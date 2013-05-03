@@ -163,7 +163,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	JPanel content_os = new JPanel();
 	JPanel content_periph = new JPanel();
 	JPanel content_applis = new JPanel();
-
+	
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	barre_sup.setLayout(new GridLayout(1, 3));
@@ -188,7 +188,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	header.add(barre_sup);
 	header.add(barre_inf);
 	add("North", header);
-	
+	recherche.addKeyListener(new ClavierListener());
 	all_OS.addMouseListener(this);
 	all_periph.addMouseListener(this);
 	all_applis.addMouseListener(this);

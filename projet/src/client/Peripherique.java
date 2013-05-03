@@ -45,13 +45,13 @@ public class Peripherique extends JPanel implements MouseListener
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
     JTextField cherche = new JTextField(20);
-
+   
     JScrollPane scroll_gauche = new JScrollPane(new JLabel("Liste peripheriques"));
     JScrollPane scroll_droite = new JScrollPane(new JLabel("Liste applications"));
 
     Peripherique()
     {
-    	
+	cherche.addKeyListener(new ClavierListener());
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	header.setLayout(new GridLayout(1, 3));

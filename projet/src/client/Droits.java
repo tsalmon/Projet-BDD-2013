@@ -48,7 +48,9 @@ public class Droits extends JPanel implements MouseListener
 	JPanel content_text = new JPanel();
 	JPanel content_deco = new JPanel();
 	content_acc.add(accueil);
-	content_text.add(new JTextField(20));
+	JTextField recherche = new JTextField(20);
+	recherche.addKeyListener(new ClavierListener());
+	content_text.add(recherche);
 	content_deco.add(deconnexion);
 	header.add(content_deco);
 	header.add(content_text);

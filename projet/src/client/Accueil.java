@@ -47,7 +47,7 @@ public class Accueil extends JPanel implements MouseListener
     JButton reco_app1, reco_app2, reco_app3;
     
     //text
-    JTextField recherche = new JTextField(30);
+    private JTextField recherche;
     
     //Applications
     JButton[] b_reco_app;
@@ -70,7 +70,9 @@ public class Accueil extends JPanel implements MouseListener
 	conteneur_ouest.setLayout(new GridLayout(6,1));
 	
 	content_deco.add(deconnexion) ;
+	recherche = new JTextField(20);
 	content_recherche.add(recherche); 
+	recherche.addKeyListener(new ClavierListener());
 	content_tout.add(view_all);
 	content_titre_bienvenue.add(new JLabel("Bienvenue")); 
 	content_titre_reco.add(new JLabel("Applications recommandées"));
