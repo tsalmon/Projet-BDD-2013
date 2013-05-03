@@ -8,7 +8,7 @@ class ClavierListener implements KeyListener
     {
 	if(event.getKeyCode() == 10)
 	    {
-		Client.getInstance().getFen().setContentPane(new Recherche(expr));
+		Client.getInstance().getFen().setContentPane(new Recherche(expr, 0));
 	    }
 	else if(event.getKeyCode() == 8 && expr.length() > 0)
 	    {
