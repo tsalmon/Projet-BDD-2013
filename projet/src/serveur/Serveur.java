@@ -1,4 +1,4 @@
-package serveur;
+//package serveur;
 
 import java.net.*;
 import java.io.*;
@@ -12,6 +12,7 @@ public class Serveur {
   public static LinkedList<Requete> requetes = new LinkedList<Requete>();
 
   public static void main(String []arguments) {
+      System.out.println("toto");
       try {
 	  
 			// chargement des driver pour mysql
