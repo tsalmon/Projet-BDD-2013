@@ -16,6 +16,7 @@ public class Recherche extends JPanel
 {
     Recherche(String nom_application)
     {
-	
+	setSize(779, 456);
+	setVisible(true);
     }
 }

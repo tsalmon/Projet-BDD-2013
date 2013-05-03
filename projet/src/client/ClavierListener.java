@@ -1,14 +1,22 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.lang.String;
 class ClavierListener implements KeyListener
 {
+    String expr = "";
     public void keyPressed(KeyEvent event)
     {
-	System.out.println("pressed : " + event.getKeyCode() + "(" + event.getKeyChar() + ")");
 	if(event.getKeyCode() == 10)
 	    {
-		System.out.println("go");
+		Client.getInstance().getFen().setContentPane(new Recherche(expr));
+	    }
+	else if(event.getKeyCode() == 8 && expr.length() > 0)
+	    {
+		expr = expr.substring(0, expr.length() - 1);
+	    }
+	else
+	    {
+		expr += event.getKeyChar();
 	    }
     }
     public void keyReleased(KeyEvent e){}
