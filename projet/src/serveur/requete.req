@@ -96,6 +96,9 @@ get_periphType;retourne la liste des type de peripherique;;1;SELECT * FROM perip
 # get_periph
 get_periph;retourne la liste de tout les peripheriques;;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant
 #
+# get_periphNom	
+get_periphNom;retourne la liste de tout les peripheriques dont le nom contient(chaine);2;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE p.nom LIKE ?
+#
 #get_periphFabricantType
 get_periphFabricantType;retourne la liste de tout les peripheriques en fontion du fabricant et du type(fabricant.id,type.id);1 1;1;SELECT p.ID, p.nom, t.type, f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE f.ID=? AND t.ID=?
 #
