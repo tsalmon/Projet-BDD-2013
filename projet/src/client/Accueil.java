@@ -45,7 +45,7 @@ public class Accueil extends JPanel implements MouseListener
     //JButton view_more_top = new JButton("Voir plus");
     JButton view_periph = new JButton("Voir périphériques");
     JButton reco_app1, reco_app2, reco_app3;
-    
+    JButton developpeur = new JButton("Bienvenue");
     //text
     private JTextField recherche;
     
@@ -74,7 +74,7 @@ public class Accueil extends JPanel implements MouseListener
 	content_recherche.add(recherche); 
 	recherche.addKeyListener(new ClavierListener());
 	content_tout.add(view_all);
-	content_titre_bienvenue.add(new JLabel("Bienvenue")); 
+	content_titre_bienvenue.add(developpeur); 
 	content_titre_reco.add(new JLabel("Applications recommandées"));
 	content_titre_top.add(new JLabel("Top Applications"));
 	//need req
@@ -118,6 +118,7 @@ public class Accueil extends JPanel implements MouseListener
 	view_all.addMouseListener(this);
 	modifier_profil.addMouseListener(this);
 	view_more_reco.addMouseListener(this);
+	developpeur.addMouseListener(this);
 	//view_more_top.addMouseListener(this);
 	view_periph.addMouseListener(this);
 
@@ -230,6 +231,10 @@ public class Accueil extends JPanel implements MouseListener
 	    {
 		Client.getInstance().getConnect().dialog("DISCONNECT");
 		Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	    }
+	if(e.getSource() == developpeur)
+	    {
+		Client.getInstance().getFen().setContentPane(new Developpeur());		
 	    }
 	if(e.getSource() == view_all)
 	    {
