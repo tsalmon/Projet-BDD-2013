@@ -12,7 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-
+import javax.swing.JComboBox;
 public class Developpeur extends JPanel implements MouseListener
 {
     SqlData r = Client.getInstance().getConnect().request("get_appMe");
@@ -27,10 +27,18 @@ public class Developpeur extends JPanel implements MouseListener
     JButton accueil = new JButton("Accueil");
     JButton deconnexion = new JButton("Déconnexion");
     JButton new_app = new JButton("Nouvelle application");
-    
+    JButton[] applis = new JButton[1];
+    JButton[] maj = new JButton[1];
+    String[] id_applis = new String[1];
     JButton ok = new JButton("OK");
-    JButton retour = new JButton("Retour");
-    
+
+    JTextField txt_nom = new JTextField(10);
+    JTextField txt_version = new JTextField(10);
+    JComboBox list_categorie;
+    JTextField txt_tag = new JTextField(10);
+    JTextField txt_prix = new JTextField(10);
+    JTextField txt_mela = new JTextField(10);
+
     Developpeur(int n)
     {
         setSize(779, 456);
@@ -50,6 +58,72 @@ public class Developpeur extends JPanel implements MouseListener
     public void nouvelle_application()
     {
 	
+	SqlData c = Client.getInstance().getConnect().request("get_categorie");
+	String[] cate = new String[c.getNbLigne()];
+	for(int i = 0 ; i < c.getNbLigne(); i++)
+	    {
+		cate[i] = c.data[i][1];
+	    }
+	list_categorie = new JComboBox(cate);
+	/* INIT */
+	JPanel content_all = new JPanel();
+	JPanel table = new JPanel();
+	
+	JPanel content_nom = new JPanel(); 
+	JPanel content_version = new JPanel(); 
+	JPanel content_tag = new JPanel(); 
+	JPanel content_prix = new JPanel(); 
+	JPanel content_mela = new JPanel(); 
+	JPanel content_categorie = new JPanel();
+	JPanel content_list_categorie = new JPanel();
+	JPanel content_txt_nom = new JPanel();
+	JPanel content_txt_version = new JPanel();
+	JPanel content_txt_tag = new JPanel();
+	JPanel content_txt_prix = new JPanel();
+	JPanel content_txt_mela = new JPanel();
+
+	table.setLayout(new GridLayout(6, 2));
+	
+	/* ADD */
+	//add nom 
+	content_nom.add(new JLabel("Nom: "));
+	table.add(content_nom);
+	content_txt_nom.add(txt_nom);
+	table.add(content_txt_nom);
+
+	//add version
+	content_version.add(new JLabel("Version: "));
+	table.add(content_version);
+	content_txt_version.add(txt_version);
+	table.add(content_txt_version);
+	
+	//add tag
+	content_tag.add(new JLabel("Tag: "));
+	table.add(content_tag);
+	content_txt_tag.add(txt_tag);
+	table.add(content_txt_tag);
+
+	//add categorie
+	content_categorie.add(new JLabel("Categorie:"));
+	table.add(content_categorie);
+	content_list_categorie.add(list_categorie);
+	table.add(content_list_categorie);
+
+	//add prix
+	content_prix.add(new JLabel("Prix: "));
+	table.add(content_prix);
+	content_txt_prix.add(txt_prix);
+	table.add(content_txt_prix);
+	
+	//add mela
+	content_mela.add(new JLabel("Nombre de points mela:"));
+	table.add(content_mela);
+	content_txt_mela.add(txt_mela);
+	table.add(content_txt_mela);
+
+	//grand final :
+	content_all.add(table);
+	centre = new JScrollPane(content_all);
     }
 
 
@@ -95,10 +169,47 @@ public class Developpeur extends JPanel implements MouseListener
         accueil.addMouseListener(this);
         deconnexion.addMouseListener(this);
     }
-
+    
+    public void affiche_applis()
+    {
+	JPanel grille = new JPanel();
+	JPanel[] tab = new JPanel[r.getNbLigne()];
+	grille.setLayout(new GridLayout(r.getNbLigne(), 1));
+	id_applis = new String[r.getNbLigne()];
+	applis = new JButton[r.getNbLigne()];
+	maj = new JButton[r.getNbLigne()];
+	for(int i = 0 ; i < r.getNbLigne(); i++)
+	    {
+		id_applis[i] = r.data[i][0];
+		applis[i] = new JButton("<html>" + r.data[i][1] + " (" + r.data[i][2] + ")<br><i>" 
+					+ r.data[i][5]+"</i><b> mela: "+r.data[i][8]+"</b></html>" );
+		applis[i].addMouseListener(this);	
+		maj[i] = new JButton("MAJ");
+		maj[i].addMouseListener(this);
+		tab[i] = new JPanel();
+		tab[i].setLayout(new GridLayout(1, 2));
+		JPanel conteneur_app = new JPanel();
+		JPanel conteneur_maj = new JPanel();
+		
+		conteneur_app.add(applis[i]);
+		conteneur_maj.add(maj[i]);
+		tab[i].add(conteneur_app);
+		tab[i].add(conteneur_maj);
+		grille.add(tab[i]);
+	    }
+	centre = new JScrollPane(grille);
+    }
+    
     public void addcentre(int n)
     {
-	
+	if(n == 0)
+	    {
+		affiche_applis();
+	    }
+	else
+	    {
+		nouvelle_application();
+	    }
     }
 
     public void addsud()
@@ -106,6 +217,8 @@ public class Developpeur extends JPanel implements MouseListener
 	sud.setLayout(new BorderLayout());
 	sud.add("West", ok);
 	sud.add("East", retour);
+	ok.addMouseListener(this);
+	retour.addMouseListener(this);
     }
     
     public void mouseClicked(MouseEvent e)
@@ -125,13 +238,37 @@ public class Developpeur extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == ok)
 	    {
-		
+		System.out.println("ok");
+		SqlData r = Client.getInstance().getConnect().request("add_app", 
+								      txt_nom.getText(), 
+								      txt_version.getText(),
+								      ""+(list_categorie.getSelectedIndex() + 1),
+								      txt_tag.getText(),
+								      txt_prix.getText(),
+								      txt_mela.getText()
+								      );
 		Client.getInstance().getFen().setContentPane(new Developpeur(0));
 	    }
 	if(e.getSource() == retour)
 	    {
 		Client.getInstance().getFen().setContentPane(new Developpeur(0));
 	    }
+	for(int i = 0 ; i < applis.length; i++)
+	    {
+		if(e.getSource() == applis[i])
+		    {
+			Client.getInstance().getFen().setContentPane(new Application(id_applis[i], applis[i].getText()));
+		    }
+	    }
+	for(int i = 0 ; i < applis.length; i++)
+	    {
+		if(e.getSource() == maj[i])
+		    {
+			System.out.println(id_applis[i] + "a mettre a jour");
+			//Client.getInstance().getFen().setContentPane(new Application(id_applis[i], applis[i].getText()));
+		    }
+	    }
+ 
     }
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
