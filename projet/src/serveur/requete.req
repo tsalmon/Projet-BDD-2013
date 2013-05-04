@@ -116,7 +116,7 @@ del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripher
 get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.peripherique,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
 #
 # get_periphMeSe
-get_periphMeSe;retourne la liste de vos peripherique compatible avec une applicatioon(application.id);5 1;1;SELECT c.ID,c.Systeme_exploitation,c.peripherique,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=? AND Systeme_exploitation=?
+get_periphMeSe;retourne la liste de vos peripherique compatible avec un systeme d'exploitation(systeme_exploitation.id);5 1;1;SELECT c.ID,c.Systeme_exploitation,c.peripherique,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=? AND Systeme_exploitation=?
 #
 # get_periphId
 get_periphId; retourne les information d'un peripherique;1;1;SELECT p.nom,t.type,f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE p.ID=?
