@@ -33,6 +33,8 @@ public class Application extends JPanel implements MouseListener
     JPanel nom = new JPanel();
     JPanel avis = new JPanel();
 
+    String id = "";
+
     JButton acheter = new JButton("Acheter");
     JButton gratuit = new JButton("Gratuit");
     JButton deconnexion = new JButton("deconnexion");
@@ -41,6 +43,8 @@ public class Application extends JPanel implements MouseListener
     Application(String id, String nom_application)
     {
 	setSize(x, y);
+
+	this.id = id;
 	
 	setLayout(new BorderLayout());
 	conteneur_ouest.setLayout(new BorderLayout());
@@ -113,11 +117,11 @@ public class Application extends JPanel implements MouseListener
 		list_os.add(new JLabel(os.data[i][1]));
 	    }
 	infos.add(list_os);
-
-	if(r.data[0][6].equals("1"))
+	if(r.data[0][6].equals("true"))
 	    {
-		content_take.add(new JLabel("prix:" + r.data[0][6]));
-		
+		acheter = new JButton("Acheter (" + r.data[0][9] +")");
+		content_take.add(acheter);
+		acheter.addMouseListener(this);
 	    }
 	else
 	    {
@@ -158,11 +162,11 @@ public class Application extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == gratuit)
 	    {
-		Client.getInstance().getFen().setContentPane(new Achat());
+		Client.getInstance().getFen().setContentPane(new Achat(id, false));
 	    }
 	if(e.getSource() == acheter)
 	    {
-		Client.getInstance().getFen().setContentPane(new Achat());
+		Client.getInstance().getFen().setContentPane(new Achat(id, true));
 	    }
     }
     
