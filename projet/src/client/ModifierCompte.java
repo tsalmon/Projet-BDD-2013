@@ -60,11 +60,14 @@ public class ModifierCompte extends JPanel implements MouseListener
 
     public void addcentre()
     {
-	centre.setLayout(new GridLayout(3, 1));
+	//SqlData paye = Client.getInstance().getConnect().request("get_infoMe");
+	paye.read_sqldata();
+	JPanel grille = new JPanel();
+	grille.setLayout(new GridLayout(3, 1));
 	JPanel content_mail = new JPanel();
 	JPanel content_mdp = new JPanel();
 	JPanel content_payement = new JPanel();
-	
+	centre = new JScrollPane(grille);
     }
     
     public void addsud()
@@ -77,8 +80,20 @@ public class ModifierCompte extends JPanel implements MouseListener
 	sud.add(content_ok);
 	sud.add(content_ann);
     }
-
-    public void mouseClicked(MouseEvent e){}
+    
+    public void mouseClicked(MouseEvent e)
+    {
+	if(e.getSource() == accueil)
+	    {
+                Client.getInstance().getFen().setContentPane(new Accueil());
+	    }
+	if(e.getSource() == deconnexion)
+	    {
+		Client.getInstance().getConnect().dialog("DISCONNECT");
+                Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	    }
+	
+    }
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
