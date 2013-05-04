@@ -33,6 +33,8 @@ public class Application extends JPanel implements MouseListener
     JPanel nom = new JPanel();
     JPanel avis = new JPanel();
 
+    JButton acheter = new JButton("Acheter");
+    JButton gratuit = new JButton("Gratuit");
     JButton deconnexion = new JButton("deconnexion");
     JButton accueil = new JButton("Accueil");
 
@@ -103,21 +105,26 @@ public class Application extends JPanel implements MouseListener
 	infos.add(new JLabel("Os:"));
 	SqlData os = Client.getInstance().getConnect().request("get_SeApp",id);
 	JPanel list_os = new JPanel();
+	JPanel content_take = new JPanel();
+
 	list_os.setLayout(new GridLayout(os.getNbLigne(), 1));
 	for(int i = 0;i < os.getNbLigne(); i++)
 	    {
 		list_os.add(new JLabel(os.data[i][1]));
 	    }
 	infos.add(list_os);
+
 	if(r.data[0][6].equals("1"))
 	    {
-		infos.add(new JLabel("prix:" + r.data[0][6]));
+		content_take.add(new JLabel("prix:" + r.data[0][6]));
 		
 	    }
 	else
 	    {
-		infos.add(new JLabel("Gratuit"));
+		content_take.add(gratuit);
+		gratuit.addMouseListener(this);
 	    }
+	infos.add(content_take);
     }
 
     public void req_avis(String id)
@@ -148,6 +155,14 @@ public class Application extends JPanel implements MouseListener
 	    {
 		Client.getInstance().getConnect().dialog("DISCONNECT");
                 Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	    }
+	if(e.getSource() == gratuit)
+	    {
+		Client.getInstance().getFen().setContentPane(new Achat());
+	    }
+	if(e.getSource() == acheter)
+	    {
+		Client.getInstance().getFen().setContentPane(new Achat());
 	    }
     }
     
