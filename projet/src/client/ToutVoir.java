@@ -26,7 +26,6 @@ public class ToutVoir extends JPanel implements MouseListener
     DefaultTableModel boutons = new DefaultTableModel();
     DefaultTableModel dm = new DefaultTableModel()
 	{
-	    
 	    @Override
 		public boolean isCellEditable(int row, int column)
 	    {
