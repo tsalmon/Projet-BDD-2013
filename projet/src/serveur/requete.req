@@ -84,6 +84,10 @@ get_paiementMe;retourne vos info de paiement;5;1;SELECT * FROM paiement WHERE cl
 # set_paiementMe: met a jour les information de paiement d'un client
 set_paiementMe;modifie vos donnees de paiementcd ou paypal (cb=true,numero,expiration[cb-uniquement]);3 1 4 5;1;UPDATE paiement SET type=? numero=? expiration=? WHERE ID=?
 #
+# add_developpeurMe : 
+add_developpeurMe; pour demander a etre developpeur;5;1;INSERT INTO developpeur_attente (client) (SELECT ID FROM client WHERE ID=? AND developpeur=false)
+#
+#
 #
 #
 #
