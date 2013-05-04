@@ -14,6 +14,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JTextArea;
+import javax.swing.JComboBox;
 
 public class Application extends JPanel implements MouseListener
 {
@@ -27,6 +29,8 @@ public class Application extends JPanel implements MouseListener
     JPanel conteneur_deconnexion = new JPanel();
     JPanel conteneur_accueil = new JPanel();
 
+    JComboBox elstar = new JComboBox(new String[] {"0", "1", "2", "3", "4", "5"});
+    
     JPanel commentaires = new JPanel();
     JPanel header = new JPanel();
     JPanel infos = new JPanel();
@@ -42,6 +46,9 @@ public class Application extends JPanel implements MouseListener
     JButton gratuit = new JButton("Gratuit");
     JButton deconnexion = new JButton("deconnexion");
     JButton accueil = new JButton("Accueil");
+    
+    JButton valid_avis = new JButton("Envoyer");
+    JTextArea txt_avis = new JTextArea(5, 20);
 
     Application(String id, String nom_application)
     {
@@ -53,7 +60,7 @@ public class Application extends JPanel implements MouseListener
 	conteneur_ouest.setLayout(new BorderLayout());
 	conteneur_centre.setLayout(new BorderLayout());
 	header.setLayout(new BorderLayout());
-	infos.setLayout(new GridLayout(4,1));
+	infos.setLayout(new GridLayout(6,1));
 	nom.setLayout(new BorderLayout());
 
 	req_infos(id);
@@ -79,14 +86,14 @@ public class Application extends JPanel implements MouseListener
 		    return new Dimension(200, 200);
 		}
 	    };
-
+	
 	deconnexion.addMouseListener(this);
 	accueil.addMouseListener(this);
 	add("North", header);
 	add("West", infos);
 	add("Center", sp);
     }
-
+    
     public void req_infos(String id)
     {
 	SqlData r = Client.getInstance().getConnect().request("get_appId",id);
@@ -97,7 +104,7 @@ public class Application extends JPanel implements MouseListener
 	os_compatible = new String[os.getNbLigne()];
 	JPanel list_os = new JPanel();
 	JPanel content_take = new JPanel();
-
+	
 	list_os.setLayout(new GridLayout(os.getNbLigne(), 1));
 	for(int i = 0;i < os.getNbLigne(); i++)
 	    {
@@ -118,14 +125,46 @@ public class Application extends JPanel implements MouseListener
 		gratuit.addMouseListener(this);
 	    }
 	infos.add(content_take);
+	if(possede())
+	    {
+		JPanel content_avis_appl = new JPanel();
+		content_avis_appl.setLayout(new BorderLayout());
+		JPanel content_valid = new JPanel();
+		JPanel content_elstar = new JPanel();
+		JPanel content_txt = new JPanel();
+		content_valid.add(valid_avis);
+		content_valid.add(txt_avis);
+		content_avis_appl.setBorder(BorderFactory.createLineBorder(Color.black));
+		content_avis_appl.add("North", content_valid);
+		content_avis_appl.add("Center", content_txt);
+		content_elstar.add(new JLabel("Etoiles : "));
+		content_elstar.add(elstar);
+		infos.add(content_elstar);
+		infos.add(content_avis_appl);
+		valid_avis.addMouseListener(this);
+	    }	
     }
-
+    
+    
+    public boolean possede()
+    {
+	SqlData r = Client.getInstance().getConnect().request("get_appInstalMe");
+	for(int i = 0 ; i < r.getNbLigne(); i++)
+	    {
+		if(r.data[i][0].equals(id))
+		    {
+			return true;
+		    }
+	    }
+	return false;
+    }
+    
     public void req_avis(String id)
     {
 	SqlData r = Client.getInstance().getConnect().request("get_avisApp",id);
 	//read_sqldata(r);
 	avis.setLayout(new GridLayout(r.getNbLigne(), 1, 10, 10));
-	for(int i = 0; i < r.getNbLigne(); i++)
+	for(int i = r.getNbLigne()-1; i > 0; i--)
 	    {
 		SqlData nom = Client.getInstance().getConnect().request("get_infoId", r.data[i][0]);		
 		JPanel avis_aff = new JPanel();
@@ -133,11 +172,11 @@ public class Application extends JPanel implements MouseListener
 		avis_aff.setLayout(new BorderLayout());		
 		avis_aff.add("North", new JLabel(nom.data[0][1]));
 		avis_aff.add("Center", new JLabel("<html>"+r.data[i][3]+"<html/>"));
-		avis_aff.add("South", new JLabel(r.data[i][4]));		    
+		avis_aff.add("South", new JLabel(r.data[i][2] + "    " + r.data[i][4]));		    
 		avis.add(avis_aff);
 	    }
     }
-
+    
     public void mouseClicked(MouseEvent e)
     {
 	if(e.getSource() == accueil)
@@ -156,6 +195,12 @@ public class Application extends JPanel implements MouseListener
 	if(e.getSource() == acheter)
 	    {
 		Client.getInstance().getFen().setContentPane(new Achat(id, false, os_compatible, prix, nom_appli));
+	    }
+	if(e.getSource() == valid_avis)
+	    {	
+		System.out.println(elstar.getSelectedIndex());
+		Client.getInstance().getConnect().request("add_avis", id, ""+elstar.getSelectedIndex(), txt_avis.getText());		
+		Client.getInstance().getFen().setContentPane(new Application(id, nom_appli));
 	    }
     }
     

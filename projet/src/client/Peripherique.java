@@ -177,7 +177,7 @@ public class Peripherique extends JPanel implements MouseListener
     
     public void liste_application(String peripherique)
     {
-	SqlData r = Client.getInstance().getConnect().request("get_appInstalPeriph", peripherique);
+	SqlData r = Client.getInstance().getConnect().request("get_appInstalPeriphMe", peripherique);
         nom_appli = new String[r.getNbLigne()];
 	id_appli = new String[r.getNbLigne()];
 	
