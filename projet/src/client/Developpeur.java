@@ -239,14 +239,14 @@ public class Developpeur extends JPanel implements MouseListener
 	if(e.getSource() == ok)
 	    {
 		System.out.println("ok");
-		SqlData r = Client.getInstance().getConnect().request("add_app", 
-								      txt_nom.getText(), 
-								      txt_version.getText(),
-								      ""+(list_categorie.getSelectedIndex() + 1),
-								      txt_tag.getText(),
-								      txt_prix.getText(),
-								      txt_mela.getText()
-								      );
+		Client.getInstance().getConnect().request("add_app", 
+							  txt_nom.getText(), 
+							  txt_version.getText(),
+							  ""+(list_categorie.getSelectedIndex() + 1),
+							  txt_tag.getText(),
+							  txt_prix.getText(),
+							  txt_mela.getText()
+							  );
 		Client.getInstance().getFen().setContentPane(new Developpeur(0));
 	    }
 	if(e.getSource() == retour)
@@ -260,12 +260,20 @@ public class Developpeur extends JPanel implements MouseListener
 			Client.getInstance().getFen().setContentPane(new Application(id_applis[i], applis[i].getText()));
 		    }
 	    }
-	for(int i = 0 ; i < applis.length; i++)
+	for(int i = 0 ; i < maj.length; i++)
 	    {
 		if(e.getSource() == maj[i])
 		    {
-			System.out.println(id_applis[i] + "a mettre a jour");
-			//Client.getInstance().getFen().setContentPane(new Application(id_applis[i], applis[i].getText()));
+			String vers = JOptionPane.showInputDialog(null, "Nouvelle version de l'application");
+			SqlData ancien = Client.getInstance().getConnect().request("get_appId", id_applis[i]); 
+			SqlData r = Client.getInstance().getConnect().request("set_app", 
+									      ancien.data[0][1], 
+									      vers,
+									      ancien.data[0][5],
+									      ancien.data[0][8],
+									      ancien.data[0][0]
+									      ); 
+			Client.getInstance().getFen().setContentPane(new Developpeur(0));
 		    }
 	    }
  
