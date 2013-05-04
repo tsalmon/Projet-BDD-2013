@@ -171,10 +171,10 @@ get_droitApp;retourne les droit d'une application (application.id);1;1;SELECT * 
 get_SeApp;retourne les systeme d'exploitation d'une application (application.id);1;1;SELECT * FROM systeme_exploitation AS e LEFT JOIN applicationsSE AS a ON e.ID = a.systeme_exploitation WHERE a.application=?
 #
 # add_appPeriph
-add_appPeriph;ajoute une application a votre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
+add_appPeriph;ajoute une application a votre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id,application.id);5 1 1;1;INSERT INTO application_installe (application,peripherique_client) (SELECT a.application,p.ID FROM peripheriques_client AS p LEFT JOIN applicationsSE AS a ON  p.systeme_exploitation=a.systeme_exploitation WHERE p.client=? AND p.ID=? AND a.application=?)
 #
 # del_appPeriph
-del_appPeriph;retire une application a votre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id);5 1 1;1;DELETE FROM application_installe WHERE peripherique_client= (SELECT p.ID FROM peripheriques_client AS p  WHERE p.client=? AND p.ID=?) AND application=?
+del_appPeriph;retire une application a votre peripherique, aucune confirmation n'est demande(peripherique_client.id,application.id,application.id);5 1 1;1;DELETE FROM application_installe WHERE peripherique_client= (SELECT p.ID FROM peripheriques_client AS p  WHERE p.client=? AND p.ID=?) AND application=?
 #
 # get_appInstalMe
 get_appInstalMe;retourne toutes les application que vous avez insatlle;5;1;SELECT i.application FROM application_installe AS i LEFT JOIN peripheriques_client AS p ON p.ID=i.peripherique_client WHERE p.client=?
