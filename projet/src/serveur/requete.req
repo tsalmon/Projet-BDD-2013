@@ -28,7 +28,7 @@
 #
 #
 #
-#      ex: 
+#      ex:  
 #
 #
 #
@@ -51,13 +51,13 @@ get_info_client;les informations d'un client (ID);1;3;SELECT ID,nom,prenom,devel
 get_info_client;les informations d'un client (mail);2;3;SELECT ID,nom,prenom,developpeur,mail,mela,date_inscription,date_lastconnect FROM client WHERE mail=?
 #
 # add_periph: ajoute un nouveau periphérique disponible
-add_periph;ajoute un nouveau peripherique (nom, type, fabricant);2 1 1;3;INSERT INTO peripheriques('',?,?,?)
+add_periph;ajoute un nouveau peripherique (nom, type, fabricant);2 1 1;3;INSERT INTO peripheriques (nom,peripherique_type,peripherique_fabricant) VALUES(?,?,?)
 #
 # add_periphFabricant : ajoute un nouveaux fabricant de peripherique
-add_periphFabricant;ajoute un nouveau fabricant de peripheriques (nom);2;3;INSERT INTO peripheriques_fabricant('',?)
+add_periphFabricant;ajoute un nouveau fabricant de peripheriques (nom);2;3;INSERT INTO peripheriques_fabricant (fabricant) VALUES(?)
 #
 # add_periphType: ajoute un nouveau type de peripherique
-add_periphType;ajoute un nouveau type de peripheriques (nom);2;3;INSERT INTO peripheriques_type('',?)
+add_periphType;ajoute un nouveau type de peripheriques (nom);2;3;INSERT INTO peripheriques_type (type) VALUES(?)
 # 
 #
 #
@@ -114,6 +114,9 @@ del_periphMe;supprime le peripherique d'un client(id);5 1;1;DELETE FROM peripher
 #
 # get_periphMe
 get_periphMe; retourne la liste de vos peripherique;5;1;SELECT c.ID,c.Systeme_exploitation,c.peripherique,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=?
+#
+# get_periphMeSe
+get_periphMeSe;retourne la liste de vos peripherique compatible avec un systeme d'exploitation(systeme_exploitation.id);5 1;1;SELECT c.ID,c.Systeme_exploitation,c.peripherique,c.date,p.ID,p.nom,t.type,f.fabricant FROM peripheriques_client AS c LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE c.client=? AND Systeme_exploitation=?
 #
 # get_periphId
 get_periphId; retourne les information d'un peripherique;1;1;SELECT p.nom,t.type,f.fabricant FROM peripheriques AS p LEFT JOIN peripheriques_type AS t ON t.ID=p.peripherique_type LEFT JOIN peripheriques_fabricant AS f ON f.ID=p.peripherique_fabricant WHERE p.ID=?
@@ -201,10 +204,10 @@ add_avis;ajoute un nouvel avis (application.id, elstar[0-5], commentaire);5 1 1 
 get_appMe;retourne vos applications ;5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE developpeur=?
 #
 # add_app
-add_app;ajoute une nouvelle application (nom, version, categorie.id, tags, isPayante, mela) ;2 2 1 5 2 3 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) (?,?,?,?,?,?,?,?)
+add_app;ajoute une nouvelle application (nom, version, categorie.id, tags, isPayante, mela) ;2 2 1 5 2 3 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) VALUES(?,?,?,?,?,?,?,?)
 #
 # set_app
-set_app;met a jour les donnees d'une applications (nom, version, tags, mela, application.id);2 2 2 1 1 5;2;UPDATE applications SET nom=? version=? tags=?, mela=? WHERE ID=? AND developpeur=?;
+set_app;met a jour les donnees d'une applications (nom, version, tags, mela, application.id);2 2 2 1 1 5;2;UPDATE applications SET nom=?, version=?, tags=?, mela=? WHERE ID=? AND developpeur=?;
 # 
 # add_payanteApp
 add_payanteApp;ajoute l'application comme payante (application.id, application.id, prix, renouvellement[mois]);1 5 1 5 1 1;2;UPDATE applications SET payante=1 WHERE ID=? AND developpeur=?;INSERT INTO payante VALUES((SELECT ID FROM applications WHERE ID=? AND developpeur=?),?,?)
