@@ -215,20 +215,20 @@ add_payanteApp;ajoute l'application comme payante (application.id, application.i
 # set_payante
 set_payante;modifie les donnees des paiement de l'application(isPayante, application.id, prix, renouvement[mois], application.id);3 1 5 1 1 1 5;2;UPDATE applications SET payante=? WHERE ID=? AND developpeur=?;UPDATE payante SET prix=?, renouvellement=? WHERE application=? AND application IN (SELECT ID FROM applications WHERE developpeur=?)
 #
-# get_gainApp
-get_gainApp;retourne les gain de votre application(application.id);5 1;2;SELECT gain FROM applications WHERE ID=? AND developpeur=?
+# get_gainAppMe
+get_gainAppMe;retourne les gain de votre application(application.id);5 1;2;SELECT gain FROM applications WHERE ID=? AND developpeur=?
 #
-# get_gain
-get_gain;retourne vos gain;5;2;SELECT SUM(gain) FROM applications WHERE developpeur=?  
+# get_gainMe
+get_gainMe;retourne vos gain;5;2;SELECT SUM(gain) FROM applications WHERE developpeur=?  
 #
-# get_nbAppPeriphTypeType;
+# get_nbAppPeriphTypeType
 #SELECT COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique WHERE p.peripherique_type=?
 #
 #
 # get_nbAppPeriphType
-#"SELECT COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
+#SELECT COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
 #
-#
+# 
 #
 #
 #
