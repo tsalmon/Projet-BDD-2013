@@ -63,7 +63,6 @@ public class Accueil extends JPanel implements MouseListener
     
     Accueil()
     {
-	r.read_sqldata();
 	setSize(x, y);
 	// on met une grille de 6 lignes dans chacune des trois colonnes
 
@@ -240,7 +239,7 @@ public class Accueil extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == developpeur)
 	    {
-		Client.getInstance().getFen().setContentPane(new Developpeur());		
+		Client.getInstance().getFen().setContentPane(new Developpeur(0));		
 	    }
 	if(e.getSource() == view_all)
 	    {
