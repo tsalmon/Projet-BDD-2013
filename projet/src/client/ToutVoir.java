@@ -12,6 +12,7 @@ public class ToutVoir extends JPanel implements MouseListener
     JButton all_applis = new JButton("Applications");
     JButton all_periph = new JButton("Peripheriques");
     JButton all_OS = new JButton("OS");
+    JButton recommande = new JButton("Recommandés");
 
     JButton deconnexion = new JButton("déconnexion");
     JButton accueil = new JButton("accueil");
@@ -57,9 +58,15 @@ public class ToutVoir extends JPanel implements MouseListener
 		select = 2;
 		centre(2);
 	    }
+	else if(a_voir == 'r')
+	    {
+		centre(3);
+		select = 3;
+	    }
 	setVisible(true);
     }
-    
+
+    /*
     // rechercher recommandées
     ToutVoir(String[] id)
     {
@@ -67,7 +74,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	setVisible(true);
 	
     }
-
+    */
     private Object[][] recuperer_applis()
     {
 	SqlData r = Client.getInstance().getConnect().request("get_app");
@@ -86,7 +93,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	boutons.setDataVector(button, new Object[] {"Noms"});
 	return donnees;
     }
-    
+
     private Object[][] recuperer_periph()
     {
 	SqlData r = Client.getInstance().getConnect().request("get_periph");
@@ -97,6 +104,27 @@ public class ToutVoir extends JPanel implements MouseListener
 		button[i][0] = "1."+ r.data[i][0] + "." + r.data[i][1];//id.nom
 		donnees[i][0] = r.data[i][2]; // type
 		donnees[i][1] = r.data[i][3]; //fabricant
+	    }
+	boutons.setDataVector(button, new Object[] {"Noms"});
+	return donnees;
+    }
+    
+    private Object[][] appli_reco()
+    {
+	SqlData a = Client.getInstance().getConnect().request("get_appRecomande");
+	Object [][] donnees = new Object[a.getNbLigne()][5];
+	Object [][] button = new Object[a.getNbLigne()][1];
+
+	for(int i = 0 ; i < a.getNbLigne(); i++)
+	    {
+		SqlData r = Client.getInstance().getConnect().request("get_appId", a.data[i][0]);
+		button[i][0] = "0." + r.data[i][0]+"."+r.data[i][1]; // id.nom
+		donnees[i][0] = r.data[i][11]; // categorie
+		donnees[i][1] = (r.data[i][9].equals("Null")) ? "Gratuit" : r.data[i][9]; // prix
+		donnees[i][2] = r.data[i][8]; // mela
+		donnees[i][3] = r.data[i][5]; // tag
+		donnees[i][4] = 
+		    (r.data[i][12].equals("Null")) ? "Aucune notes" : r.data[i][12].charAt(0)+ "." + r.data[i][12].charAt(2); //average(elstar)
 	    }
 	boutons.setDataVector(button, new Object[] {"Noms"});
 	return donnees;
@@ -131,30 +159,30 @@ public class ToutVoir extends JPanel implements MouseListener
 	    {
 		dm.setDataVector(recuperer_os(), new Object[] { "Versions"});
 	    }
-	else // error
+	else if(i == 3)
 	    {
-		System.out.println("Error");
-		System.exit(1);
+		dm.setDataVector(appli_reco(), new Object[] { "Categories", "Prix", "Mela", "Tags", "Elstar" }); 
 	    }
+
 	return dm;
     }
-    
+
+
     private void centre(int i)
     {
 	JTable tab_boutons = new JTable(boutons);
 	JTable table = new JTable(recuperer_info(i));
-        tab_boutons.getColumn("Noms").setCellRenderer(new ButtonRenderer());
-        tab_boutons.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
+	tab_boutons.getColumn("Noms").setCellRenderer(new ButtonRenderer());
+	tab_boutons.getColumn("Noms").setCellEditor(new ButtonEditor(new JCheckBox()));
 	tab_boutons.getColumnModel().getColumn(0).setPreferredWidth(200);
 	JPanel content_table = new JPanel();
 	content_table.setLayout(new BorderLayout());
 	content_table.add("West", tab_boutons);
 	content_table.add("Center", table);
-
-        JScrollPane scroll = new JScrollPane(content_table);
-        add("Center",scroll);
+	
+	JScrollPane scroll = new JScrollPane(content_table);
+	add("Center",scroll);
     }
-    
     private void barre()
     {
 	JPanel barre_sup = new JPanel();
@@ -163,11 +191,12 @@ public class ToutVoir extends JPanel implements MouseListener
 	JPanel content_os = new JPanel();
 	JPanel content_periph = new JPanel();
 	JPanel content_applis = new JPanel();
+	JPanel content_reco = new JPanel();
 	
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	barre_sup.setLayout(new GridLayout(1, 3));
-	barre_inf.setLayout(new GridLayout(1, 3));
+	barre_inf.setLayout(new GridLayout(1, 4));
 	header.setLayout(new GridLayout(2,1));
 	conteneur_deco.add(deconnexion);
 	conteneur_acc.add(accueil);
@@ -180,7 +209,9 @@ public class ToutVoir extends JPanel implements MouseListener
 	content_os.add(all_OS);
 	content_periph.add(all_periph);
 	content_applis.add(all_applis);
-	
+	content_reco.add(recommande);
+
+	barre_inf.add(content_reco);
 	barre_inf.add(content_applis);
 	barre_inf.add(content_periph);
 	barre_inf.add(content_os);
@@ -189,6 +220,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	header.add(barre_inf);
 	add("North", header);
 	recherche.addKeyListener(new ClavierListener());
+	recommande.addMouseListener(this);
 	all_OS.addMouseListener(this);
 	all_periph.addMouseListener(this);
 	all_applis.addMouseListener(this);
@@ -213,6 +245,9 @@ public class ToutVoir extends JPanel implements MouseListener
 	}
 	if(e.getSource() == all_OS && select != 2){
 	    Client.getInstance().getFen().setContentPane(new ToutVoir('o'));
+	}
+	if(e.getSource() == recommande && select != 3){
+	    Client.getInstance().getFen().setContentPane(new ToutVoir('r'));
 	}
     }
     
