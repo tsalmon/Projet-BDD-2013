@@ -58,10 +58,10 @@ public class MenuConnexion extends JPanel
 	{
 	    if(e.getSource() == connexion) 
 		{
-		    if(Client.getInstance().getConnect().auth("Nelson", "159945"))
+		    if(Client.getInstance().getConnect().auth("Bender", "296371"))
 			{
-			    Client.getInstance().set_Id("Nelson");
-			    Client.getInstance().set_mdp("159945");
+			    Client.getInstance().set_Id("Bender");
+			    Client.getInstance().set_mdp("296371");
 			    Client.getInstance().getFen().setContentPane(new Accueil());
 			}
 		    /*

@@ -15,6 +15,8 @@ import java.awt.Color;
 
 public class Accueil extends JPanel implements MouseListener
 { 
+    SqlData r = Client.getInstance().getConnect().request("get_infoMe");
+
     int x = Client.fenetre_x;
     int y = Client.fenetre_y;   
     
@@ -61,6 +63,7 @@ public class Accueil extends JPanel implements MouseListener
     
     Accueil()
     {
+	r.read_sqldata();
 	setSize(x, y);
 	// on met une grille de 6 lignes dans chacune des trois colonnes
 
@@ -74,7 +77,10 @@ public class Accueil extends JPanel implements MouseListener
 	content_recherche.add(recherche); 
 	recherche.addKeyListener(new ClavierListener());
 	content_tout.add(view_all);
-	content_titre_bienvenue.add(developpeur); 
+	if(r.data[0][3].equals("true"))
+	    content_titre_bienvenue.add(developpeur); 
+	else
+	    content_titre_bienvenue.add(new JLabel("Bienvenue")); 
 	content_titre_reco.add(new JLabel("Applications recommandées"));
 	content_titre_top.add(new JLabel("Top Applications"));
 	//need req
@@ -132,7 +138,7 @@ public class Accueil extends JPanel implements MouseListener
     /*---Requetes---*/
     private void infos()
     {
-	SqlData r = Client.getInstance().getConnect().request("get_infoMe");
+	
 	content_info.add(new JLabel("<html>Nom: " + r.data[0][1] + "<br/>Prenom: " + r.data[0][2] + "</html>"));
 	String mela = r.data[0][5];
       	r = Client.getInstance().getConnect().request("get_nbApp");
@@ -158,7 +164,7 @@ public class Accueil extends JPanel implements MouseListener
     
     private void reco()
     {
-	SqlData r = Client.getInstance().getConnect().request("get_appRecomande");
+	r = Client.getInstance().getConnect().request("get_appRecomande");
 	b_reco_app = new JButton[r.getNbLigne()];
 	n_reco_app = new String[r.getNbLigne()];
 	id_reco_app = new String[r.getNbLigne()];
@@ -186,7 +192,7 @@ public class Accueil extends JPanel implements MouseListener
     
     private void top()
     {
-	SqlData r = Client.getInstance().getConnect().request("get_app");
+	r = Client.getInstance().getConnect().request("get_app");
 	r.trie(r.getNbCol()-2);
 	
 	b_top_app = new JButton[Math.min(r.getNbLigne(),3)];

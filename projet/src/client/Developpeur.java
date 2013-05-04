@@ -57,7 +57,18 @@ public class Developpeur extends JPanel implements MouseListener
 	
     }
     
-    public void mouseClicked(MouseEvent e){}
+    public void mouseClicked(MouseEvent e)
+    {
+        if(e.getSource() == accueil)
+            {
+                Client.getInstance().getFen().setContentPane(new Accueil());
+            }
+	if(e.getSource() == deconnexion)
+            {
+                Client.getInstance().getConnect().dialog("DISCONNECT");
+		Client.getInstance().getFen().setContentPane(new MenuConnexion("GoldenStore - Connexion"));
+	    }
+    }
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
     public void mousePressed(MouseEvent e){}
