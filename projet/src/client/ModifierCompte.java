@@ -164,7 +164,17 @@ public class ModifierCompte extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == ok)
 	    {
-		
+		String mail = new_mail.getText();
+		if(mail.length() > 0 && mail.equals(conf_mail.getText()))
+		   {
+		       Client.getInstance().getConnect().request("set_mailMe", mail );
+		   }
+		String mdp = new_mdp.getText();
+		if(mdp.length() > 0 && mail.equals(conf_mdp.getText()))
+		    {
+		     Client.getInstance().getConnect().request("set_mdpMe", mail );
+		    }
+		Client.getInstance().getFen().setContentPane(new Accueil());
 	    }
 	if(e.getSource() == annuler)
 	    {
