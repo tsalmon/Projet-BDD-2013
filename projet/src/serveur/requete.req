@@ -60,22 +60,22 @@ add_periphFabricant;(nom) ajoute un nouveau fabricant de peripheriques.;2;3;INSE
 add_periphType;(nom) ajoute un nouveau type de peripheriques.;2;3;INSERT INTO peripheriques_type (type) VALUES(?)
 # 
 ## get_nbAppInstal:
-get_nbAppInstal;retourne le nombre d'applications installe.;;3;SELECT COUNT(*) FROM application_installe
+get_nbAppInstal;retourne le nombre d'applications installe.;1;3;SELECT COUNT(*) FROM application_installe
 #
 ## get_gainApp : 
-get_gainApp(application.id) retourne les gain d'une application.;1;3;SELECT gain FROM applications WHERE ID=?
+get_gainApp;(application.id) retourne les gain d'une application.;;3;SELECT gain FROM applications WHERE ID=?
 #
 ## get_gain: 
 get_gain;retourne vos gain.;;3;SELECT SUM(gain)/70*30 FROM applications  
 #
 ## get_developpeurTop: 
-get_developpeurTop;retourne la liste des meilheur developeur.;;3;SELECT c.ID FROM client AS c WHERE c.developpeur=true ORDER BY (SELECT COUNT(*) FROM application_installe AS i LEFT JOIN applications AS a ON a.ID=i.application WHERE i.application=a.ID AND a.developpeur=c.ID ) DESC
+get_developpeurTop;retourne la liste des meilheur developeur.;;3;SELECT c.ID,(SELECT COUNT(*) FROM application_installe AS i LEFT JOIN applications AS a ON a.ID=i.application WHERE i.application=a.ID AND a.developpeur=c.ID )AS t FROM client AS c WHERE c.developpeur=true ORDER BY t DESC LIMIT 20
 #
 ## add_developpeur: 
-add_developpeur;ajoute le membre a la liste des developpeur.;1 1;3;UPDATE client SET developpeur=1 WHERE ID=?;DELETE FROM developpeur_attente WHERE client =?
+add_developpeur;(id,id)ajoute le membre a la liste des developpeur.;1 1;3;UPDATE client SET developpeur=1 WHERE ID=?;DELETE FROM developpeur_attente WHERE client =?
 #
 ## add_developpeurNo:
-add_developpeur;refuse la demande d'un mambre a etre developpeur.;1;3;DELETE FROM developpeur_attente WHERE client =?
+add_developpeurNo;refuse la demande d'un mambre a etre developpeur.;1;3;DELETE FROM developpeur_attente WHERE client =?
 #
 ## del_developpeur: 
 add_developpeur;radie le developpeur.;1;3;UPDATE client SET developpeur=0 WHERE ID=?;
@@ -259,15 +259,18 @@ get_nbAppPeriphTypeID;(application.id)retourne le nombre de fois qu'une applicat
 ## get_nbAppPeriphType:
 get_nbAppPeriphType;retourne le nombre des applications installe par type de peripherique.;;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
 #
+## get_nbAppCategorie:
+get_nbAppCategorie;retourne le nombre des applications installe par categorie.;;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
+#
 #
 ## get_nbAppInstalMe:
 get_nbAppInstalMe;retourne le nombre de vos applications qui on ete installe;5;2;SELECT COUNT(*) FROM application_installe AS i  LEFT JOIN applications AS a ON a.ID=i.application LEFT JOIN client AS  c ON a.developpeur=c.ID WHERE c.ID=?
 # 
 ## get_appTop:
-get_appTop;retourne la liste des applications qui on ete le plus telecharge.;;2;SELECT a.ID FROM applications AS a ORDER BY (SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) DESC
+get_appTop;retourne la liste des applications qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) FROM applications AS a ORDER BY t DESC LIMIT 20
 #
 ## get_appTopPayante:
-get_appTopPayante;retourne la liste des applications payante qui on ete le plus telecharge.;;2;SELECT a.ID FROM applications AS a WHERE a.payante=true ORDER BY (SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) DESC
+get_appTopPayante;retourne la liste des applications payante qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) AS t FROM applications AS a WHERE a.payante=true ORDER BY t DESC LIMIT 20
 #
 #
 #
