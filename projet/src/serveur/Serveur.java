@@ -1,9 +1,12 @@
-//package serveur;
+
 
 import java.net.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.sql.*;
 import java.util.LinkedList;
+import javax.swing.Timer;
 
 public class Serveur {
 
@@ -12,7 +15,6 @@ public class Serveur {
   public static LinkedList<Requete> requetes = new LinkedList<Requete>();
 
   public static void main(String []arguments) {
-      System.out.println("toto");
       try {
 	  
 			// chargement des driver pour mysql
@@ -38,7 +40,13 @@ public class Serveur {
 					paramInt = new int[paramString.length];
 					for(int i=0; i<	paramString.length; i++){ paramInt[i]=Integer.parseInt(paramString[i]); }
 				}
-				Serveur.requetes.add(new Requete(chaineSplit[0],chaineSplit[1],paramInt,Integer.parseInt(chaineSplit[3]),chaineSplit[4]));
+				
+				String[]req=new String[chaineSplit.length-4];
+				req[0]=chaineSplit[4];
+				for(int i=1;i<req.length;i++)
+					req[i]=chaineSplit[4+i];
+				
+				Serveur.requetes.add(new Requete(chaineSplit[0],chaineSplit[1],paramInt,Integer.parseInt(chaineSplit[3]),req));
 				System.out.println("\t Requete:"+chaineSplit[0]+" O.K.");
 			}
 		  }
@@ -46,6 +54,9 @@ public class Serveur {
 		  
         ServerSocket socketAttente = new ServerSocket(PORT); // creation d'une socket sur le port 25567
         System.out.println("Socket O.K.");
+        
+        UpdateGain u =new UpdateGain();
+        
         do {  // on attend un connexion et on donne la main au thread Service
 			new Thread( new Service(socketAttente.accept())).start();
         } while (true);
