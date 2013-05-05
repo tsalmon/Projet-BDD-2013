@@ -69,7 +69,7 @@ get_gainApp;(application.id) retourne les gain d'une application.;;3;SELECT gain
 get_gain;retourne vos gain.;;3;SELECT SUM(gain)/70*30 FROM applications  
 #
 ## get_developpeurTop: 
-get_developpeurTop;retourne la liste des meilheur developeur.;;3;SELECT c.ID,(SELECT COUNT(*) FROM application_installe AS i LEFT JOIN applications AS a ON a.ID=i.application WHERE i.application=a.ID AND a.developpeur=c.ID )AS t FROM client AS c WHERE c.developpeur=true ORDER BY t DESC LIMIT 20
+get_developpeurTop;retourne la liste des meilheur developeur.;;3;SELECT c.ID,(SELECT COUNT(*) FROM application_installe AS i LEFT JOIN applications AS a ON a.ID=i.application WHERE i.application=a.ID AND a.developpeur=c.ID )AS nombre_installation FROM client AS c WHERE c.developpeur=true ORDER BY nombre_installation DESC LIMIT 20
 #
 ## get_developpeurAttente
 get_developpeurAttente; retourne la liste des membres qui on demande a etre developpeur;;3;SELECT * FROM developpeur_attente
@@ -248,32 +248,32 @@ get_gainAppMe;(application.id)retourne les gain de votre application.;5 1;2;SELE
 get_gainMe;retourne vos gain.;5;2;SELECT SUM(gain) FROM applications WHERE developpeur=?  
 #
 ## get_nbAppPeriphTypeTypeMe:
-get_nbAppPeriphTypeTypeMe;(type.id) retourne le nombre de vos applications installe sur un type de peripherique.;1 5;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE p.peripherique_type=? AND a.developpeur=?
+get_nbAppPeriphTypeTypeMe;(type.id) retourne le nombre de vos applications installe sur un type de peripherique.;1 5;2;SELECT p.peripherique_type,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE p.peripherique_type=? AND a.developpeur=?
 #
 ## get_nbAppPeriphTypeType:
-get_nbAppPeriphTypeType;(type.id) retourne le nombre des applications installe sur un type de peripherique.;1;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique WHERE p.peripherique_type=?
+get_nbAppPeriphTypeType;(type.id) retourne le nombre des applications installe sur un type de peripherique.;1;2;SELECT p.peripherique_type,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique WHERE p.peripherique_type=?
 #
 ## get_nbAppPeriphTypeMe:
-get_nbAppPeriphTypeMe;retourne le nombre de vos applications installe par type de peripherique.;5;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE a.developpeur=? GROUP BY p.peripherique_type
+get_nbAppPeriphTypeMe;retourne le nombre de vos applications installe par type de peripherique.;5;2;SELECT p.peripherique_type,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE a.developpeur=? GROUP BY p.peripherique_type
 #
 ## get_nbAppPeriphTypeID:
-get_nbAppPeriphTypeID;(application.id)retourne le nombre de fois qu'une application a ete installe par type de peripherique.;1;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE a.ID=? GROUP BY p.peripherique_type
+get_nbAppPeriphTypeID;(application.id)retourne le nombre de fois qu'une application a ete installe par type de peripherique.;1;2;SELECT p.peripherique_type,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique LEFT JOIN applications AS a ON a.ID=i.application WHERE a.ID=? GROUP BY p.peripherique_type
 #
 ## get_nbAppPeriphType:
-get_nbAppPeriphType;retourne le nombre des applications installe par type de peripherique.;;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
+get_nbAppPeriphType;retourne le nombre des applications installe par type de peripherique.;;2;SELECT p.peripherique_type,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
 #
 ## get_nbAppCategorie:
-get_nbAppCategorie;retourne le nombre des applications installe par categorie.;;2;SELECT p.peripherique_type,COUNT(i.application) FROM application_installe AS i LEFT JOIN peripheriques_client AS c ON c.ID=i.peripherique_client LEFT JOIN peripheriques AS p ON p.ID=c.peripherique GROUP BY p.peripherique_type
+get_nbAppCategorie;retourne le nombre des applications installe par categorie.;;2;SELECT c.nom_categorie,COUNT(i.application) AS nombre_installation FROM application_installe AS i LEFT JOIN applications AS a ON a.ID=i.application LEFT JOIN categorie AS c ON c.ID=a.categorie GROUP BY a.categorie
 #
 #
 ## get_nbAppInstalMe:
 get_nbAppInstalMe;retourne le nombre de vos applications qui on ete installe;5;2;SELECT COUNT(*) FROM application_installe AS i  LEFT JOIN applications AS a ON a.ID=i.application LEFT JOIN client AS  c ON a.developpeur=c.ID WHERE c.ID=?
 # 
 ## get_appTop:
-get_appTop;retourne la liste des applications qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) FROM applications AS a ORDER BY t DESC LIMIT 20
+get_appTop;retourne la liste des applications qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) AS nombre_installation FROM applications AS a ORDER BY nombre_installation DESC LIMIT 20
 #
 ## get_appTopPayante:
-get_appTopPayante;retourne la liste des applications payante qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) AS t FROM applications AS a WHERE a.payante=true ORDER BY t DESC LIMIT 20
+get_appTopPayante;retourne la liste des applications payante qui on ete le plus telecharge.;;2;SELECT a.ID,(SELECT COUNT(*) FROM application_installe WHERE application=a.ID ) AS nombre_installation FROM applications AS a WHERE a.payante=true ORDER BY nombre_installation DESC LIMIT 20
 #
 #
 #
