@@ -1,4 +1,3 @@
-//package serveur;
 
 import java.net.*;
 import java.io.*;
@@ -21,47 +20,55 @@ public class Service implements Runnable  {
 	
 		bf = new BufferedReader(new InputStreamReader(service.getInputStream())); 
 		pw = new PrintWriter(new OutputStreamWriter(service.getOutputStream()));
-	
-		// debut authentification ///////////////////////////////////////////////////////////////
-		String chaine;	
-		boolean auth=true;
+		id=0;
 		
-		while(auth && (chaine=bf.readLine())!=null ){ //on boucle tant que l'utilisateur ne c'est pas authentifier
-			String[] chaineSplit= chaine.split(" ");  // on split la requete
-			if(chaineSplit[0].equals("AUTH")){   
+		
+		String chaine;	
+		
+		//debut traitment des requete //////////////////////////////////////////////////////////
+		while( (chaine=bf.readLine())!=null ){ //on boucle
 			
+			
+			String[] chaineSplit= chaine.split("[|]");System.out.println(chaine);  // on split la requete
+			
+			
+			if(chaineSplit[0].equals("REGISTER")&& id==0){
 				ResultSet result = Serveur.conn.createStatement().executeQuery
-					("SELECT ID,mdp,developpeur FROM client WHERE nom=\""+chaineSplit[1]+"\""); // on cherche une corespondancd dans la bdd
+						("SELECT ID,mdp,developpeur FROM client WHERE nom=\""+chaineSplit[3]+"\"  OR mail=\""+chaineSplit[1]+"\"");
+				if(!result.next()){
+					Serveur.conn.createStatement().executeUpdate
+					    ("INSERT INTO client (mail,mdp,nom,prenom) VALUES (\""+chaineSplit[1]+"\",\""+chaineSplit[2]+"\",\""+chaineSplit[3]+"\",\""+chaineSplit[4]+"\")");
+				}
+				pw.println("identifiant deja utilise");
+				pw.println("eof");
+				pw.flush();
+			}
+			
+			else if(chaineSplit[0].equals("AUTH")&& id==0){   
+				
+				ResultSet result = Serveur.conn.createStatement().executeQuery
+					("SELECT ID,mdp,developpeur FROM client WHERE mail=\""+chaineSplit[1]+"\""); // on cherche une corespondancd dans la bdd
 
 				if(result.next() && chaineSplit[2].equals(result.getString(2))){ // on verifie le mot de pass
-					auth=false;  // on stop la boucle
+					Serveur.conn.createStatement().executeUpdate
+						("UPDATE client SET date_lastconnect=\""+new Timestamp(System.currentTimeMillis())+"\" WHERE ID="+result.getInt(1));
 					id=result.getInt(1);
 					droit= (result.getBoolean(3))? 2:1; // on recupere les droit de l'utilisateur en fonction de developeur ou non
-					droit= (chaineSplit[1].equals("gerant"))?3:droit; // si c'est la gerante
+					droit= (chaineSplit[1].equals("gerante"))?3:droit; // si c'est la gerante
 					pw.println("AUTH true");
+					pw.println("eof");
 					pw.flush();
 				}
 				
 				else {
 					pw.println("AUTH false");
+					pw.println("eof");
 					pw.flush();
 				}
 				
 			}
-			else {
-				pw.println("AUTH false");
-				pw.flush();
-			}
-		}	
-		// fin authentification  ////////////////////////////////////////////////////////////////
-		
-		
-		
-		//debut traitment des requete //////////////////////////////////////////////////////////
-		while( (chaine=bf.readLine())!=null ){ //on boucle tant que l'utilisateur est connecter
-			String[] chaineSplit= chaine.split(" ");  // on split la requete
-			if(chaineSplit[0].equals("REQUEST")){   
-			
+			else if(chaineSplit[0].equals("REQUEST") && id!=0){   
+				
 				boolean find=true;
 				for(int i=0;i<Serveur.requetes.size();i++){
 				
@@ -79,7 +86,8 @@ public class Service implements Runnable  {
 								pw.println("SelectDone");
 								
 								result.last();
-								pw.println((resultMeta.getColumnCount())+" "+result.getRow());
+								int row =result.getRow();
+								pw.println((resultMeta.getColumnCount())+" "+row);
 								result.first();
 								
 						
@@ -95,17 +103,22 @@ public class Service implements Runnable  {
 							  pw.println("");;
 
 								
-							  pw.print(result.getObject(1).toString());
-								for(int l = 2; l <= resultMeta.getColumnCount(); l++)
-								  pw.print("|" + result.getObject(l).toString());
-								pw.println("");
-							  while(result.next()){   
-								pw.print(result.getObject(1).toString());
-								for(int l = 2; l <= resultMeta.getColumnCount(); l++)
-								  pw.print("|" + result.getObject(l).toString());
-								pw.println("");
-								}	
-							   pw.flush();
+							  if (row!=0){
+								    if (result.getObject(1)!=null)pw.print(result.getObject(1).toString());
+								    else pw.print("Null");
+									for(int l = 2; l <= resultMeta.getColumnCount(); l++)
+										if (result.getObject(l)!=null)pw.print("|" + result.getObject(l).toString());
+										else pw.print("|Null");
+									pw.println("");
+								  while(result.next()){   
+									pw.print(result.getObject(1).toString());
+									for(int l = 2; l <= resultMeta.getColumnCount(); l++)
+									  if (result.getObject(l)!=null)pw.print("|" + result.getObject(l).toString());
+									  else pw.print("|Null");
+									pw.println("");
+									}	
+							  }
+							  pw.flush();
 							}
 							else if(!Serveur.requetes.get(i).getIsSelect()){
 								pw.println("UpdateDone");
@@ -136,21 +149,49 @@ public class Service implements Runnable  {
 			}
 			else if(chaineSplit[0].equals("HELP")){   
 				if(chaineSplit.length==1){
+					String aide="\t pour plus d'information sur une commande faite HELP|[commande]\n\n";
+					aide+="\t\t-REGISTER (mail)|(mdp)|(nom)|(prenom) pour vous inscrire au serveur \n";
+					aide+="\t\t-CONNEXION (mail) pour vous connecter au serveur \n";
+					aide+="\t\t-DISCONNECT pour vous deconnecter du serveur\n";
+					aide+="\t\t-REQUEST (requete)|[param1]|[param2]...[#ColTrie] envoi la requete pour traitement au serveur avec ses parametres trie sur la colonne \n";
+					aide+="\t\t-CLOSE quite l'application\n";
+					pw.println(aide);
+				}
+				else if(chaineSplit[1].equals("CONNEXION")){
+					pw.println("\t-CONNEXION (mail) pour vous connecter au serveur, \n\t\t mail:l'adresse email que vous avez fourni a votre inscription\n ");
+				}
+				else if(chaineSplit[1].equals("DISCONNECT")&& id!=0){ 
+					id=0;
+					pw.println("\t-DISCONNECT pour vous deconnecter du serveur\n");
+				}
+				else if(chaineSplit[1].equals("REQUEST")){
+					pw.println("\t-REQUEST (requete)|[param1]|[param2]...[# ColTrie] envoi la requete pour traitement au serveur avec ses parametres trie sur la colonne \n\t la liste des requete est :");
 					for(int i=0;i<Serveur.requetes.size();i++){
 						if(Serveur.requetes.get(i).getDroit()<=this.droit){
 							String name=Serveur.requetes.get(i).getName();
 							String espace="";
 							for(int l=name.length();l<25;l++)espace+=" ";
-							pw.println("\t"+name+espace+" => "+Serveur.requetes.get(i).getDescription());
+							pw.println("\t\t"+name+espace+" => "+Serveur.requetes.get(i).getDescription());
+						}
+						if(droit==0){
+							pw.println("\t\t vous devez etre connecte ");
 						}
 					}
-					pw.println("eof");
-					pw.flush();
 				}
+				pw.println("eof");
+				pw.flush();
+			}
+			else if(chaineSplit[0].equals("DISCONNECT") && id!=0){   
+				pw.println("vous alez etre deconecter");
+				pw.println("eof");
+				pw.flush();
+				id=0;
+				run();
 			}
 			else {
 				pw.println("Eror");
-				pw.println("commande non trouve");
+				pw.println((id==0)?"vous n'etes pas authentifie":"commande non trouve");
+				pw.println("eof");
 				pw.flush();
 			}
 
