@@ -20,7 +20,7 @@ public class SqlChart {
 	
 	
 	  public SqlChart(){
-		  this.dessinable = new String[3][2];
+		  this.dessinable = new String[7][2];
 		  this.dessinable[0][0]="get_developpeurTop";this.dessinable[0][1]="barChart";
 		  this.dessinable[1][0]="get_nbAppPeriphType";this.dessinable[1][1]="pieChart";
 		  this.dessinable[2][0]="get_nbAppPeriphTypeMe";this.dessinable[2][1]="pieChart";
