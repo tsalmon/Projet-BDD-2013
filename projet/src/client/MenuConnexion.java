@@ -58,29 +58,20 @@ public class MenuConnexion extends JPanel
 	{
 	    if(e.getSource() == connexion) 
 		{
-		    if(Client.getInstance().getConnect().auth("Stuart", "408101"))
-			{
-			    Client.getInstance().set_Id("Bender");
-			    Client.getInstance().set_mdp("296371");
-			    Client.getInstance().getFen().setContentPane(new Accueil());
-			}
-		    /*
-		    // Stuart, 408101
+		    //Stuart 408101
 		    String pass = new String(mdp.getPassword());
 		    String log = pseudo.getText();
-		    if(pass.length() > 0 && log.length() > 0 && c.auth(pseudo.getText(), new String(mdp.getPassword())))
+		    if(pass.length() > 0 && log.length() > 0 && Client.getInstance().getConnect().auth(pseudo.getText(), new String(mdp.getPassword())))
 		    {
-		    System.out.println("authentification reussie");
-		    Client.getInstance().getFen().setContentPane(new Accueil());
+			Client.getInstance().getFen().setContentPane(new Accueil());
 		    }
 		    else
-		    {
-		    JOptionPane.showMessageDialog(null, "Echec de connexion","Erreur", JOptionPane.INFORMATION_MESSAGE);
-		    }
-		    */
+			{
+			    JOptionPane.showMessageDialog(null, "Echec de connexion","Erreur", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	    if(e.getSource() == apropos)
-		System.out.println("Fenetre a propos");
+		JOptionPane.showMessageDialog(null, "Ce projet a été réalisé par Thomas Salmon et par Paul Beziau");
 	}
 	
 	public void mouseEntered(MouseEvent e){}

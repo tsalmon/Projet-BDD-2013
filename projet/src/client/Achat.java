@@ -146,6 +146,7 @@ public class Achat extends JPanel implements MouseListener
 								      id_periph.get(x),
 								      id
 								      );
+		Client.getInstance().getFen().setContentPane(new Accueil());
 	    }
 	if(e.getSource() == retour)
 	    {
