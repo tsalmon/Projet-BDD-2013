@@ -1,3 +1,4 @@
+
 import  org.jfree.chart.ChartFactory;
 import  org.jfree.chart.ChartFrame;
 import  org.jfree.chart.JFreeChart;
@@ -19,9 +20,14 @@ public class SqlChart {
 	
 	
 	  public SqlChart(){
-		  this.dessinable = new String[2][2];
+		  this.dessinable = new String[3][2];
 		  this.dessinable[0][0]="get_developpeurTop";this.dessinable[0][1]="barChart";
 		  this.dessinable[1][0]="get_nbAppPeriphType";this.dessinable[1][1]="pieChart";
+		  this.dessinable[2][0]="get_nbAppPeriphTypeMe";this.dessinable[2][1]="pieChart";
+		  this.dessinable[3][0]="get_nbAppPeriphTypeID";this.dessinable[3][1]="pieChart";
+		  this.dessinable[4][0]="get_nbAppCategorie";this.dessinable[4][1]="pieChart";
+		  this.dessinable[5][0]="get_appTop";this.dessinable[5][1]="barChart";
+		  this.dessinable[6][0]="get_appTopPayante";this.dessinable[6][1]="barChart";
 	  }
 	  
 	  @SuppressWarnings("deprecation")
@@ -102,4 +108,3 @@ public class SqlChart {
 	
 	  }
 }
-
