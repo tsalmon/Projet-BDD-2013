@@ -68,3 +68,11 @@ Droits
 ------------------
 Pour voir les droits d'une application
 
+ConnexionClient
+---------------
+Ce fichier permet de s'authentifier sur le serveur, d'envoyer des requetes et de recevoir les requetes, elle traite et renvoit les resultats dans un objet SqlData, ce fichier ne n'est pas accessible pour les usagers.
+
+SqlData
+-----------
+Objet qui permet d'acceder au resultat d'une requete, ce fichier ne n'est pas accessible pour les usagers
+
