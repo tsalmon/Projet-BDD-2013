@@ -54,7 +54,7 @@ public class Service implements Runnable  {
 						("UPDATE client SET date_lastconnect=\""+new Timestamp(System.currentTimeMillis())+"\" WHERE ID="+result.getInt(1));
 					id=result.getInt(1);
 					droit= (result.getBoolean(3))? 2:1; // on recupere les droit de l'utilisateur en fonction de developeur ou non
-					droit= (chaineSplit[1].equals("gerante"))?3:droit; // si c'est la gerante
+					droit= (chaineSplit[1].equals("gerante@GoldenStore.com"))?3:droit; // si c'est la gerante
 					pw.println("AUTH true");
 					pw.println("eof");
 					pw.flush();
