@@ -23,6 +23,8 @@ public class ToutVoir extends JPanel implements MouseListener
     JPanel conteneur_recherche = new JPanel();
     JPanel conteneur_acc = new JPanel();
 
+    String id_periph = "";
+
     DefaultTableModel boutons = new DefaultTableModel();
     DefaultTableModel dm = new DefaultTableModel()
 	{
@@ -65,18 +67,20 @@ public class ToutVoir extends JPanel implements MouseListener
 	setVisible(true);
     }
 
-    /*
-    // rechercher recommandées
-    ToutVoir(String[] id)
+    ToutVoir(String id_periph)
     {
 	barre();
-	setVisible(true);
-	
+	this.id_periph = id_periph;
+	centre(4);
     }
-    */
-    private Object[][] recuperer_applis()
+
+    private Object[][] recuperer_applis(int n)
     {
-	SqlData r = Client.getInstance().getConnect().request("get_app");
+	SqlData r = null;
+	if(n == 4)
+	    r = Client.getInstance().getConnect().request("get_app");
+	else
+	    r = Client.getInstance().getConnect().request("get_appCompatibleID", id_periph);
 	Object [][] donnees = new Object[r.getNbLigne()][5];
 	Object [][] button = new Object[r.getNbLigne()][1];
 	for(int i = 0; i < r.getNbLigne(); i++)
@@ -146,9 +150,9 @@ public class ToutVoir extends JPanel implements MouseListener
     private DefaultTableModel recuperer_info(int i)
     {
 	
-	if(i == 0)
+	if(i == 0 || i == 4)
 	    {
-		dm.setDataVector(recuperer_applis(), new Object[] { "Categories", "Prix", "Mela", "Tags", "Elstar" }); 
+		dm.setDataVector(recuperer_applis(i), new Object[] { "Categories", "Prix", "Mela", "Tags", "Elstar" }); 
 	    }
 	else if(i == 1)
 	    {
@@ -182,6 +186,7 @@ public class ToutVoir extends JPanel implements MouseListener
 	JScrollPane scroll = new JScrollPane(content_table);
 	add("Center",scroll);
     }
+
     private void barre()
     {
 	JPanel barre_sup = new JPanel();

@@ -24,6 +24,7 @@ public class Peripherique extends JPanel implements MouseListener
     JButton[] applications = new JButton[1];
     JButton[] desinst_appli =  new JButton[1];
     JButton[] droits = new JButton[1];
+    JButton[] app_comp = new JButton[1];
     JPanel[] conteneur_periph;
     JPanel[] conteneur_appl;
     String[] id_periph;
@@ -155,6 +156,7 @@ public class Peripherique extends JPanel implements MouseListener
     {
         SqlData r = Client.getInstance().getConnect().request("get_periphMe");	
 	gauche.setLayout(new GridLayout(r.getNbLigne(), 1));
+	app_comp = new JButton[r.getNbLigne()];
 	peripheriques = new JButton[r.getNbLigne()];
 	conteneur_periph = new JPanel[r.getNbLigne()];
 	desinst_periph = new JButton[r.getNbLigne()];
@@ -163,11 +165,15 @@ public class Peripherique extends JPanel implements MouseListener
 	    {
 		id_periph[i] = r.data[i][0];
 		desinst_periph[i] = new JButton("DEL");
-		peripheriques[i] = new JButton("<html>"+r.data[i][4]+"<br>"+r.data[i][5]+" "+r.data[i][6]+"</html>");
+		app_comp[i] = new JButton("CMP");
+		peripheriques[i] = new JButton("<html>"+r.data[i][5]+"<br>"+r.data[i][5]+" ("+r.data[i][7]+")</html>");
 		conteneur_periph[i] = new JPanel();
 		conteneur_periph[i].add(desinst_periph[i]);
 		conteneur_periph[i].add(peripheriques[i]);
+		conteneur_periph[i].add(app_comp[i]);
+
 		gauche.add(conteneur_periph[i]);
+		app_comp[i].addMouseListener(this);
 		desinst_periph[i].addMouseListener(this);
 		peripheriques[i].addMouseListener(this);
 	    }
@@ -264,8 +270,14 @@ public class Peripherique extends JPanel implements MouseListener
 	    {
 		if(e.getSource() == applications[i])
 		    {
-			
 			Client.getInstance().getFen().setContentPane(new Application(id_appli[i] ,nom_appli[i]));
+		    }
+	    }
+	for(int i = 0 ; i < app_comp.length; i++)
+	    {
+		if(e.getSource() == app_comp[i])
+		    {
+			Client.getInstance().getFen().setContentPane(new ToutVoir(id_periph[i]));
 		    }
 	    }
 	voirDroits(e);

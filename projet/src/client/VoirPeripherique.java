@@ -98,7 +98,7 @@ public class VoirPeripherique extends JPanel implements MouseListener, ListSelec
 	}
 	if(e.getSource() == acheter){
 	    SqlData r = Client.getInstance().getConnect().request("add_periphMe", id, os );
-	    Client.getInstance().getFen().setContentPane(new VoirPeripherique(id));
+	    Client.getInstance().getFen().setContentPane(new Accueil());
 	}
     }
 
