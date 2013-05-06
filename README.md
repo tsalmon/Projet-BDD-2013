@@ -63,3 +63,8 @@ Pour modifier son adresse e-mail, son mot de passe et voir ses moyens de paiemen
 Recherche
 -----------
 Accessible depuis n'importe quelle page, elle permet en passant par le fichier ClavierListener, de rechercher une application ou un peripherique en le recherchant par son nom ou par son tag
+
+Droits
+------------------
+Pour voir les droits d'une application
+
