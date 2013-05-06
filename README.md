@@ -23,7 +23,7 @@ Cette classe est uniquement appelé depuis Client pour générer le JFrame cité
 MenuConnexion
 ----------------
 
-La page depuis laquelle un developpeur ou un simple clientse connecte, avec son adresses e-mail, et son mot de passe, elle ouvre l'accès à la page d'accueil.
+La page depuis laquelle un developpeur ou un simple client se connecte, avec son adresses e-mail, et son mot de passe, elle ouvre l'accès à la page d'accueil.
 
 Accueil
 ---------------
@@ -31,3 +31,5 @@ Cette page fait la transition entre la plupart des pages, elle se découpe en 3 
 * Les informations du client
 * Les applications recommandées
 * Les meilleurs applications(mieux notés)
+
+Si l'utilisateur est un developpeur, il a accès a un bouton spécial (Bienvenue), qui lui permet d'acceder a son profil de developpeur, pour les autres usagers, Bienvenue n'est qu'un simple label.
