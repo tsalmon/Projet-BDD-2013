@@ -4,6 +4,35 @@ Ce projet se découpe en deux parties:
 Serveur
 ====================
 
+Serveur 
+----------
+Main du programme, charges les requêtes préparés depuis le fichier requete.req, initialise une connexin TCP
+et attend qu'un client se presente.
+
+Service
+----------
+Cette class contient le thread d'execution appelé par le main quand un client c'est connecté. elle permet
+au client de s'inscrire, s'authentifié, et d'executer des requêtes sur la base de données.
+
+Requete
+----------
+Représente les requêtes sql a executé. ces requêtes sont stocké sous forme préparé pour que le serveur soit
+plus efficace.
+
+UpdateGain
+----------
+actualise les gain des developpeurs pour leur applications a vente mensuel
+
+
+requete.req
+----------
+fichier contenant toute les requêtes qui pouront être éxécuté par les utilisateurs.
+
+
+
+
+///////////
+
 
 Client
 ====================
@@ -76,3 +105,6 @@ SqlData
 -----------
 Objet qui permet d'acceder au resultat d'une requete, ce fichier ne n'est pas accessible pour les usagers
 
+ClientConsol
+----------
+Main du programme, version console du client, permetant d'effectué toutes les actions 

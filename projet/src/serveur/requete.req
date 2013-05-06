@@ -238,7 +238,10 @@ add_avis;(application.id,elstar[0-5],commentaire) ajoute un nouvel avis.;5 1 1 2
 get_appMe;retourne la liste de vos applications.;5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE a.developpeur=?
 #
 ## add_app:
-add_app;(nom,version,categorie.id,tags,isPayante,mela) ajoute une nouvelle application. ;2 2 1 5 2 3 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) VALUES(?,?,?,?,?,?,?,?)
+add_app;(nom,version,categorie.id,tags,isPayante,mela) ajoute une nouvelle application. ;2 2 1 5 2 3 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) VALUES(?,?,?,?,?,?,?,?);INSERT INTO droits (gps) VALUES (0) 
+#
+## set_droitApp:
+set_droitApp;(gps,gprs,sms,fichiers,application.id) ajoute des droit pour votre application;3 3 3 3 1 5;2;UPDATE droits SET gps=?, gprs=?, sms=?, fichiers=? WHERE application=(SELECT ID FROM applications WHERE ID=? AND developpeur=?);
 #
 ## set_app:
 set_app;(nom,version,tags,mela,application.id)met a jour les donnees d'une application.;2 2 2 1 1 5;2;UPDATE applications SET nom=?, version=?, tags=?, mela=? WHERE ID=? AND developpeur=?;
