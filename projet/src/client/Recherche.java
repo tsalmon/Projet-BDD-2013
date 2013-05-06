@@ -139,7 +139,6 @@ public class Recherche extends JPanel implements MouseListener
 
     public void addcentre(int x)
     {
-	System.out.println(x);
 	if(x == 0)
 	    {
 		if(a_req.getNbLigne() > 0)
@@ -155,7 +154,6 @@ public class Recherche extends JPanel implements MouseListener
 	    }
 	else
 	    {
-		System.out.println("toto");
 		liste_periphs();		
 	    }
     }

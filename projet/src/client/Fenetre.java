@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+//ce fichier contient la fenetre du programme
 public class Fenetre extends JFrame
 {
     int taille_x = Client.fenetre_x ;

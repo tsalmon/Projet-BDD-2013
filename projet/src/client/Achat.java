@@ -38,7 +38,6 @@ public class Achat extends JPanel implements MouseListener
 
     Achat(String id, boolean gratuit, String[] os, String prix, String nom)
     {
-	System.out.println(gratuit);
 	setSize(779, 456);
 	setLayout(new BorderLayout());
 	this.id = id;

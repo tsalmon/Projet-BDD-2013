@@ -6,9 +6,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 public class Client 
 {
-    /* var affichage */
-    
-    static  volatile Client  instance  = null;
+    /* variable générales d'affichage */    
+    static  volatile Client  instance  = null; 
     static           int     fenetre_x = 779;
     static           int     fenetre_y = 456;
     private          String  identifiant;
@@ -19,7 +18,8 @@ public class Client
     public static final int PORT = 25567;
     public static final String HOST = "multi-craft.fr";
     private static ConnexionClient connexion = new ConnexionClient(); 
-    
+
+    // cette fonction permet de tester la connexion au serveur
     public static void connect() {
 	//se connecte au serveur
 	if(connexion.auth("Stuart","408101")){System.out.println("auth reussi");}
@@ -44,6 +44,7 @@ public class Client
 	}
     }
     
+    //permet d'utiliser les variables et les fonctions de la classe Client
     public final static Client getInstance()
     {
 	if(Client.instance == null){
@@ -61,6 +62,7 @@ public class Client
 	super();
     }
     
+    // accesseurs
     public ConnexionClient getConnect()
     {
 	return (this.connexion);
@@ -80,7 +82,13 @@ public class Client
     {
 	return(this.mot_de_passe);
     }
+
+    public Fenetre getFen()
+    {
+	return (this.f);
+    }        
     
+    //setters
     public void set_mdp(String new_mdp)
     {
 	this.mot_de_passe = new_mdp;
@@ -90,15 +98,10 @@ public class Client
     {
 	this.f = newf;
     }
+
     
-    public Fenetre getFen()
-    {
-	return (this.f);
-    }
-        
     public static void main(String[] args)
     {
-	//connect();
 	javax.swing.SwingUtilities.invokeLater(new Runnable()
 	    {
 		public void run()

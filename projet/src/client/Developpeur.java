@@ -238,7 +238,6 @@ public class Developpeur extends JPanel implements MouseListener
 	    }
 	if(e.getSource() == ok)
 	    {
-		System.out.println("ok");
 		Client.getInstance().getConnect().request("add_app", 
 							  txt_nom.getText(), 
 							  txt_version.getText(),

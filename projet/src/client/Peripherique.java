@@ -196,7 +196,6 @@ public class Peripherique extends JPanel implements MouseListener
 	    {
 		if(e.getSource() == droits[i])
 		    {
-			System.out.println("toto");
 			Client.getInstance().getFen().setContentPane(new Droits(id_appli[i]));
 		    }
 	    } 
