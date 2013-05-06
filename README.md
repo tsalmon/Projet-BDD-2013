@@ -8,7 +8,7 @@ Serveur
 Client
 ====================
 Cette partie traite de la facon dont sont relié et communiques les différentes classes du programme
-
+A tout moment, un utilisateur peut acceder a l'accueil ou se déconnecter.
 
 Client
 ----------
@@ -37,4 +37,15 @@ Si l'utilisateur est un developpeur, il a accès a un bouton spécial (Bienvenue
 Developpeur
 -----------------
 
-Cette permet a un developpeur de voir les applications qu'il a ajouté, il peut egalement les mettre a jour, ou en ajouter d'autre en cliquant sur le bouton "nouvelle application"
+Cette permet a un developpeur de voir les applications qu'il a ajouté, il peut egalement les mettre a jour, ou en ajouter d'autre en cliquant sur le bouton "nouvelle application
+
+Peripherique
+-----------------
+Apres avoir cliqué sur le bouton Voir périphérique dans l'accueil, l'utilisateur peut voir ses peripheriques, il peut a partir de cette page, voir les applications qui sont installer sur chacun d'entre eux, les supprimer, voir quelles autre applications il peut ajouter dessus. Il peut aussi voir les droits de ses applications et également les supprimer.
+
+Application
+-------------------
+Cette page permet de voir les informations (comptatibilités, versions), les avis des usagers, on peut l'acheter, donné son avis (seulement si on l'a possede).
+
+Achat
+-----------
