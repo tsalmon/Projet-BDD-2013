@@ -22,4 +22,5 @@ Cette classe est uniquement appelé depuis Client pour générer le JFrame cité
 MenuConnexion
 ----------------
 
-La page depuis laquelle un developpeur ou un simple clientse connecte, avec son adresses e-mail, et son mot de passe
+La page depuis laquelle un developpeur ou un simple clientse connecte, avec son adresses e-mail, et son mot de passe, elle ouvre l'accès à la page d'accueil.
+
