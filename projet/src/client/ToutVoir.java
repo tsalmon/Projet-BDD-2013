@@ -77,7 +77,7 @@ public class ToutVoir extends JPanel implements MouseListener
     private Object[][] recuperer_applis(int n)
     {
 	SqlData r = null;
-	if(n == 4)
+	if(n == 0)
 	    r = Client.getInstance().getConnect().request("get_app");
 	else
 	    r = Client.getInstance().getConnect().request("get_appCompatibleID", id_periph);
