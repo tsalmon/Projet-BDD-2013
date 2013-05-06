@@ -24,6 +24,12 @@ UpdateGain
 actualise les gain des developpeurs pour leur applications a vente mensuel
 
 
+requete.req
+----------
+fichier contenant toute les requêtes qui pouront être éxécuté par les utilisateurs.
+
+
+
 
 ///////////
 
