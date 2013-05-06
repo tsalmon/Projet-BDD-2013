@@ -49,3 +49,10 @@ Cette page permet de voir les informations (comptatibilités, versions), les avi
 
 Achat
 -----------
+Apres avoir cliqué sur le bouton Acheter (ou gratuit dans le cas ou il n'y a rien a payé), on accede a cette page, ou on peut installer une application sur un certain peripherique, parmis ceux qui sont compatibles.
+
+ToutVoir
+------------
+
+Cette page est a usage multiple: elle permet de lister les applications qui sont recommandées pour l'utilsateur connecté, de voir toutes les applications, tous les peripheriques, et tous les systemes d'exploitations, a partir de cette page, on peut acceder a la page d'une application ou d'un peripherique, pour l'obtenir. On accede a cette page en cliquant sur "Toute les applications" ou "Voir plus".
+
