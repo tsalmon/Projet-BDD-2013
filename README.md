@@ -33,3 +33,7 @@ Cette page fait la transition entre la plupart des pages, elle se découpe en 3 
 * Les meilleurs applications(mieux notés)
 
 Si l'utilisateur est un developpeur, il a accès a un bouton spécial (Bienvenue), qui lui permet d'acceder a son profil de developpeur, pour les autres usagers, Bienvenue n'est qu'un simple label.
+
+Developpeur
+-----------------
+Si l'utilisateur a 

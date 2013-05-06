@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -13,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 import javax.swing.JComboBox;
+
 public class Developpeur extends JPanel implements MouseListener
 {
     SqlData r = Client.getInstance().getConnect().request("get_appMe");
@@ -39,6 +41,9 @@ public class Developpeur extends JPanel implements MouseListener
     JTextField txt_prix = new JTextField(10);
     JTextField txt_mela = new JTextField(10);
 
+    JCheckBox[] check_os = new JCheckBox[1];
+    String[]  id_os    = new String[1];
+ 
     Developpeur(int n)
     {
         setSize(779, 456);
@@ -57,7 +62,7 @@ public class Developpeur extends JPanel implements MouseListener
 
     public void nouvelle_application()
     {
-	
+	SqlData os = Client.getInstance().getConnect().request("get_Se");
 	SqlData c = Client.getInstance().getConnect().request("get_categorie");
 	String[] cate = new String[c.getNbLigne()];
 	for(int i = 0 ; i < c.getNbLigne(); i++)
@@ -68,7 +73,8 @@ public class Developpeur extends JPanel implements MouseListener
 	/* INIT */
 	JPanel content_all = new JPanel();
 	JPanel table = new JPanel();
-	
+	JPanel os_liste = new JPanel();
+	JPanel pan_os[] = new JPanel[os.getNbLigne()];
 	JPanel content_nom = new JPanel(); 
 	JPanel content_version = new JPanel(); 
 	JPanel content_tag = new JPanel(); 
@@ -83,6 +89,18 @@ public class Developpeur extends JPanel implements MouseListener
 	JPanel content_txt_mela = new JPanel();
 
 	table.setLayout(new GridLayout(6, 2));
+	os_liste.setLayout(new GridLayout(os.getNbLigne(), 1));
+	check_os = new JCheckBox[os.getNbLigne()];
+	id_os = new String[os.getNbLigne()];
+	for(int i = 0 ; i < os.getNbLigne(); i++)
+	    {
+		check_os[i] = new JCheckBox();
+		id_os[i] = os.data[i][0];
+		pan_os[i] = new JPanel();
+		pan_os[i].add(new JLabel(os.data[i][1] + "("+os.data[i][2]+")"));
+		pan_os[i].add(check_os[i]);
+		os_liste.add(pan_os[i]);
+	    }
 	
 	/* ADD */
 	//add nom 
@@ -122,7 +140,8 @@ public class Developpeur extends JPanel implements MouseListener
 	table.add(content_txt_mela);
 
 	//grand final :
-	content_all.add(table);
+	content_all.add("Center",table);
+	content_all.add("East", os_liste);
 	centre = new JScrollPane(content_all);
     }
 
@@ -246,6 +265,15 @@ public class Developpeur extends JPanel implements MouseListener
 							  txt_prix.getText(),
 							  txt_mela.getText()
 							  );
+		r = Client.getInstance().getConnect().request("get_appMe");
+		for(int i = 0 ; i < check_os.length; i++)
+		    {
+			if(check_os[i].isSelected())
+			    {
+				Client.getInstance().getConnect().request("set_appSe", r.data[r.getNbLigne()-1][0], id_os[i]);
+			    }
+		    }
+		
 		Client.getInstance().getFen().setContentPane(new Developpeur(0));
 	    }
 	if(e.getSource() == retour)
