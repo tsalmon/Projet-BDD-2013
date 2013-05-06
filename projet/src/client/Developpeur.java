@@ -43,6 +43,9 @@ public class Developpeur extends JPanel implements MouseListener
 
     JCheckBox[] check_os = new JCheckBox[1];
     String[]  id_os    = new String[1];
+    String[] nom_droits = {"gps", "gprs", "sms", "fichiers"};
+
+    JCheckBox[] check_droits = new JCheckBox[5];
  
     Developpeur(int n)
     {
@@ -64,6 +67,8 @@ public class Developpeur extends JPanel implements MouseListener
     {
 	SqlData os = Client.getInstance().getConnect().request("get_Se");
 	SqlData c = Client.getInstance().getConnect().request("get_categorie");
+	SqlData d = Client.getInstance().getConnect().request("get_droitApp","1");
+	
 	String[] cate = new String[c.getNbLigne()];
 	for(int i = 0 ; i < c.getNbLigne(); i++)
 	    {
@@ -74,7 +79,9 @@ public class Developpeur extends JPanel implements MouseListener
 	JPanel content_all = new JPanel();
 	JPanel table = new JPanel();
 	JPanel os_liste = new JPanel();
+	JPanel droits_liste = new JPanel();
 	JPanel pan_os[] = new JPanel[os.getNbLigne()];
+	JPanel pan_droits[] = new JPanel[5];
 	JPanel content_nom = new JPanel(); 
 	JPanel content_version = new JPanel(); 
 	JPanel content_tag = new JPanel(); 
@@ -90,6 +97,7 @@ public class Developpeur extends JPanel implements MouseListener
 
 	table.setLayout(new GridLayout(6, 2));
 	os_liste.setLayout(new GridLayout(os.getNbLigne(), 1));
+	droits_liste.setLayout(new GridLayout(os.getNbLigne(), 1));
 	check_os = new JCheckBox[os.getNbLigne()];
 	id_os = new String[os.getNbLigne()];
 	for(int i = 0 ; i < os.getNbLigne(); i++)
@@ -101,6 +109,16 @@ public class Developpeur extends JPanel implements MouseListener
 		pan_os[i].add(check_os[i]);
 		os_liste.add(pan_os[i]);
 	    }
+	
+	for(int i = 0 ; i < d.getNbCol(); i++)
+	    {
+		check_droits[i] = new JCheckBox();
+		pan_droits[i] = new JPanel();
+		pan_droits[i].add(new JLabel(d.getNomCol(i)));
+		pan_droits[i].add(check_droits[i]);
+		droits_liste.add(pan_droits[i]);
+	    }
+	
 	
 	/* ADD */
 	//add nom 
@@ -141,6 +159,7 @@ public class Developpeur extends JPanel implements MouseListener
 
 	//grand final :
 	content_all.add("Center",table);
+	content_all.add("West", droits_liste);
 	content_all.add("East", os_liste);
 	centre = new JScrollPane(content_all);
     }
@@ -239,6 +258,11 @@ public class Developpeur extends JPanel implements MouseListener
 	ok.addMouseListener(this);
 	retour.addMouseListener(this);
     }
+
+    public String convCheck(JCheckBox c)
+    {
+	return (c.isSelected()) ? "1" : "0";
+    }
     
     public void mouseClicked(MouseEvent e)
     {
@@ -266,6 +290,7 @@ public class Developpeur extends JPanel implements MouseListener
 							  txt_mela.getText()
 							  );
 		r = Client.getInstance().getConnect().request("get_appMe");
+		// comptatibilité
 		for(int i = 0 ; i < check_os.length; i++)
 		    {
 			if(check_os[i].isSelected())
@@ -273,7 +298,15 @@ public class Developpeur extends JPanel implements MouseListener
 				Client.getInstance().getConnect().request("set_appSe", r.data[r.getNbLigne()-1][0], id_os[i]);
 			    }
 		    }
-		
+		// les droits
+		Client.getInstance().getConnect().request("set_droitApp", 
+							  r.data[r.getNbLigne()-1][0],
+							  convCheck(check_droits[0]),
+							  convCheck(check_droits[1]),
+							  convCheck(check_droits[2]),
+							  convCheck(check_droits[3]),
+							  convCheck(check_droits[4])
+							  );
 		Client.getInstance().getFen().setContentPane(new Developpeur(0));
 	    }
 	if(e.getSource() == retour)
