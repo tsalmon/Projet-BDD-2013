@@ -24,6 +24,10 @@ UpdateGain
 actualise les gain des developpeurs pour leur applications a vente mensuel
 
 
+
+///////////
+
+
 Client
 ====================
 Cette partie traite de la facon dont sont relié et communiques les différentes classes du programme
