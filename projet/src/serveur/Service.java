@@ -29,7 +29,7 @@ public class Service implements Runnable  {
 		while( (chaine=bf.readLine())!=null ){ //on boucle
 			
 			
-			String[] chaineSplit= chaine.split("[|]");System.out.println(chaine);  // on split la requete
+			String[] chaineSplit= chaine.split("[|]");  // on split la requete
 			
 			
 			if(chaineSplit[0].equals("REGISTER")&& id==0){
