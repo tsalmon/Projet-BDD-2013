@@ -20,7 +20,7 @@ public class SqlChart {
 	
 	
 	  public SqlChart(){
-		  this.dessinable = new String[7][2];
+		  this.dessinable = new String[8][2];
 		  this.dessinable[0][0]="get_developpeurTop";this.dessinable[0][1]="barChart";
 		  this.dessinable[1][0]="get_nbAppPeriphType";this.dessinable[1][1]="pieChart";
 		  this.dessinable[2][0]="get_nbAppPeriphTypeMe";this.dessinable[2][1]="pieChart";
@@ -28,6 +28,7 @@ public class SqlChart {
 		  this.dessinable[4][0]="get_nbAppCategorie";this.dessinable[4][1]="pieChart";
 		  this.dessinable[5][0]="get_appTop";this.dessinable[5][1]="barChart";
 		  this.dessinable[6][0]="get_appTopPayante";this.dessinable[6][1]="barChart";
+		  this.dessinable[7][0]="get_nbAppPeriphTypeCategorie";this.dessinable[7][1]="doubleBarChart";
 	  }
 	  
 	  @SuppressWarnings("deprecation")
@@ -81,6 +82,40 @@ public class SqlChart {
 	                nom,      // chart title
 	                s.getNomCol(0),               // domain axis label
 	                s.getNomCol(1),                  // range axis label
+	                dataset,                  // data
+	                PlotOrientation.VERTICAL, // orientation
+	                true,                     // include legend
+	                true,                     // tooltips
+	                false                     // urls
+	            );
+	        
+	        final CategoryPlot plot = chart.getCategoryPlot();
+	        final CategoryAxis axis = plot.getDomainAxis();
+	        axis.setCategoryLabelPositions(
+	            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 8.0)
+	        );
+	        
+	        final CategoryItemRenderer renderer = plot.getRenderer();
+	        renderer.setItemLabelsVisible(true);
+	        final BarRenderer r = (BarRenderer) renderer;
+	        r.setMaximumBarWidth(0.05);
+	        
+			ChartFrame frame=new ChartFrame("First",chart);
+			frame.pack();
+			frame.setVisible(true);
+		}
+		
+		else if(this.dessinable[estDessinable][1].equals("doubleBarChart")){
+			
+			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	        
+			for(int i=0;i<s.getNbLigne();i++)
+			    dataset.addValue(s.getInt(i,2), s.getString(i,0), s.getString(i,1));   
+	        
+	        JFreeChart chart = ChartFactory.createBarChart3D(
+	                nom,      // chart title
+	                s.getNomCol(0),               // domain axis label
+	                s.getNomCol(2),                  // range axis label
 	                dataset,                  // data
 	                PlotOrientation.VERTICAL, // orientation
 	                true,                     // include legend
