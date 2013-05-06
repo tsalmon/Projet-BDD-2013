@@ -28,6 +28,6 @@ La page depuis laquelle un developpeur ou un simple clientse connecte, avec son 
 Accueil
 ---------------
 Cette page fait la transition entre la plupart des pages, elle se découpe en 3 parties principales:
-*les informations du client
-*les applications recommandées
-*les meilleurs applications(mieux notés)
+* Les informations du client
+* Les applications recommandées
+* Les meilleurs applications(mieux notés)
