@@ -9,6 +9,7 @@ Client
 ====================
 Cette partie traite de la facon dont sont relié et communiques les différentes classes du programme
 
+
 Client
 ----------
 Main du programme, contient les variables et fonctions primitives du programme, toute classe qui cherche a utiliser les elements de cette classe passe par une instance
@@ -24,3 +25,9 @@ MenuConnexion
 
 La page depuis laquelle un developpeur ou un simple clientse connecte, avec son adresses e-mail, et son mot de passe, elle ouvre l'accès à la page d'accueil.
 
+Accueil
+---------------
+Cette page fait la transition entre la plupart des pages, elle se découpe en 3 parties principales:
+*les informations du client
+*les applications recommandées
+*les meilleurs applications(mieux notés)
