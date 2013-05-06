@@ -16,8 +16,10 @@
 # description:
 #	 description de la requete qui sera fourni a l'utilisateur pour le mode consol
 # argument: 
-#	séparé par des espace, les 4 premier code represente des type avec une valeur à definir,
-#	le reste correspond a des variables du serveur 
+#	liste les arguments à passer à la requête sous forme
+#	d'indice numerique séparé par des espace, les quatres premier code 
+#	représente des type avec une valeur a définir par l'utilisateur, le reste 
+#	correspond a des variabes du seveur.	
 #   	(1:int,2:string,3:boolean,4:date,5:client.ID,6:current.date)
 # droit:
 #	entier representant les droits d'execution de la requete 
@@ -166,6 +168,12 @@ get_appId;(ID) retourne les info d'une application.;1;1;SELECT a.ID,a.nom,a.vers
 ## get_app: 
 get_app;retourne la liste des applications.;;1;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application GROUP BY a.ID
 #
+## get_appCompatible
+get_appCompatible;retourne les applications compatible avec vos peripheriques.;5;1;SELECT a.ID, a.nom, a.version, a.categorie, a.developpeur, a.tags, a.payante, a.date, a.mela, p.prix, p.renouvellement, c.nom_categorie, AVG( v.elstar ) , COUNT( v.elstar ) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application LEFT JOIN applicationsSE AS ase ON ase.application = a.ID WHERE ase.systeme_exploitation IN (SELECT pc.systeme_exploitation FROM peripheriques_client AS pc WHERE pc.client =?) GROUP BY a.ID
+#
+## get_appCompatibleID
+get_appCompatibleID;(periph.id) retourne les applications compatible avec votre peripherique.;5 1;1;SELECT a.ID, a.nom, a.version, a.categorie, a.developpeur, a.tags, a.payante, a.date, a.mela, p.prix, p.renouvellement, c.nom_categorie, AVG( v.elstar ) , COUNT( v.elstar ) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID LEFT JOIN avis AS v ON a.ID = v.application LEFT JOIN applicationsSE AS ase ON ase.application = a.ID WHERE ase.systeme_exploitation IN (SELECT pc.systeme_exploitation FROM peripheriques_client AS pc WHERE pc.client =? AND pc.ID=?) GROUP BY a.ID
+#
 ## get_appSe:
 get_appSe;(systeme_exploitation.id) retourne la liste des applications en fonction du systeme d'exploitation.;1;1;SELECT a.ID,a.nom,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie, AVG(v.elstar),COUNT(v.elstar) FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID  LEFT JOIN applicationsSE AS s ON s.application = a.ID  LEFT JOIN avis AS v ON a.ID = v.application WHERE s.systeme_exploitation=? GROUP BY a.ID
 #
@@ -227,10 +235,10 @@ add_avis;(application.id,elstar[0-5],commentaire) ajoute un nouvel avis.;5 1 1 2
 #
 ############# devellopeur ################
 ## get_appMe:
-get_appMe;retourne la liste de vos applications.;5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE developpeur=?
+get_appMe;retourne la liste de vos applications.;5;2;SELECT a.ID,a.nom,a.version,a.categorie,a.developpeur,a.tags,a.payante,a.date,a.mela,p.prix,p.renouvellement,c.nom_categorie FROM applications AS a LEFT JOIN payante AS p ON a.ID = p.application LEFT JOIN categorie AS c ON a.categorie = c.ID WHERE a.developpeur=?
 #
 ## add_app:
-add_app;(nom,version,categorie.id,tags,isPayante,mela) ajoute une nouvelle application. ;2 2 1 5 2 31 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) VALUES(?,?,?,?,?,?,?,?)
+add_app;(nom,version,categorie.id,tags,isPayante,mela) ajoute une nouvelle application. ;2 2 1 5 2 3 6 1;2;INSERT INTO applications (nom,version,categorie,developpeur,tags,payante,date,mela) VALUES(?,?,?,?,?,?,?,?)
 #
 ## set_app:
 set_app;(nom,version,tags,mela,application.id)met a jour les donnees d'une application.;2 2 2 1 1 5;2;UPDATE applications SET nom=?, version=?, tags=?, mela=? WHERE ID=? AND developpeur=?;
@@ -240,6 +248,9 @@ add_payanteApp;(application.id,application.id,prix,renouvellement[mois]) ajoute 
 #
 ## set_payante:
 set_payante;(isPayante,application.id,prix,renouvement[mois],application.id)modifie les donnees de paiement de l'application.;3 1 5 1 1 1 5;2;UPDATE applications SET payante=? WHERE ID=? AND developpeur=?;UPDATE payante SET prix=?, renouvellement=? WHERE application=? AND application IN (SELECT ID FROM applications WHERE developpeur=?)
+#
+## set_appSe:
+set_appSe;(application.id,system_exploitation.is) ajoute un systeme d'exploitation a votre application;1 1;2;INSERT INTO applicationsSe (application,systeme_exploitation) VALUES (?,?)
 #
 ## get_gainAppMe:
 get_gainAppMe;(application.id)retourne les gain de votre application.;5 1;2;SELECT gain FROM applications WHERE ID=? AND developpeur=?
