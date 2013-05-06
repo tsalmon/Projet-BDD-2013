@@ -36,4 +36,5 @@ Si l'utilisateur est un developpeur, il a accès a un bouton spécial (Bienvenue
 
 Developpeur
 -----------------
-Si l'utilisateur a 
+
+Cette permet a un developpeur de voir les applications qu'il a ajouté, il peut egalement les mettre a jour, ou en ajouter d'autre en cliquant sur le bouton "nouvelle application"
